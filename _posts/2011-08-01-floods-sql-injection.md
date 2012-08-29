@@ -19,7 +19,7 @@ __Affected Software:__ Corpse C&C
 
 __Fixed in Version:__  ?
 
-Issue Type: SQL Injection
+__Issue Type:__ SQL Injection
 
 Original Code: <a href="http://spotthevuln.com/2011/07/floods/">Found Here</a>
 
