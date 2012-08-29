@@ -15,41 +15,35 @@ meta:
   aktt_tweeted: '1'
 ---
 ## Details
-Affected Software: My Calendar Wordpress Plugin
+__Affected Software:__ My Calendar Wordpress Plugin
 
-Fixed in Version: >1.7.2
+__Fixed in Version:__ > 1.7.2
 
-Issue Type: SQL Injection
+__Issue Type:__ SQL Injection
 
-Original Code: <a href="http://spotthevuln.com/2011/08/boundaries/">Found Here</a>
-<h1>Details</h1>
-This week’s bug was a subtle mistake in the usage of an escaping routine.  It seems the developer understood the dangers of SQL injection and therefore used an escaping routine to sanitize user controlled input before using that input to build a SQL statement.  Unfortunately, the developer overlooked a crucial characteristic and used the wrong escaping routine.  Looking at the vulnerable line, we see the following:
-<code lang="PHP">
-$sql = "SELECT * FROM " . WP_CALENDAR_CATEGORIES_TABLE . " WHERE category_id=".mysql_escape_string($_GET['category_id']);
-</code>
-As you can clearly see, the developer chose to utilize the mysql_escape_string() function to escape $_GET[‘category_id] before using category_id to build a SQL statement.  Looking at the documentation (http://php.net/manual/en/function.mysql-escape-string.php) for mysql_escape_string(), we see that the specific characters escaped are: null byte (0), newline (\n), carriage return (\r), backslash (\), single quote ('), double quote (") and substiture (SUB, or \032).  In this case, none of these characters are required in order for SQL injection to be successful.  The user controlled $_GET[‘category_id’] is not enclosed in quotes, so there is no need to break out of quotes for SQL injection.  For example, the attacker can pass the following:
+__Original Code:__ [Found Here](http://spotthevuln.com/2011/08/boundaries/)
 
-http://path-to-server/calendar.php? category_id=1%20union%20select%201,2,3,4,5,6%20from%20users;
+## Details
+
+This week's bug was a subtle mistake in the usage of an escaping routine.  It seems the developer understood the dangers of SQL injection and therefore used an escaping routine to sanitize user controlled input before using that input to build a SQL statement.  Unfortunately, the developer overlooked a crucial characteristic and used the wrong escaping routine.  Looking at the vulnerable line, we see the following:
+
+    $sql = "SELECT * FROM " . WP_CALENDAR_CATEGORIES_TABLE . " WHERE category_id=".mysql_escape_string($_GET['category_id']);
+
+As you can clearly see, the developer chose to utilize the mysql_escape_string() function to escape $_GET['category_id] before using category_id to build a SQL statement.  Looking at the documentation (http://php.net/manual/en/function.mysql-escape-string.php) for mysql_escape_string(), we see that the specific characters escaped are: null byte (0), newline (\n), carriage return (\r), backslash (\), single quote ('), double quote (") and substiture (SUB, or \032).  In this case, none of these characters are required in order for SQL injection to be successful.  The user controlled $_GET['category_id'] is not enclosed in quotes, so there is no need to break out of quotes for SQL injection.  For example, the attacker can pass the following:
+
+    http://path-to-server/calendar.php? category_id=1%20union%20select%201,2,3,4,5,6%20from%20users;
 
 This would result in the following SQL statement:
-SELECT * FROM WP_CALENDAR_CATEGORIES_TABLE WHERE category_id=1 union select 1,2,3,4,5,6 from users;
+  
+    SELECT * FROM WP_CALENDAR_CATEGORIES_TABLE WHERE category_id=1 union select 1,2,3,4,5,6 from users;
 
-As you can see, the attacker can craft a valid SQL injection without using any of the characters escaped by mysql_escape_string().  The developers addressed this issue by casting the $_GET[‘category_id’] to an int before using it in a SQL statement.
+As you can see, the attacker can craft a valid SQL injection without using any of the characters escaped by mysql_escape_string().  The developers addressed this issue by casting the $_GET['category_id'] to an int before using it in a SQL statement.
 
 If you look closely... you'll see other, unpatched SQL injections with the same symptom littered throughout the code...
 
-
-{% highlight ruby %}
-def foo
-  puts 'foo'
-end
-{% endhighlight %}
-
-
-<h1>Vulnerable Code</h1>
-<code lang="PHP" highlight="23">
+## Vulnerable Code 
+{% highlight html+php linenos %}
 ...snip...
-     
 </style>
 <?php
   // We do some checking to see what we're doing
@@ -105,7 +99,6 @@ end
       $wpdb->get_results($sql);
       echo "<div class=\"updated\"><p><strong>".__('Category edited successfully','calendar')."</strong></p></div>";
     }
-
   $get_mode = 0;
   $post_mode = 0;
   if (isset($_GET['mode'])) {
@@ -121,7 +114,6 @@ end
   if ($get_mode != 1 || $post_mode == 1)
     {
 ?>
-
   <div class="wrap">
     <h2><?php _e('Add Category','calendar'); ?></h2>
     <form name="catform" id="catform" class="wrap" method="post" action="<?php echo bloginfo('wpurl'); ?>/wp-admin/admin.php?page=calendar-categories">
@@ -145,4 +137,4 @@ end
                 <input type="submit" name="save" class="button bold" value="<?php _e('Save','calendar'); ?> &raquo;" />
     </form>
     <h2><?php _e('Manage Categories','calendar'); ?></h2>
-</code>
+{% endhighlight %}
