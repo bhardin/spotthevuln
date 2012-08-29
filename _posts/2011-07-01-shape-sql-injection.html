@@ -22,7 +22,8 @@ Fixed in Version: Not Patched
 Issue Type: SQL Injection
 
 Original Code: <a href="http://spotthevuln.com/2011/06/shape/">Found Here</a>
-## Details
+
+## Description
 This week's bug affects the task.php for the Zunkerbot C&C.  Looking at line 3, we see that magic quotes is set:  set_magic_quotes_runtime(1);
 <br/>
 Obviously, this was done by the malware author to prevent SQL injection attacks.  Assuming everything is working correctly, a rival malware author should be able to inject any quotes to break out of existing SQL statements.  Unfortunately for the Zunkerbot author, magicqoutes doesn't cover all cases.  Take for example lines 59 and 70.  Here we see $s_id and $s_ip are enclosed in quotes.  These values should be protected against SQL injection.  $s_id and $s_ip aren't the only variables being used in this SQL statement however.  At the end of the two SQL statements is the following LIMIT clause: limit '.$_POST['S_RESULTS']; 
