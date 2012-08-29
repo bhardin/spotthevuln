@@ -27,8 +27,10 @@ The code snippet shown below has a security vulnerability.
 __Can you spot the vulnerability in this piece of code?__ If so, feel free to leave a comment. None of the comments will be shown until Friday, to prevent spoilers.
 
 If you are a development manager or an instructor you can integrate these security source code challenges into your development program or your curriculum.
+
 ## Vulnerable Code Snippet
-[ccnLe_php]
+
+{% highlight html+php linenos %}
 
 function clean_url( $url, $protocols = null, $context = 'display' ) {
 $original_url = $url;
@@ -60,4 +62,4 @@ return '';
 return apply_filters('clean_url', $url, $original_url, $context);
 }
 
-[/ccnLe_php] 
+{% endhighlight %}
