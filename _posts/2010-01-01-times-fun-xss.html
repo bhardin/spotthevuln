@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Time’s Fun – XSS
+title: Time's Fun – XSS
 tags:
 - Cross-Site Scripting (XSS)
 - Joomla
@@ -29,7 +29,7 @@ Issue Type: Cross Site Scripting (XSS)
 Original Code: <a title="Time's Fun" href="http://spotthevuln.com/2009/12/times-fun/" target="_blank">Found Here</a>
 <h2>Description</h2>
 <div id="_mcePaste">
-<p id="_mcePaste">This is a very subtle bug in Joomla’s XSS filtering.  Joomla establishes a blacklist of HTML tags and attributes that are not allowed.  Blacklists always seem to be the easiest way to go… but rarely do they standup in the long run.  We’ll touch on blacklists in a bit, but for now on to the bug!  In this case, the attacker can provide a HTML tag and a HTML tag attribute (the attribute is optional).  Knowing the dangers of giving users the option to provide arbitrary HTML tags and attributes, the Joomla team devised a blacklist of “bad” HTML tags and attributes.  If the HTML tags and attributes provided by the user happens to match one of the tags or attributes listed in the blacklist, then we enter a failure condition.  Knowing some of the trickery used by  web hackers, the Joomla team first converts the user controlled attribute to lower before checking to see if the provided attribute is in the attribute blacklist.</p>
+<p id="_mcePaste">This is a very subtle bug in Joomla's XSS filtering.  Joomla establishes a blacklist of HTML tags and attributes that are not allowed.  Blacklists always seem to be the easiest way to go… but rarely do they standup in the long run.  We'll touch on blacklists in a bit, but for now on to the bug!  In this case, the attacker can provide a HTML tag and a HTML tag attribute (the attribute is optional).  Knowing the dangers of giving users the option to provide arbitrary HTML tags and attributes, the Joomla team devised a blacklist of “bad” HTML tags and attributes.  If the HTML tags and attributes provided by the user happens to match one of the tags or attributes listed in the blacklist, then we enter a failure condition.  Knowing some of the trickery used by  web hackers, the Joomla team first converts the user controlled attribute to lower before checking to see if the provided attribute is in the attribute blacklist.</p>
 
 <blockquote>
 <div id="_mcePaste">(in_array(<strong><span style="color: #ff0000;">strtolower</span></strong>($attrSubSet[0]), $this-&gt;attrBlacklist)</div></blockquote>
@@ -41,7 +41,7 @@ Original Code: <a title="Time's Fun" href="http://spotthevuln.com/2009/12/times
 
 <blockquote>
 <div>(substr(<span style="color: #ff0000;"><strong>strtolower</strong></span>($attrSubSet[0]), 0, 2) == 'on'))))</div></blockquote>
-<p id="_mcePaste">Now, onto the blacklist… To put it simply, blacklists are tough.  Even if you somehow manage to get the blacklist correct today, that doesn’t mean someone will change the rules and render your blacklist ineffective tomorrow.  Looking at the blacklist Joomla HTML tag blacklist in this particular code sample, it seems the blacklist is geared towards HTML4.  HTML5 has added new HTML tags which don’t appear to be covered by the blacklist in this example… I wonder if the Joomla devs have updated their blacklist.  Even if the blacklist was updated, it will have to be updated again when new HTML tags are added for the next version of HTML… let’s hope no one forgets :)</p>
+<p id="_mcePaste">Now, onto the blacklist… To put it simply, blacklists are tough.  Even if you somehow manage to get the blacklist correct today, that doesn't mean someone will change the rules and render your blacklist ineffective tomorrow.  Looking at the blacklist Joomla HTML tag blacklist in this particular code sample, it seems the blacklist is geared towards HTML4.  HTML5 has added new HTML tags which don't appear to be covered by the blacklist in this example… I wonder if the Joomla devs have updated their blacklist.  Even if the blacklist was updated, it will have to be updated again when new HTML tags are added for the next version of HTML… let's hope no one forgets :)</p>
 
 </div>
 <h2>Developers Solution</h2>

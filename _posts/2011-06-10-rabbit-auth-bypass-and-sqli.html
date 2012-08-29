@@ -22,11 +22,11 @@ Issue Type: Authentication Bypass and SQL Injection
 
 Original Code: <a href="http://spotthevuln.com/2011/06/rabbit/">Found Here</a>
 <h1>Details</h1>
-A couple of interesting bugs here.  As Abe astutely pointed out, pretty much all of the PHP at the end of the code sample is vulnerable to SQL injection.  Veteran Spot the Vuln readers can easily spot the tainted $_POST and $_GET parameters being passed directly into dynamically built SQL statements.  This obviously results in compromise of the backend database and the application.  I’ve highlighted the SQL injection points in the code sample below.  The injection points are fairly obvious.
+A couple of interesting bugs here.  As Abe astutely pointed out, pretty much all of the PHP at the end of the code sample is vulnerable to SQL injection.  Veteran Spot the Vuln readers can easily spot the tainted $_POST and $_GET parameters being passed directly into dynamically built SQL statements.  This obviously results in compromise of the backend database and the application.  I've highlighted the SQL injection points in the code sample below.  The injection points are fairly obvious.
 
 Now, onto the more interesting bug.  In order to reach the code paths that are vulnerable to SQL injection, we must first “login” to the application.  The “login” routine is contained in lines 11-25.
 
-Later in the code, $logined is checked before allowing the user to reach the vulnerable code paths.  That code can be found on lines 79-96.  So let’s work backwards here.  We see obvious SQL injection bugs in several places, but this code paths can only be reached if the $logined variable is true (line 95).  The value for the $logined variable is controlled by the following else statement:
+Later in the code, $logined is checked before allowing the user to reach the vulnerable code paths.  That code can be found on lines 79-96.  So let's work backwards here.  We see obvious SQL injection bugs in several places, but this code paths can only be reached if the $logined variable is true (line 95).  The value for the $logined variable is controlled by the following else statement:
 <code lang="PHP">
 else {
     		$logined = @$_COOKIE['logined'];

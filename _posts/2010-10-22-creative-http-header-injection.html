@@ -34,7 +34,7 @@ Issue Type: HTTP Header Injection
 
 Original Code: <a title="Creative" href="http://spotthevuln.com/2010/10/creative/" target="_blank">Found    Here</a>
 <h2>Description</h2>
-This week’s bug was a Set-Cookie/HTTP Header injection bug in WordPress Core.  Looking at the code, we see that the WordPress Developers assign several variables directly from the $_POST body.  These assignments are listed below:
+This week's bug was a Set-Cookie/HTTP Header injection bug in WordPress Core.  Looking at the code, we see that the WordPress Developers assign several variables directly from the $_POST body.  These assignments are listed below:
 <blockquote>$comment_author       = trim($_POST['author']);
 
 $comment_author_email = trim($_POST['email']);

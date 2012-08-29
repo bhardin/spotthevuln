@@ -33,17 +33,17 @@ Issue Type: XSS
 
 Original Code: <a title="Noble" href="http://spotthevuln.com/2010/09/noble/" target="_blank">Found    Here</a>
 <h2>Description</h2>
-Looking at this code made me smile, its about 6 years old.  There’s a lot going on here and quite a few issues.  The first thing that jumped out at me was the use of $HTTP_POST_FILES.  $HTTP_POST_FILES means were working with user controlled files.  There are tons of things that can go wrong when dealing with user/attacker controlled files (a list too long to go into here).  Lets hope the WordPress devs are on their A-game here.  Looking at the patch submitted by the WordPress developers, we see that they changed references to $HTTP_POST_FILES to the superglobal $_FILES.  Within the $_FILES array there are a couple indexes that are commonly used.  These indexes are:
+Looking at this code made me smile, its about 6 years old.  There's a lot going on here and quite a few issues.  The first thing that jumped out at me was the use of $HTTP_POST_FILES.  $HTTP_POST_FILES means were working with user controlled files.  There are tons of things that can go wrong when dealing with user/attacker controlled files (a list too long to go into here).  Lets hope the WordPress devs are on their A-game here.  Looking at the patch submitted by the WordPress developers, we see that they changed references to $HTTP_POST_FILES to the superglobal $_FILES.  Within the $_FILES array there are a couple indexes that are commonly used.  These indexes are:
 <blockquote>[name]
 [type]
 [tmp_name]
 [error]
 [size]</blockquote>
-Name, type, and size are all controlled by the user/attacker, so the WordPress developers should be wary when dealing with these values.  Surprisingly (or unsurprisingly, depending on your point of view), this patch doesn’t contain seem to contain any robust validation of data associated with the uploaded file data.  Instead, the defenses put in place here seem to be centered around replacing a poor validation/sanitization routine with a more robust encoding routine which prevents a XSS vulnerability.  The replaced sanitization routine and the XSS bug are presented in the following lines:
+Name, type, and size are all controlled by the user/attacker, so the WordPress developers should be wary when dealing with these values.  Surprisingly (or unsurprisingly, depending on your point of view), this patch doesn't contain seem to contain any robust validation of data associated with the uploaded file data.  Instead, the defenses put in place here seem to be centered around replacing a poor validation/sanitization routine with a more robust encoding routine which prevents a XSS vulnerability.  The replaced sanitization routine and the XSS bug are presented in the following lines:
 <blockquote><span style="color: #ff0000;">-$imgdesc = str_replace('"', '&amp;amp;quot;', $_POST['imgdesc']);</span><span style="color: #00ff00;">
 +$imgdesc = htmlentities2($imgdesc);</span>
 class="uploadform" value="&lt;?php echo $imgdesc;?&gt;" /&gt;</blockquote>
-What’s surprising is although the WordPress developers prevented this single XSS vulnerability, there is a large number of XSS vulnerabilities in this file.  The most obvious symptom is “&lt;?php echo $_REQUEST[] ?&gt;.  Additionally, the loose validation of the user uploaded file is concerning, especially with the number of problems that can be encountered when dealing with user controlled files.  Maybe the varsity team was on vacation when this patch went in.
+What's surprising is although the WordPress developers prevented this single XSS vulnerability, there is a large number of XSS vulnerabilities in this file.  The most obvious symptom is “&lt;?php echo $_REQUEST[] ?&gt;.  Additionally, the loose validation of the user uploaded file is concerning, especially with the number of problems that can be encountered when dealing with user controlled files.  Maybe the varsity team was on vacation when this patch went in.
 <h2>Developers Solution</h2>
 [cce lang="diff"]
 &lt;?php //Makes sure they choose a file

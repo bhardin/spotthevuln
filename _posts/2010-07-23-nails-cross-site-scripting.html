@@ -39,7 +39,7 @@ Issue Type: XSS
 
 Original Code: <a title="Nails" href="http://spotthevuln.com/2010/07/nails/" target="_blank">Found    Here</a>
 <h2>Description</h2>
-This week’s vulnerability is a DOM based XSS that could be found in a JavaScript file provided by the DojoToolkit.  This JavaScript file was included (via script src) in many pages throughout the DojoToolkit, making those pages vulnerable to XSS.  Unlike traditional XSS bugs, server side processing is not required for certain types of DOM based XSS.  This is an important concept to understand as some code auditors will skip static pages assuming the attacker will not have the ability to control any values used by the page.
+This week's vulnerability is a DOM based XSS that could be found in a JavaScript file provided by the DojoToolkit.  This JavaScript file was included (via script src) in many pages throughout the DojoToolkit, making those pages vulnerable to XSS.  Unlike traditional XSS bugs, server side processing is not required for certain types of DOM based XSS.  This is an important concept to understand as some code auditors will skip static pages assuming the attacker will not have the ability to control any values used by the page.
 
 The bug starts here:
 <blockquote>if(window.location.href.indexOf("?") &gt; -1){</blockquote>

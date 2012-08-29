@@ -24,7 +24,7 @@ Issue Type: SQL Injection
 
 Original Code: <a href="http://spotthevuln.com/2011/05/third/">Found Here</a>
 <h1>Details</h1>
-Lots of potential issues here, but we’ll focus on what was patched.  Here we have a basic SQL injection vulnerability.  The bug is the most simple example of tracing a variable from assignment to usage.  On line 54, the $ninja_annc_id is assigned a value directly from the user/attacker controlled $_REQUEST[‘ninja_annc_id’].  The very next line, the developer uses the tainted $ninja_annc_id to string build a SQL statement.
+Lots of potential issues here, but we'll focus on what was patched.  Here we have a basic SQL injection vulnerability.  The bug is the most simple example of tracing a variable from assignment to usage.  On line 54, the $ninja_annc_id is assigned a value directly from the user/attacker controlled $_REQUEST['ninja_annc_id'].  The very next line, the developer uses the tainted $ninja_annc_id to string build a SQL statement.
 
 The developers addressed this issue by moving the dynamic SQL statement to a prepared SQL statement.  Prepared statements are the preferred method for dealing with SQL requests that could potentially contain tainted values.
 

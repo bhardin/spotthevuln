@@ -29,7 +29,7 @@ Issue Type: SQL Injection (SQLi)
 
 Original Code: <a href="http://spotthevuln.com/2011/03/curiosity/">Found Here</a>
 <h1>Details</h1>
-This week’s vulnerability was a tricky one.  The bug patched in this change list affected the Comment-Rating plugin for WordPress (fixed in 2.9.24).  Let’s take the bug step by step.  First, the application takes a user/attacker supplied value and runs it through an escaping function here (line 9):
+This week's vulnerability was a tricky one.  The bug patched in this change list affected the Comment-Rating plugin for WordPress (fixed in 2.9.24).  Let's take the bug step by step.  First, the application takes a user/attacker supplied value and runs it through an escaping function here (line 9):
 
 $k_id = strip_tags($wpdb->escape($_GET['id']));
 
@@ -40,7 +40,7 @@ if($k_id && $k_action && $k_path) {
     $query = "SELECT * FROM `$table_name` WHERE ck_comment_id = $k_id";
     $result = mysql_query($query);
 
-The code above checks for a specific condition (which is a condition controllable by the attacker) then proceeds to build and execute a SQL query.  On line 22 we see $k_id is used to build a dynamic SQL statement.  Variables usage within stings are valid in PHP (http://php.net/manual/en/language.types.string.php - see Variable parsing).  $k_id is escaped so we should be ok here…right?  Actually, in this case escaping isn’t sufficient to prevent SQL injection.  Escaping functions typically work by preventing a variable value from breaking out of quotes, unfortunately in this case there are no quotes to break out of.  $k_id is designed to be a numeric value not a string, so there is no need to encapsulate the $k_id value in quotes.  Although $k_id is designed to be numeric, there was nothing that would prevent an attacker from providing an arbitrary value for $k_id.  For example, an attacker could provide a value like this for $k_id:
+The code above checks for a specific condition (which is a condition controllable by the attacker) then proceeds to build and execute a SQL query.  On line 22 we see $k_id is used to build a dynamic SQL statement.  Variables usage within stings are valid in PHP (http://php.net/manual/en/language.types.string.php - see Variable parsing).  $k_id is escaped so we should be ok here…right?  Actually, in this case escaping isn't sufficient to prevent SQL injection.  Escaping functions typically work by preventing a variable value from breaking out of quotes, unfortunately in this case there are no quotes to break out of.  $k_id is designed to be a numeric value not a string, so there is no need to encapsulate the $k_id value in quotes.  Although $k_id is designed to be numeric, there was nothing that would prevent an attacker from providing an arbitrary value for $k_id.  For example, an attacker could provide a value like this for $k_id:
 
 99999 union select uname, passwd from users
 

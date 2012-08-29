@@ -29,7 +29,7 @@ Straight up SQL injection in Joomla.  The $order_by and the $direction values a
 
 This bug was fixed by sanitizing the values passed to $order_by and $direction.  I like the fact that the Joomla developers used a whitelist to restrict the values passed to $order_by and $direction. The whitelist is established in the following line of code:
 <blockquote>if (!in_array($order_by, array('username', 'email', 'num_posts', 'num_posts', 'registered')) || !in_array($direction, array('ASC', 'DESC')))</blockquote>
-The code above makes it so the $order_by variable can only contain the following values: 'username', 'email', 'num_posts', 'num_posts', 'registered'.  The line also ensure the $direction variable only contains either ‘ASC’ or ‘DESC’.
+The code above makes it so the $order_by variable can only contain the following values: 'username', 'email', 'num_posts', 'num_posts', 'registered'.  The line also ensure the $direction variable only contains either 'ASC' or 'DESC'.
 
 In addition to the whitelist, the Joomla developers also escaped the variables before including them in the SQL statement.
 <blockquote>
