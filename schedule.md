@@ -15,6 +15,9 @@ meta:
   _headspace_description: Vulnerable code is posted on Mondays and its solution is
     posted on Friday.
 ---
+
+## Schedule
+
 Every Monday at 8:00am PST a new vulnerable code snippet will be posted.
 
 Feel free to leave your thoughts and comments on what you think is wrong with the code snippet and why. You can be as thorough or as simplistic as you would like. If you feel like it, go ahead and post what the fix should be.
