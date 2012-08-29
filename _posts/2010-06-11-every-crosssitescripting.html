@@ -49,7 +49,7 @@ This was a bug reported by the <a title="Gotham" href="http://www.gdssecurity.co
 
 The bug begins by the capturing of untrusted parameter values from the querystring.  This is done by the following JavaScript:
 <blockquote><code>var qstr = window.location.search.substr(1);</code></blockquote>
-qstr is then split based on the “&amp;" character, proving values for various JavaScript variables including DoJoURL and TestURL.   The attacker is free to provide arbitrary values for DoJoURL and TestURL by simply providing the proper querystring values.  For example:
+qstr is then split based on the "&amp;" character, proving values for various JavaScript variables including DoJoURL and TestURL.   The attacker is free to provide arbitrary values for DoJoURL and TestURL by simply providing the proper querystring values.  For example:
 <blockquote>runner.html?dojoUrl=attacker-controlled&amp;testUrl=attackercontrolled</blockquote>
 the attacker supplied values are then used in a document.write() statement, giving the attacker the opprotuntiy to inject arbitrary client side script into any website that happens to include the Dojo library.  The vulnerable document.write() statements are provided below:
 <blockquote>document.write("&lt;scr"+"ipt type='text/javascript' djConfig='isDebug: true' src='"+<span style="color: #ff0000;">dojoUrl</span>+"'&gt;&lt;/scr"+"ipt&gt;");

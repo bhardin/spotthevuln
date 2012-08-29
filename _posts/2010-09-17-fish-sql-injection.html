@@ -34,7 +34,7 @@ Issue Type: SQL Injection
 
 Original Code: <a title="Fish" href="http://spotthevuln.com/2010/09/fish/" target="_blank">Found    Here</a>
 <h2>Description</h2>
-This week's vuln was an easy one :)  The vulnerability affected the “members-only" plug-in for Wordpress and was patched in version 0.6.7.  There are a couple changes in the diff, but the most important change (from a security standpoint) is the transition from a string-built, dynamic SQL statement to a prepared statement.  The following lines show the SQL injection bug:
+This week's vuln was an easy one :)  The vulnerability affected the "members-only" plug-in for Wordpress and was patched in version 0.6.7.  There are a couple changes in the diff, but the most important change (from a security standpoint) is the transition from a string-built, dynamic SQL statement to a prepared statement.  The following lines show the SQL injection bug:
 <blockquote>$feedkey = $_GET['feedkey'];
 … &lt;snip&gt;…
 $find_feedkey = $wpdb-&gt;get_results("SELECT umeta_id FROM $wpdb-&gt;usermeta WHERE meta_value = '$feedkey'");</blockquote>

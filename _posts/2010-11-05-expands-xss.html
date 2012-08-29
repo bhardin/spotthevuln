@@ -36,7 +36,7 @@ Original Code: <a title="Expect" href="http://spotthevuln.com/2010/11/expands/" 
 <h2>Description</h2>
 The hint pretty much gave this one away.
 
-This week's bug was an XSS exposure in Boinc.  Boinc is an open source project which uses idle time on a computer to perform various scientific tasks.  According to the website, its “safe, secure, and easy". Boinc doesn't seem to have version numbers and is updated on a constant basis.  This bug was checked into the Boinc source about four weeks ago.
+This week's bug was an XSS exposure in Boinc.  Boinc is an open source project which uses idle time on a computer to perform various scientific tasks.  According to the website, its "safe, secure, and easy". Boinc doesn't seem to have version numbers and is updated on a constant basis.  This bug was checked into the Boinc source about four weeks ago.
 
 The bug can be found in the else statement in the pm_form() function.  The else statement takes a tainted value from the POST request body and uses it to populate a variable.  The variable assignment is here:
 <blockquote>$writeto = post_str("to", true);

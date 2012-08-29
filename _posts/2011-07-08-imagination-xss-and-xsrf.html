@@ -25,7 +25,7 @@ Issue Type: XSS and XSRF
 
 Original Code: <a href="http://spotthevuln.com/2011/07/imagination/">Found Here</a>
 ## Details
-This week's bugs affected Zeus C&C 1.1.0.0.  The file we're looking at is mod.bcmds.php.  The first thing that popped out at me was the named constant “QUERY_STRING" that's being used in various places in code.  Although we don't get to see exactly where QUERY_STRING is being defined in the code snippet as a general rule of thumb, values from the query string cannot be trusted.  In this case, QUERY_STRING is defined in a different file (in.php) in the following line: 
+This week's bugs affected Zeus C&C 1.1.0.0.  The file we're looking at is mod.bcmds.php.  The first thing that popped out at me was the named constant "QUERY_STRING" that's being used in various places in code.  Although we don't get to see exactly where QUERY_STRING is being defined in the code snippet as a general rule of thumb, values from the query string cannot be trusted.  In this case, QUERY_STRING is defined in a different file (in.php) in the following line: 
 <code lang="PHP">
 define('QUERY_STRING', QUERY_STRING_BLANK.$module); 
 </code>
