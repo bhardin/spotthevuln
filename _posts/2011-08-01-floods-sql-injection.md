@@ -15,7 +15,7 @@ meta:
   aktt_tweeted: '1'
 ---
 ## Details
-Affected Software: Corpse C&C
+__Affected Software:__ Corpse C&C
 
 __Fixed in Version:__  ?
 
