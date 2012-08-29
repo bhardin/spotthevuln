@@ -50,7 +50,7 @@ else if(isset($_GET['del'])&&is_numeric($_GET['del'])&&$pedt)
 </code>
 In the snippet above, we see that the C&C code grabs a value directly from the querystring, validates that it is_numeric(), and then passes the value to a DELETE statement.  No where does the code attempt to validate that the request wasn't generated via XSRF.  If an attacker can discover the location of the C&C and lure the botmaster to an attacker controlled page, they can setup an XSRF attack to delete the entire TABLE_BCMDS.  Looking through the latest, most current Zeus C&C code, XSRF defenses still have not been put into place… come on guys, even WordPress has XSRF defenses!  <a href="http://codex.wordpress.org/Function_Reference/wp_verify_nonce" target="_blank">http://codex.wordpress.org/Function_Reference/wp_verify_nonce</a>
 
-<h1>Vulnerable Code</h1>
+## Vulnerable Code
 <code lang="PHP" highlight="50,55,87,101">
 <?php if(!defined('__INDEX__'))die();
 $pedt=PRIV&PRIV_BOTS_CMDS_EDIT;

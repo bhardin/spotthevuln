@@ -23,7 +23,7 @@ Original Code: <a href="http://spotthevuln.com/2011/07/writing/">Found Here</a>
 <h1>Details</h1>
 This week, we had a couple of bugs here affecting EOF-0x01 Command and Control.  A red herring is the use of echo($_POST['pw']); to build HTML markup.  Upon first glance, this seems like a straight forward XSS bug.   This issue is mitigated by the fact that $_POST['pw'] is only displayed if it is equal to $botpw (whose default value happens to be 'bla') .  So unless the botmaster has an XSS payload for their password, this one is going to be really difficult to exploit.    The other interesting part is the if statements that look at $_POST['action'].  If the user has provided the correct $_POST['pw'] and also provides a $_POST['action'] of 2 or 3, DeleteCommandsFromQueue() and EditCommandForBot() will be executed respectively.  Developers (even malware developers) should be wary of allowing Create, Update, or Delete operations without defending against cross site request forgery.  These functions are not protected. 
 
-<h1>Vulnerable Code</h1>
+## Vulnerable Code
 <code lang="PHP" highlight="63,67,71,83,88">
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

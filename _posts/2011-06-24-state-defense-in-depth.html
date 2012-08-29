@@ -27,7 +27,7 @@ First, I'll talk about a couple of interesting things about this bug that cannot
 <br/>
 After the code was decoded, it was quickly apparent that this file contained several routines for dealing with uploding files to the web C&C.  I pulled out a routine that I thought was particularly interesting for this week's code sample.  The sample takes several variables from user/attacker controlled parameters (lines 6, 8, and 9).  One of these variables ($logfolder) is passed directly to fopen().  Fopen is an interesting API.  In this code sample, fopen() is intended to open a file from the local filesystem.  There is no directory traversal check for $logfolder, so the attacker is free to pass a simple ../../../ in the $logfolder variable and control where the txt file gets written to.  In addition to directory traversal bugs, fopen() can actually open more than just local files.  fopen()supports a number of schemes such as: http://, ftp://, php://, ssh2://, and several others.  A full list of protocols supported by fopen() can be found here:  http://www.php.net/manual/en/wrappers.php.  Because the $logfolder variable is the first variable passed to fopen(), the attacker can supply any of these protocols to fopen().  Using these protocols, the attacker can cause the C&C to make arbitrary requests to external servers.  Full compromise of theC&C web server would be difficult, but information leakage can definitely be accomplished.
 <br/>
-<h1>Vulnerable Code</h1>
+## Vulnerable Code
 <code lang="PHP" highlight="14">
 <?php
 ...snip...
