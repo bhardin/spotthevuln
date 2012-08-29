@@ -43,20 +43,20 @@ This week's vulnerability is a DOM based XSS that could be found in a JavaScript
 
 The bug starts here:
 <blockquote>if(window.location.href.indexOf("?") &gt; -1){</blockquote>
-The JavaScript pulls the address of the loaded page and checks to see if the address contains the “?” character.  If the “?” character is found, the JavaScript begins parsing and splitting the URI into various arrays.  This parsing and splitting is done in the lines provided below:
+The JavaScript pulls the address of the loaded page and checks to see if the address contains the “?" character.  If the “?" character is found, the JavaScript begins parsing and splitting the URI into various arrays.  This parsing and splitting is done in the lines provided below:
 <blockquote>var str = window.location.href.substr(window.location.href.indexOf("?")+1).split(/#/);
 var ary  = str[0].split(/&amp;/);
 for(var i=0; i&lt;ary.length; i++){
 var split = ary[i].split(/=/),</blockquote>
 The vulnerable assignment occurs here:
 <blockquote><span style="color: #ff0000;">value </span>= split[1];</blockquote>
-The JavaScript above essentially grabs a querystring value (attacker supplied) and assigns it to the “value” variable.  Later, the “value” variable is used in several places, for example:
+The JavaScript above essentially grabs a querystring value (attacker supplied) and assigns it to the “value" variable.  Later, the “value" variable is used in several places, for example:
 <blockquote>dojo.config.locale = locale = value;
 
 document.getElementsByTagName("html")[0].dir = value;
 
 <span style="color: #ff0000;">theme </span>= <span style="color: #ff0000;">value</span>;</blockquote>
-Considering the assignments listed above, we have a couple different variables that are tainted.  I've highlighted the tainted variables in red.  Tracing the “theme” assignment shown above, we see the tainted value being passed to a document.write statement, resulting in XSS.
+Considering the assignments listed above, we have a couple different variables that are tainted.  I've highlighted the tainted variables in red.  Tracing the “theme" assignment shown above, we see the tainted value being passed to a document.write statement, resulting in XSS.
 <blockquote>var <span style="color: #ff0000;">themeCss </span>= d.moduleUrl("dijit.themes",theme+"/"+<span style="color: #ff0000;">theme</span>+".css");
 
 var <span style="color: #ff0000;">themeCssRtl </span>= d.moduleUrl("dijit.themes",theme+"/"+<span style="color: #ff0000;">theme</span>+"_rtl.css");
@@ -64,7 +64,7 @@ var <span style="color: #ff0000;">themeCssRtl </span>= d.moduleUrl("dijit.themes
 document.write('&lt;link rel="stylesheet" type="text/css" href="'+<span style="color: #ff0000;">themeCss</span>+'"&gt;');
 
 document.write('&lt;link rel="stylesheet" type="text/css" href="'+<span style="color: #ff0000;">themeCssRtl</span>+'"&gt;');</blockquote>
-The patch checked in by the DojoToolkit team sanitizes the “value” JavaScript variable by allowing only word characters (^\w).
+The patch checked in by the DojoToolkit team sanitizes the “value" JavaScript variable by allowing only word characters (^\w).
 <h2>Developers Solution</h2>
 [cce lang="diff"]
 

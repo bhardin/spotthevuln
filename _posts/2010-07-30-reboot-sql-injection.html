@@ -54,7 +54,7 @@ No sanitization or validation is done before assigning the values.  Once the as
 <blockquote>$query = "select date, weight, trend from ".$table_prefix."hackdiet_weightlog where wp_id = $user_id and date &gt; \"".date("Y-m-d", strtotime("$weeks weeks ago"))."\" order by date asc";
 
 $query = "select date, weight, trend from ".$table_prefix."hackdiet_weightlog where wp_id = $user_id and date &gt;= \"$start_date\" and date &lt;= \"$end_date\" order by date asc";</blockquote>
-The plugin authors patched this vulnerability by validating that the $_GET[“user”] and $_GET[“weeks”] parameters contains only numeric characters.  An interesting exercise would be to trace through the code and find where the following variables are being used:
+The plugin authors patched this vulnerability by validating that the $_GET[“user"] and $_GET[“weeks"] parameters contains only numeric characters.  An interesting exercise would be to trace through the code and find where the following variables are being used:
 <blockquote>
 $start_date = $_GET["start_date"];
 $end_date = $_GET["end_date"];

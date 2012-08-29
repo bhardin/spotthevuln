@@ -33,9 +33,9 @@ Issue Type: SQL Injection and XSS
 
 Original Code: <a title="Butterflies" href="http://spotthevuln.com/2010/04/butterflies/" target="_blank">Found Here</a>
 <h2>Description</h2>
-In a SpotTheVuln first, today's example actually contains two different vulnerabilities.  The sample comes from a WordPress plugin called “Login Lockdown”.  The first vulnerability patched by the Login Lockdown developers is a SQL Injection vulnerability.  In this particular example, we see that the “$release_id” variable is passed directly to a SQL statement without being sanitized.  The Login Lockdown developers corrected this vulnerability by simply escaping the variable before including it in a dynamically built SQL statement.
+In a SpotTheVuln first, today's example actually contains two different vulnerabilities.  The sample comes from a WordPress plugin called “Login Lockdown".  The first vulnerability patched by the Login Lockdown developers is a SQL Injection vulnerability.  In this particular example, we see that the “$release_id" variable is passed directly to a SQL statement without being sanitized.  The Login Lockdown developers corrected this vulnerability by simply escaping the variable before including it in a dynamically built SQL statement.
 
-The other vulnerabilities are XSS vulnerabilities.  The beginning of the code sample contains several “isset” statements which eventually assign the values from various POST parameters to php variables.  These variables are then used to build the HTML markup later in the PHP code.  The Login Lockdown developers corrected this vulnerability by using the “esc_attr” before using the user controlled data in the HTML markup.
+The other vulnerabilities are XSS vulnerabilities.  The beginning of the code sample contains several “isset" statements which eventually assign the values from various POST parameters to php variables.  These variables are then used to build the HTML markup later in the PHP code.  The Login Lockdown developers corrected this vulnerability by using the “esc_attr" before using the user controlled data in the HTML markup.
 <h2>Developers Solution</h2>
 [cce lang="diff"]
 <div id="_mcePaste">
