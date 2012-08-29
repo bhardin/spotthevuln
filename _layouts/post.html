@@ -1,6 +1,18 @@
 ---
 layout: default
 ---
+<h2>{{ page.title }}</h2>
+
+{% if page.quote %}
+<blockquote>
+	<p>{{ page.quote }}</p>
+
+	{% if page.quote_author %}
+		<p>{{ page.quote_author }}</p>
+	{% endif %}
+</blockquote>
+{% endif %}
+
 <div id="post">
 {{ content }}
 </div>

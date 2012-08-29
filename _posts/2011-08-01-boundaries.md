@@ -5,6 +5,8 @@ tags:
 - Code Snippet
 status: publish
 type: post
+quote: I like pushing boundaries.
+quote_author: Lady Gaga
 published: true
 meta:
   aktt_notify_twitter: 'yes'
@@ -12,12 +14,8 @@ meta:
   _edit_last: '2'
   aktt_tweeted: '1'
 ---
-<blockquote><strong>I like pushing boundaries.
-Lady Gaga
-</strong></blockquote>
-<code lang="PHP">
-...snip...
-     
+
+{% highlight html+php linenos %}
 </style>
 <?php
   // We do some checking to see what we're doing
@@ -114,4 +112,4 @@ Lady Gaga
     </form>
     <h2><?php _e('Manage Categories','calendar'); ?></h2>
 ...snip...
-</code>
+{% endhighlight %}
