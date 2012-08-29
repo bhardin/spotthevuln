@@ -17,7 +17,7 @@ meta:
 ## Details
 Affected Software: Corpse C&C
 
-Fixed in Version: ?
+__Fixed in Version:__  ?
 
 Issue Type: SQL Injection
 
