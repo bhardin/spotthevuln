@@ -14,7 +14,7 @@ meta:
   _edit_last: '2'
   aktt_tweeted: '1'
 ---
-<h1>Details</h1>
+## Details
 Affected Software: Corpse C&C
 
 Fixed in Version: ?
@@ -22,7 +22,7 @@ Fixed in Version: ?
 Issue Type: XSS
 
 Original Code: <a href="http://spotthevuln.com/2011/07/grammys/">Found Here</a>
-<h1>Details</h1>
+## Details
 Fairly straightforward XSS bug here.  This week's bug can be found in the index.php file for the Corpse C&C.  Specifically, the index file located at Corpse/info/socks/index.php.  Buried deep within the print statement starting on line 30 are two unsanitized, unescaped variables ($states and $countrys).  Both $states and $countrys are taken directly from $_POST  parameters and assigned to php variables.  Those php variables are then used to build HTML markup.  Buried within a large print statement, a little difficult to spot, but this bug is classic XSS. 
 
 ## Vulnerable Code

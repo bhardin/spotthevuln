@@ -20,7 +20,7 @@ meta:
   _syntaxhighlighter_encoded: '1'
   aktt_tweeted: '1'
 ---
-<h1>Details</h1>
+## Details
 Affected Software: Lazyest-Gallery
 
 Fixed in Version: 0.9
@@ -28,7 +28,7 @@ Fixed in Version: 0.9
 Issue Type: Cross Site Scripting (XSS)
 
 Original Code: <a href="http://spotthevuln.com/2011/03/proportion/">Found Here</a>
-<h1>Details</h1>
+## Details
 For most security issues, I give the developer the benefit of the doubt.  It's tough to keep track of all the corner cases and security nuances.  For this diff however, there is no excuse. 
 
 First, let's cover what the patch fixes.  On line 18, the developer was taking a tainted value passed via query string parameter and using that value to build HTML markup.  This is XSS in its most classic form.  Also, on line 58 the same tainted input is used to build the SRC attribute for an image tag, also resulting in XSS.  The developer chose to encode both of these tainted values before using them in the HTML output.

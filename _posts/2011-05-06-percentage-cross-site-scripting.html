@@ -18,7 +18,7 @@ meta:
   _syntaxhighlighter_encoded: '1'
   aktt_tweeted: '1'
 ---
-<h1>Details</h1>
+## Details
 Affected Software: Sermon Browser Wordpress Plugin
 
 Fixed in Version: .44
@@ -26,7 +26,7 @@ Fixed in Version: .44
 Issue Type: Cross Site Scripting
 
 Original Code: <a href="http://spotthevuln.com/2011/05/percentage/">Found Here</a>
-<h1>Details</h1>
+## Details
 There is a lot going on here in this code snippet.   First, let's talk about the patch.  The patch adds a check to ensure the user requesting has the rights to edit a post.  The added functionality only displays a link (A HREF) if the user has the correct permissions.  Let's hope there are additional checks in place to prevent the execution of this functionality, as opposed to just trying to obscure the link.
 <br><br>
 Second, there are a few SQL queries.  The SQL queries actually seem to be well handled; most values are cast to int, which should work.  Of course, Neal Poole and Jacob astutely point out that casts to int cannot always be trusted (<a href="http://spotthevuln.com/2011/03/invincible-cross-site-scripting/">http://spotthevuln.com/2011/03/invincible-cross-site-scripting/</a> &lt;-- see comments section).  Abraham Kang also points out that some escaping functions can be defeated by using alternate charsets.  The better solution is to use parameterized queries.

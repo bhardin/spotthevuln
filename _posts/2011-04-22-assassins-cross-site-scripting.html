@@ -17,7 +17,7 @@ meta:
   _syntaxhighlighter_encoded: '1'
   aktt_tweeted: '1'
 ---
-<h1>Details</h1>
+## Details
 Affected Software: WordPress Core
 
 Fixed in Version: 2.2-alpha
@@ -25,7 +25,7 @@ Fixed in Version: 2.2-alpha
 Issue Type: Cross Site Scripting
 
 Original Code: <a href="http://spotthevuln.com/2011/04/assassins/">Found Here</a>
-<h1>Details</h1>
+## Details
 A couple of bugs affecting Wordpress core here.  On line 73, we see that $_SERVER['REQUEST_URI'] is passed to add_query_arg().  From the provided code sample, it's difficult to see that this results in XSS.  The developers addressed this by encoding the return value from  add_query_arg().
 
 The second issue starts at wp_get_referer().  This function checks $_REQUEST['_wp_http_referer'] and/or $_SERVER['HTTP_REFERER'] for possible values.  This makes is so the attacker has several options for tainting wp_get_referer().  Passing a tainted GET or POST parameter will do the trick.  Simply redirecting to the vulnerable Wordpress installation from a tainted URL will also taint the value returned from wp_get_referer().

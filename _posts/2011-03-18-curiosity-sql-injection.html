@@ -20,7 +20,7 @@ meta:
   _syntaxhighlighter_encoded: '1'
   aktt_tweeted: '1'
 ---
-<h1>Details</h1>
+## Details
 Affected Software: Comment-Rating Plugin
 
 Fixed in Version: 2.9.24
@@ -28,7 +28,7 @@ Fixed in Version: 2.9.24
 Issue Type: SQL Injection (SQLi)
 
 Original Code: <a href="http://spotthevuln.com/2011/03/curiosity/">Found Here</a>
-<h1>Details</h1>
+## Details
 This week's vulnerability was a tricky one.  The bug patched in this change list affected the Comment-Rating plugin for WordPress (fixed in 2.9.24).  Let's take the bug step by step.  First, the application takes a user/attacker supplied value and runs it through an escaping function here (line 9):
 
 $k_id = strip_tags($wpdb->escape($_GET['id']));

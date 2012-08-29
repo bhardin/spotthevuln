@@ -18,7 +18,7 @@ meta:
   _syntaxhighlighter_encoded: '1'
   aktt_tweeted: '1'
 ---
-<h1>Details</h1>
+## Details
 Affected Software: Cubed
 
 Fixed in Version: 1.0 RC2
@@ -26,7 +26,7 @@ Fixed in Version: 1.0 RC2
 Issue Type: Cross Site Scripting
 
 Original Code: <a href="http://spotthevuln.com/2011/04/Fall/">Found Here</a>
-<h1>Details</h1>
+## Details
 This week's patch is a good one.  The code sample was basically a library that only contained functions.  While there isn't a blatant vulnerability in the library, there is a startling function called “PrepDataForScript”.   Looking at PrepDataForScript, it's obvious this function is meant to provide some sanitization.  Unfortunately, the routine isn't very robust.  When you see things like the code snippet below, you know the developer is headed in the wrong direction:
 
 $strData = str_replace("</script>", "&lt/script&gt", $strData);

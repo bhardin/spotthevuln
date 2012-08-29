@@ -20,7 +20,7 @@ meta:
   _syntaxhighlighter_encoded: '1'
   aktt_tweeted: '1'
 ---
-<h1>Details</h1>
+## Details
 Affected Software: WPhone Plug-in
 
 Fixed in Version: 1.5.2
@@ -28,7 +28,7 @@ Fixed in Version: 1.5.2
 Issue Type: Cross Site Scripting (XSS)
 
 Original Code: <a href="http://spotthevuln.com/2011/03/invincible/">Found Here</a>
-<h1>Details</h1>
+## Details
 This bug is a straightforward XSS bug.  Once again, we see the familiar $_SERVER['PHP_SELF'] variable being echoed back to the user without any encoding.  The fix is simple, remove the value for the ACTION form attribute completely.  This removes the need for any type of sanitization and ensures the form is POSTed to the URL that is hosting the form.
 
 On a side note, many developers reduce the testing/defenses implemented in web pages designed for mobile clients.  For some reason, it's tempting to assume web pages designed for mobile applications have less exposure.  Less exposure is obviously not the case; web pages designed for mobile clients have just as much exposure as web pages designed for normal web browsers.  Please ensure your security diligence and security test cases cover your mobile attack surface.  Just because the devices are smaller, that doesn't make your attack surface is smaller too!

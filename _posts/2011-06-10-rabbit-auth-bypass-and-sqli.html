@@ -13,7 +13,7 @@ meta:
   _edit_last: '2'
   aktt_tweeted: '1'
 ---
-<h1>Details</h1>
+## Details
 Affected Software: BlackEnergy C&C
 
 Fixed in Version: Not Patched
@@ -21,7 +21,7 @@ Fixed in Version: Not Patched
 Issue Type: Authentication Bypass and SQL Injection
 
 Original Code: <a href="http://spotthevuln.com/2011/06/rabbit/">Found Here</a>
-<h1>Details</h1>
+## Details
 A couple of interesting bugs here.  As Abe astutely pointed out, pretty much all of the PHP at the end of the code sample is vulnerable to SQL injection.  Veteran Spot the Vuln readers can easily spot the tainted $_POST and $_GET parameters being passed directly into dynamically built SQL statements.  This obviously results in compromise of the backend database and the application.  I've highlighted the SQL injection points in the code sample below.  The injection points are fairly obvious.
 
 Now, onto the more interesting bug.  In order to reach the code paths that are vulnerable to SQL injection, we must first “login” to the application.  The “login” routine is contained in lines 11-25.
