@@ -1,0 +1,93 @@
+---
+layout: post
+title: Sleep
+tags:
+- All
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ! '#secure #code #dev'
+  _edit_last: '2'
+  _syntaxhighlighter_encoded: '1'
+  aktt_tweeted: '1'
+  _sexybookmarks_shortUrl: http://bit.ly/i0SycT
+  _sexybookmarks_permaHash: 5644617f46ab2d1a99f59d758198fdba
+---
+<blockquote><strong>It is a common experience that a problem difficult at night is resolved in the morning after a committee of sleep has worked on it.</strong> <br><strong> - John Steinbeck
+</strong></blockquote>
+<br/>
+<br/>HINT: $to, $subject, and $message are tainted
+[sourcecode language="php"]
+&lt;?php
+...snip...
+function smtp_mail($to, $subject, $message, $headers = '')
+{
+	global $pun_config;
+
+	$recipients = explode(',', $to);
+
+	// Are we using port 25 or a custom port?
+	if (strpos($pun_config['o_smtp_host'], ':') !== false)
+		list($smtp_host, $smtp_port) = explode(':', $pun_config['o_smtp_host']);
+	else
+	{
+		$smtp_host = $pun_config['o_smtp_host'];
+		$smtp_port = 25;
+	}
+
+	if (!($socket = fsockopen($smtp_host, $smtp_port, $errno, $errstr, 15)))
+		error('Could not connect to smtp host &quot;'.$pun_config['o_smtp_host'].'&quot; ('.$errno.') ('.$errstr.')', __FILE__, __LINE__);
+
+	server_parse($socket, '220');
+
+	if ($pun_config['o_smtp_user'] != '' &amp;&amp; $pun_config['o_smtp_pass'] != '')
+	{
+		fwrite($socket, 'EHLO '.$smtp_host.&quot;\r\n&quot;);
+		server_parse($socket, '250');
+
+		fwrite($socket, 'AUTH LOGIN'.&quot;\r\n&quot;);
+		server_parse($socket, '334');
+
+		fwrite($socket, base64_encode($pun_config['o_smtp_user']).&quot;\r\n&quot;);
+		server_parse($socket, '334');
+
+		fwrite($socket, base64_encode($pun_config['o_smtp_pass']).&quot;\r\n&quot;);
+		server_parse($socket, '235');
+	}
+	else
+	{
+		fwrite($socket, 'HELO '.$smtp_host.&quot;\r\n&quot;);
+		server_parse($socket, '250');
+	}
+
+	fwrite($socket, 'MAIL FROM: &lt;'.$pun_config['o_webmaster_email'].'&gt;'.&quot;\r\n&quot;);
+	server_parse($socket, '250');
+
+	$to_header = 'To: ';
+
+	@reset($recipients);
+	while (list(, $email) = @each($recipients))
+	{
+		fwrite($socket, 'RCPT TO: &lt;'.$email.'&gt;'.&quot;\r\n&quot;);
+		server_parse($socket, '250');
+
+		$to_header .= '&lt;'.$email.'&gt;, ';
+	}
+
+	fwrite($socket, 'DATA'.&quot;\r\n&quot;);
+	server_parse($socket, '354');
+
+	fwrite($socket, 'Subject: '.$subject.&quot;\r\n&quot;.$to_header.&quot;\r\n&quot;.$headers.&quot;\r\n\r\n&quot;.$message.&quot;\r\n&quot;);
+
+	fwrite($socket, '.'.&quot;\r\n&quot;);
+	server_parse($socket, '250');
+
+	fwrite($socket, 'QUIT'.&quot;\r\n&quot;);
+	fclose($socket);
+
+	return true;
+}
+[/sourcecode] 

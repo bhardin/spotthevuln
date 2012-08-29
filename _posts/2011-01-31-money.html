@@ -1,0 +1,91 @@
+---
+layout: post
+title: Money
+tags:
+- All
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ''
+  _edit_last: '2'
+  _syntaxhighlighter_encoded: '1'
+  aktt_tweeted: '1'
+  _sexybookmarks_shortUrl: http://bit.ly/eFd8X1
+  _sexybookmarks_permaHash: a69c9b9294d8a00a28d2c2eed0409540
+---
+<blockquote><strong>Money won't buy happiness, but it will pay the salaries of a large research staff to study the problem.</strong> <br><strong> - Bill Vaughan
+</strong>
+[sourcecode language="php"]
+&lt;?php
+...snip...
+
+include '../include/config.inc.php';
+include '../include/connect.inc.php';
+include '../include/functions.inc.php';
+
+session_start();
+header(&quot;Cache-control: private&quot;);
+
+if (!isset($_SESSION['s_admin'])) {
+  pg_close($pgconn);
+  $address = getaddress($web_port);
+  header(&quot;location: ${address}login.php&quot;);
+  exit;
+}
+
+$s_org = intval($_SESSION['s_org']);
+$s_admin = intval($_SESSION['s_admin']);
+$s_access = $_SESSION['s_access'];
+$s_access_sensor = intval($s_access{0});
+
+if ($s_access_sensor == 0) {
+  $m = 90;
+  pg_close($pgconn);
+  header(&quot;location: sensorstatus.php?selview=$selview&amp;m=$m&quot;);
+  exit;
+}
+
+if (isset($_GET['selview'])) {
+  $selview = intval($_GET['selview']);
+}
+      
+$error = 0;
+$keyname = $_POST['keyname'];
+$vlanid = $_POST['vlanid'];
+$action = $_POST['action'];
+if (isset($_POST[tapip])) {
+  $tapip = pg_escape_string(stripinput($_POST[tapip]));
+  if (preg_match($ipregexp, $tapip)) {
+    $sql_checkip = &quot;SELECT tapip FROM sensors WHERE tapip = '$tapip' AND NOT keyname = '$keyname'&quot;;
+    $result_checkip = pg_query($pgconn, $sql_checkip);
+    $checkip = pg_num_rows($result_checkip);
+    if ($checkip &gt; 0) {
+      $m = 101;
+      $error = 1;
+    } else {
+      $sql_updatestatus = &quot;UPDATE sensors SET tapip = '$tapip' WHERE keyname = '$keyname' AND vlanid ='$vlanid'&quot;;
+      $result_updatestatus = pg_query($pgconn, $sql_updatestatus);
+      $m = 7;
+    }
+  } else {
+    $m = 102;
+    $error = 1;
+  }
+} 
+if ($error == 0) {
+  $sql_updatestatus = &quot;UPDATE sensors SET action = '&quot; .$action. &quot;' WHERE keyname = '$keyname'&quot;;
+  $result_updatestatus = pg_query($pgconn, $sql_updatestatus);
+  $m = 7;
+}
+
+pg_close($pgconn);
+if ($m != 1) {
+  header(&quot;location: sensorstatus.php?selview=$selview&amp;m=$m&amp;key=$keyname&quot;);
+} else {
+  header(&quot;location: sensorstatus.php?selview=$selview&amp;m=$m&quot;);
+}
+?&gt;
+[/sourcecode] 

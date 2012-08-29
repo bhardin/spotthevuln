@@ -1,0 +1,148 @@
+---
+layout: post
+title: Dont Know
+tags:
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _sexybookmarks_permaHash: 6dbb180dd411641be57032eb5b20df5a
+  _aktt_hash_meta: ''
+  _edit_last: '2'
+  bfa_ata_body_title: Dont Know
+  bfa_ata_display_body_title: ''
+  bfa_ata_body_title_multi: Dont Know
+  bfa_ata_meta_title: ''
+  bfa_ata_meta_keywords: ''
+  bfa_ata_meta_description: ''
+  aktt_tweeted: '1'
+  _sexybookmarks_shortUrl: http://bit.ly/bowFod
+---
+<blockquote><strong>I don't know how I do it, I really don't.</strong>
+- Pete Sampras</blockquote>
+[ccnLe_php]
+
+&lt;?php
+if (!function_exists('yak_calc_discount_price')) {
+   /**
+    * Calculate a price discount, or return 0 if not a pricing promotion
+    */
+   function yak_calc_price_discount($item_quantity, $price, $total_items, $total_price, $promo=null) {
+       if ($promo != null) {
+           if ($promo-&gt;promo_type == 'pricing_perc' || $promo-&gt;promo_type == 'pricing_perc_threshold') {
+               return ($promo-&gt;value / 100.0) * $price;
+            }
+            else if ($promo-&gt;promo_type == 'pricing_val' || $promo-&gt;promo_type == 'pricing_val_threshold') {
+                if ($total_price &gt; 0) {
+                    $item_perc_of_total = $price / $total_price;
+                    return $promo-&gt;value * $item_perc_of_total;
+                }
+            }
+        }
+       
+        return 0;
+    }
+}
+
+if (!function_exists('yak_calc_discount_shipping')) {
+    /**
+     * Calculate a shipping discount, or return 0 if not a shipping discount
+     */
+    function yak_calc_shipping_discount($shipping_cost, $promo=null) {
+        if ($promo != null) {
+            if ($promo-&gt;promo_type == 'shipping_perc'  || $promo-&gt;promo_type == 'shipping_perc_threshold') {
+                return ($promo-&gt;value / 100.0) * $shipping_cost;
+            }
+            else if ($promo-&gt;promo_type == 'shipping_val' || $promo-&gt;promo_type == 'shipping_val_threshold') {
+                return $promo-&gt;value;
+            }
+        }
+      
+        return 0;
+    }
+}
+if (!function_exists('yak_get_promotion')) {
+    function yak_get_promotion($code) {
+        $promos = yak_get_promotions($code, true);
+        if (sizeof($promos) &gt;= 1) {
+            return $promos[0];
+        }
+        else {
+            return new YakPromotion('', null, null, null, 0, '', '', null);
+        }
+    }
+}
+if (!function_exists('yak_get_promotion_by_threshold')) {
+    function yak_get_promotion_by_threshold($threshold) {
+        $promos = yak_get_promotions(null, true, $threshold);
+        if (sizeof($promos) &gt;= 1) {
+            return $promos[0];
+        }
+        else {
+            return null;
+        }
+    }
+}
+if (!function_exists('yak_get_promotions')) {
+    function yak_get_promotions($code = null, $valid = false, $threshold = null) {
+        global $wpdb;
+      
+        $registry =&amp; Registry::getInstance();
+        $promo_table =&amp; $registry-&gt;get('promo_table');
+        $promo_users_table =&amp; $registry-&gt;get('promo_users_table');
+      
+        $sql = "select promo_id, code, promo_type, description, threshold, value, expiry_date
+                from $promo_table
+                where 1 = 1 ";
+      
+        // search by code      
+        if (!empty($code)) {
+            $sql .= "and code = '$code' ";
+            $sql .= "and promo_type in ('shipping_perc', 'shipping_val', 'pricing_perc', 'pricing_val') ";
+        }
+        // or search by threshold
+        else if (!empty($threshold)) {
+            $sql .= "and threshold is not null and $threshold &gt; threshold ";
+            $sql .= "and promo_type in ('shipping_perc_threshold', 'shipping_val_threshold', 'pricing_perc_threshold', 'pricing_val_threshold') ";
+        }
+      
+        // check for validity
+        if ($valid) {
+           $sql .= "and (expiry_date is null or expiry_date &gt;= current_date) ";
+       }
+     
+       // final sql
+       if (!empty($threshold)) {
+           $sql .= "order by threshold desc limit 1";
+       }
+        else {
+            $sql .= "order by promo_id asc";
+        }
+      
+        $results = $wpdb-&gt;get_results($sql);
+      
+        $promos = array();
+        foreach ($results as $result) {
+            $rows = $wpdb-&gt;get_results("select user_nicename
+                                        from $wpdb-&gt;users u
+                                        where exists (select 1
+                                                       from $promo_users_table pu
+                                                       where pu.promo_id = $result-&gt;promo_id
+                                                       and pu.user_id = u.ID)");
+            $users = array();
+            foreach ($rows as $row) {
+                $users[] = $row-&gt;user_nicename;
+            }
+            $promo = new YakPromotion($result-&gt;promo_id, $result-&gt;code, $result-&gt;promo_type, $result-&gt;threshold, $result-&gt;value,
+                                    $result-&gt;description, $result-&gt;expiry_date, $users);
+            $promos[] = $promo;
+        }
+      
+        return $promos;
+    }
+}
+?&gt;
+
+[/ccnLe_php] 

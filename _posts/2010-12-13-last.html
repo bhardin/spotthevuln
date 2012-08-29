@@ -1,0 +1,68 @@
+---
+layout: post
+title: Last
+tags:
+- All
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ! '#secure #code #dev'
+  _edit_last: '2'
+  aktt_tweeted: '1'
+  _sexybookmarks_shortUrl: http://bit.ly/dEBDBn
+  _sexybookmarks_permaHash: a0fc1e4fa40fc1faed514f3ee62dc75c
+---
+<blockquote><strong>Human beings, who are almost unique in having the ability to learn from the experience of others, are also remarkable for their apparent disinclination to do so.</strong> <br><strong> - Douglas Adams
+</strong></blockquote>
+<pre lang="php"><?php
+ob_start();
+//http://www.askapache.com/htaccess/apache-status-code-headers-errordocument.html
+/*
+array( floor($code / 100)
+ 1=>'INFO', 2=>'SUCCESS', 3=>'REDIRECT', 4|5=>'ERROR', 4=>'CLIENT_ERROR', 5=>'SERVER_ERROR', 'VALID_RESPONSE');
+*/
+
+... <SNIP> ...
+
+if (isset($_SERVER['REDIRECT_STATUS'])) $err_code = $_SERVER['REDIRECT_STATUS'];
+
+$err_req_meth = $_SERVER['REQUEST_METHOD'];
+$err_req = htmlentities(strip_tags($_SERVER['REQUEST_URI']));
+$err_phrase = $err_status_codes[$err_code][0];
+$err_body = str_replace(
+ array('INTERROR', 'THEREQUESTURI', 'THEREQMETH'),
+ array('The server encountered an internal error or misconfiguration and was unable to complete your request.',$err_req, $err_req_meth),$err_status_codes[$err_code][1]);
+
+@header("HTTP/1.1 $err_code $err_phrase", 1);
+@header("Status: $err_code $err_phrase", 1);
+
+//400 || 408 || 413 || 414 || 500 || 503 || 501
+//@header("Connection: close", 1);
+
+if ( $err_code=='400'||$err_code=='403'||$err_code=='405'||$err_code[0]=='5'){
+ @header("Connection: close", 1);
+ if ($err_code == '405') @header('Allow: GET,HEAD,POST,OPTIONS,TRACE');
+ echo "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html>\n<head>\n<title>{$err_code} {$err_phrase}</title>\n<h1>{$err_phrase}</h1>\n<p>{$err_body}<br>\n</p>\n</body></html>";
+} else echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+  <title>'.$err_code.' '.$err_phrase.'</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>'.$err_code.' '.$err_phrase.'</h1>
+<hr />
+<p>
+'.$err_body.'<br />
+</p>
+<pre>
+'.print_r($_SERVER,1).'
+</pre>
+  </body>
+</html>';
+?>
+</pre>

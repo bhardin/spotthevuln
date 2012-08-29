@@ -1,0 +1,86 @@
+---
+layout: post
+title: Country
+tags:
+- All
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ''
+  _edit_last: '2'
+  aktt_tweeted: '1'
+  _sexybookmarks_shortUrl: http://bit.ly/908xq0
+  _sexybookmarks_permaHash: d99ce8f802c12ae780df3d9c9da8b36e
+---
+<blockquote><strong>You get weird and unsettling behavior in the country</strong><strong>.
+</strong> <strong> -Sara Paretsky </strong></blockquote>
+<pre lang="PHP" line="1"><?php
+
+...<snip>...
+
+function print_loginlockdownAdminPage() {
+	global $wpdb;
+	$table_name = $wpdb->prefix . "lockdowns";
+	$loginlockdownAdminOptions = get_loginlockdownOptions();
+
+	if (isset($_POST['update_loginlockdownSettings'])) {
+		if (isset($_POST['ll_max_login_retries'])) {
+			$loginlockdownAdminOptions['max_login_retries'] = $_POST['ll_max_login_retries'];
+		}
+		if (isset($_POST['ll_retries_within'])) {
+			$loginlockdownAdminOptions['retries_within'] = $_POST['ll_retries_within'];
+		}
+		if (isset($_POST['ll_lockout_length'])) {
+			$loginlockdownAdminOptions['lockout_length'] = $_POST['ll_lockout_length'];
+		}
+		if (isset($_POST['ll_lockout_invalid_usernames'])) {
+			$loginlockdownAdminOptions['lockout_invalid_usernames'] = $_POST['ll_lockout_invalid_usernames'];
+		}
+		if (isset($_POST['ll_mask_login_errors'])) {
+			$loginlockdownAdminOptions['mask_login_errors'] = $_POST['ll_mask_login_errors'];
+		}
+		update_option("loginlockdownAdminOptions", $loginlockdownAdminOptions);
+		?>
+		
+<div class="updated"><p><strong><?php _e("Settings Updated.", "loginlockdown");?></strong></p></div>
+		<?php
+	}
+	if (isset($_POST['release_lockdowns'])) {
+		if (isset($_POST['releaseme'])) {
+			$released = $_POST['releaseme'];
+			foreach ( $released as $release_id ) {
+				$results = $wpdb->query("UPDATE $table_name SET release_date = now() " .
+							"WHERE lockdown_ID = $release_id");
+			}
+		}
+		update_option("loginlockdownAdminOptions", $loginlockdownAdminOptions);
+		?>
+		
+<div class="updated"><p><strong><?php _e("Lockdowns Released.", "loginlockdown");?></strong></p></div>
+		<?php
+	}
+	$dalist = listLockedDown();
+?>
+<div class=wrap>
+<form method="post" action="<?php echo $_SERVER["REQUEST_URI"]; ?>">
+<h2><?php _e('Login LockDown Options', 'loginlockdown') ?></h2>
+<h3><?php _e('Max Login Retries', 'loginlockdown') ?></h3>
+<input type="text" name="ll_max_login_retries" size="8" value="<?php echo $loginlockdownAdminOptions['max_login_retries']; ?>">
+<h3><?php _e('Retry Time Period Restriction (minutes)', 'loginlockdown') ?></h3>
+<input type="text" name="ll_retries_within" size="8" value="<?php echo $loginlockdownAdminOptions['retries_within']; ?>">
+<h3><?php _e('Lockout Length (minutes)', 'loginlockdown') ?></h3>
+<input type="text" name="ll_lockout_length" size="8" value="<?php echo $loginlockdownAdminOptions['lockout_length']; ?>">
+<h3><?php _e('Lockout Invalid Usernames?', 'loginlockdown') ?></h3>
+<input type="radio" name="ll_lockout_invalid_usernames" value="yes" <?php if( $loginlockdownAdminOptions['lockout_invalid_usernames'] == "yes" ) echo "checked"; ?>>&nbsp;Yes&nbsp;&nbsp;&nbsp;<input type="radio" name="ll_lockout_invalid_usernames" value="no" <?php if( $loginlockdownAdminOptions['lockout_invalid_usernames'] == "no" ) echo "checked"; ?>>&nbsp;No
+<h3><?php _e('Mask Login Errors?', 'loginlockdown') ?></h3>
+<input type="radio" name="ll_mask_login_errors" value="yes" <?php if( $loginlockdownAdminOptions['mask_login_errors'] == "yes" ) echo "checked"; ?>>&nbsp;Yes&nbsp;&nbsp;&nbsp;<input type="radio" name="ll_mask_login_errors" value="no" <?php if( $loginlockdownAdminOptions['mask_login_errors'] == "no" ) echo "checked"; ?>>&nbsp;No
+<div class="submit">
+<input type="submit" name="update_loginlockdownSettings" value="<?php _e('Update Settings', 'loginlockdown') ?>" /></div>
+</form>
+<br />
+<form method="post" action="<?php echo $_SERVER["REQUEST_URI"]; ?>">
+<h3><?php _e('Currently Locked Out', 'loginlockdown') ?></h3>
+</pre>

@@ -1,0 +1,93 @@
+---
+layout: post
+title: Paid
+tags:
+- Code Snippet
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ''
+  _edit_last: '1'
+  aktt_tweeted: '1'
+  bfa_ata_display_body_title: ''
+  bfa_ata_body_title: Paid
+  bfa_ata_body_title_multi: Paid
+  bfa_ata_meta_title: ''
+  bfa_ata_meta_keywords: ''
+  bfa_ata_meta_description: ''
+  _wp_old_slug: pai
+  _sexybookmarks_permaHash: 368fc4351fa0164db61239f00eecbe78
+  _sexybookmarks_shortUrl: http://bit.ly/ctotwK
+---
+<blockquote>If you're going to be crazy, you have to get paid for it or else you're going to be locked up.
+- Hunter S. Thompson</blockquote>
+[ccnLe_php]
+
+$comment_status = $commentdata['comment_approved'];
+
+include('edit-form-comment.php');
+
+break;
+
+case 'confirmdeletecomment':
+
+require_once('./admin-header.php');
+
+$comment = $_GET['comment'];
+
+$p = (int) $_GET['p'];
+
+$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. &lt;a href="%s"&gt;Go back&lt;/a&gt;!'), 'edit.php'));
+
+if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_ID'])) {
+
+die( __('You are not allowed to delete comments on this post.') );
+
+}
+
+echo "&lt;div class=\"wrap\"&gt;\n";
+
+echo "&lt;p&gt;" . __('&lt;strong&gt;Caution:&lt;/strong&gt; You are about to delete the following comment:') . "&lt;/p&gt;\n";
+
+echo "&lt;table border=\"0\"&gt;\n";
+
+echo "&lt;tr&gt;&lt;td&gt;" . __('Author:') . "&lt;/td&gt;&lt;td&gt;" . $commentdata["comment_author"] . "&lt;/td&gt;&lt;/tr&gt;\n";
+
+echo "&lt;tr&gt;&lt;td&gt;" . __('E-mail:') . "&lt;/td&gt;&lt;td&gt;" . $commentdata["comment_author_email"] . "&lt;/td&gt;&lt;/tr&gt;\n";
+
+echo "&lt;tr&gt;&lt;td&gt;". __('URL:') . "&lt;/td&gt;&lt;td&gt;" . $commentdata["comment_author_url"] . "&lt;/td&gt;&lt;/tr&gt;\n";
+
+echo "&lt;tr&gt;&lt;td&gt;". __('Comment:') . "&lt;/td&gt;&lt;td&gt;" . stripslashes($commentdata["comment_content"]) . "&lt;/td&gt;&lt;/tr&gt;\n";
+
+echo "&lt;/table&gt;\n";
+
+echo "&lt;p&gt;" . __('Are you sure you want to do that?') . "&lt;/p&gt;\n";
+
+echo "&lt;form action='".get_settings('siteurl')."/wp-admin/post.php' method='get'&gt;\n";
+
+echo "&lt;input type=\"hidden\" name=\"action\" value=\"deletecomment\" /&gt;\n";
+
+echo "&lt;input type=\"hidden\" name=\"p\" value=\"$p\" /&gt;\n";
+
+echo "&lt;input type=\"hidden\" name=\"comment\" value=\"$comment\" /&gt;\n";
+
+echo "&lt;input type=\"hidden\" name=\"noredir\" value=\"1\" /&gt;\n";
+
+echo "&lt;input type=\"submit\" value=\"" . __('Yes') . "\" /&gt;";
+
+echo "&amp;nbsp;&amp;nbsp;";
+
+echo "&lt;input type=\"button\" value=\"" . __('No') . "\" onclick=\"self.location='". get_settings('siteurl') ."/wp-admin/edit.php?p=$p&amp;amp;c=1#comments';\" /&gt;\n";
+
+echo "&lt;/form&gt;\n";
+
+echo "&lt;/div&gt;\n";
+
+break;
+
+case 'deletecomment':
+
+[/ccnLe_php] 

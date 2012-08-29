@@ -1,0 +1,173 @@
+---
+layout: post
+title: Haircut
+tags:
+- All
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  _aktt_hash_meta: ! '#secure #code #dev'
+  aktt_notify_twitter: 'yes'
+  _edit_last: '2'
+  aktt_tweeted: '1'
+  _sexybookmarks_shortUrl: http://bit.ly/h5WHzu
+  _sexybookmarks_permaHash: 4cc4d7719229313eef6f2397d02cae18
+---
+<blockquote><strong>I don't advise a hair cut man. All hairdressers are in the employment of the government. Hair are your aerials. They pick up signals from the cosmos and transmit them directly into the brain. This is the reason bald-headed men are uptight.</strong> <br><strong> - Bruce Robinson
+</strong></blockquote>
+<pre lang="php"><?php
+	$easingArray = array(swing,easeInQuad,easeOutQuad,easeInOutQuad,easeInCubic,easeOutCubic,easeInOutCubic,easeInQuart,easeOutQuart,easeInOutQuart,easeInQuint,easeOutQuint,easeInOutQuint,easeInSine,easeOutSine,easeInOutSine,easeInExpo,easeOutExpo,easeInOutExpo,easeInCirc,easeOutCirc,easeInOutCirc,easeInElastic,easeOutElastic,easeInOutElastic,easeInBack,easeOutBack,easeInOutBack,easeInBounce,easeOutBounce,easeInOutBounce);
+	$overlayOpacity = array(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1);
+	$msArray = array(1,100,200,300,400,500,600,700,800,900,1000);
+	$captions = array('a-title','img-alt','img-title','href','None');
+?>
+<div class="wrap">
+	<form method="post" action="<?php echo $_SERVER['PHP_SELF']?>?page=slimbox2options" id="options"><?php	echo wp_nonce_field('update-options','wp_slimbox_wpnonce'); ?><h2><?php _e('WP Slimbox2 Plugin', 'wp-slimbox2'); ?></h2>
+<?php
+	if(isset($_POST['action']) && wp_verify_nonce($_POST['wp_slimbox_wpnonce'], 'update-options')) {
+		$options->update_option(
+			array(
+				'autoload'   => $_POST['wp_slimbox_autoload'],
+				'loop' => $_POST['wp_slimbox_loop'],
+				'overlayOpacity'   => $_POST['wp_slimbox_overlayOpacity'],
+				'overlayColor' => $_POST['wp_slimbox_overlayColor'],
+				'overlayFadeDuration'   => $_POST['wp_slimbox_overlayFadeDuration'],
+				'resizeDuration' => $_POST['wp_slimbox_resizeDuration'],
+				'resizeEasing'   => $_POST['wp_slimbox_resizeEasing'],
+				'initialWidth' => $_POST['wp_slimbox_initialWidth'],
+				'initialHeight'   => $_POST['wp_slimbox_initialHeight'],
+				'imageFadeDuration' => $_POST['wp_slimbox_imageFadeDuration'],
+				'captionAnimationDuration'   => $_POST['wp_slimbox_captionAnimationDuration'],
+				'caption' => array($_POST['wp_slimbox_caption1'],$_POST['wp_slimbox_caption2'],$_POST['wp_slimbox_caption3'],$_POST['wp_slimbox_caption4']),
+				'url' => $_POST['wp_slimbox_url'],
+				'selector' => $_POST['wp_slimbox_selector'],
+				'counterText' => $_POST['wp_slimbox_counterText'],
+				'closeKeys'   => $_POST['wp_slimbox_closeKeys'],
+				'previousKeys' => $_POST['wp_slimbox_previousKeys'],
+				'nextKeys'   =>  $_POST['wp_slimbox_nextKeys'],
+				'picasaweb' => $_POST['wp_slimbox_picasaweb'],
+				'flickr'   => $_POST['wp_slimbox_flickr'],
+				'mobile' => $_POST['wp_slimbox_mobile'],
+				'maintenance' => $_POST['wp_slimbox_maintenance'],
+				'cache'   => $_POST['wp_slimbox_cache']
+			)
+		);
+		echo '<div id="message" class="updated fade"><p><strong>'.__('Settings Saved', 'wp-slimbox2').'.</strong></p></div>';
+	}
+	$caption = $options->get_option('caption');
+	
+	function selectionGen(&$option,&$array) {
+		foreach($array as $key=> $ms) {
+			$selected = ($option != $ms)? '' : ' selected';
+			echo "<option value='$ms'$selected>".(($ms=='1'&&$array[0]!='0')?__('Disabled', 'wp-slimbox2'):$ms)."</option>\n";
+		}
+	}
+?>
+	<div style="clear:both;padding-top:5px;"></div>
+		<h2><?php _e('Settings', 'wp-slimbox2');?></h2>
+		<table class="widefat" cellspacing="0" id="inactive-plugins-table">
+			<thead>
+			<tr>
+				<th scope="col" colspan="2"><?php _e('Setting', 'wp-slimbox2'); ?></th>
+				<th scope="col"><?php _e('Description', 'wp-slimbox2'); ?></th>
+			</tr>
+			</thead>
+
+			<tfoot>
+			<tr>
+				<th scope="col" colspan="3"><?php _e('Use the various options above to control some of the advanced settings of the plugin', 'wp-slimbox2'); ?></th>
+			</tr>
+			</tfoot>
+
+			<tbody class="plugins">
+
+			<tr class='inactive'>
+				<td class='name'><?php _e('Autoload?', 'wp-slimbox2'); ?></td>
+				<th scope='row' class='check-column'>
+					<input type="checkbox" name="wp_slimbox_autoload"<?php if ($options->get_option('autoload') == 'on') echo ' checked="yes"';?> />
+				</th>
+				<td class='desc'>
+					<p> <?php _e('This option allows the user to automatically activate Slimbox on all links pointing to ".jpg", ".jpeg", ".png", ".bmp" or ".gif". All image links will automatically be grouped together in a gallery according to the selector chosen below. If this isn\'t activated you will need to manually add <b><code>rel="lightbox"</code></b> for individual images or <b><code>rel="lightbox-imagesetname"</code></b> for groups on all links you wish to use the Slimbox effect. <b>Default is Disabled.</b>', 'wp-slimbox2'); ?>
+					</p>
+				</td>
+			</tr>
+			<tr class='inactive'>
+				<td class='name'><?php _e('Enable Picasaweb Integration?', 'wp-slimbox2'); ?></td>
+				<th scope='row' class='check-column'>
+					<input type="checkbox" name="wp_slimbox_picasaweb"<?php if ($options->get_option('picasaweb') == 'on') echo ' checked="yes"';?> />
+				</th>
+				<td class='desc'>
+					<p> <?php _e('This option allows the user to automatically add the Slimbox effect to Picasaweb links when provided an appropriate url (this is separate from the autoload script which only functions on direct image links). <b>Default is Disabled.</b>', 'wp-slimbox2'); ?>
+					</p>
+				</td>
+			</tr>
+			<tr class='inactive'>
+				<td class='name'><?php _e('Enable Flickr Integration?', 'wp-slimbox2'); ?></td>
+				<th scope='row' class='check-column'>
+					<input type="checkbox" name="wp_slimbox_flickr"<?php if ($options->get_option('flickr') == 'on') echo ' checked="yes"';?> />
+				</th>
+				<td class='desc'>
+					<p> <?php _e('This option allows the user to automatically add the Slimbox effect to Flickr links when provided an appropriate url (this is separate from the autoload script which only functions on direct image links). <b>Default is Disabled.</b>', 'wp-slimbox2'); ?>
+					</p>
+				</td>
+			</tr>
+			<tr class='inactive'>
+				<td class='name'><?php _e('Loop?', 'wp-slimbox2'); ?></td>
+				<th scope='row' class='check-column'>
+					<input type="checkbox" name="wp_slimbox_loop"<?php if ($options->get_option('loop') == 'on') echo ' checked="yes"';?> />
+				</th>
+				<td class='desc'>
+					<p> <?php _e('This option allows the user to navigate between the first and last images of a Slimbox gallery group when there is more than one image to display. <b>Default is Disabled.</b>', 'wp-slimbox2'); ?>
+					</p>
+				</td>
+			</tr>
+			<tr class='inactive'>
+				<td class='name'><?php _e('Overlay Opacity', 'wp-slimbox2'); ?></td>
+				<th scope='row' class='check-column'>
+					<select name="wp_slimbox_overlayOpacity">
+					<?php selectionGen($options->get_option('overlayOpacity'),$overlayOpacity); ?>
+					</select>
+				</th>
+				<td class='desc'>
+					<p> <?php _e('This option allows the user to adjust the opacity of the background overlay. 1 is completely opaque, 0 is completely transparent. <b>Default is 0.8.</b>', 'wp-slimbox2'); ?>
+					</p>
+				</td>
+			</tr>
+			<tr class='inactive'>
+				<td class='name'><?php _e('Overlay Color', 'wp-slimbox2'); ?></td>
+				<th scope='row' class='check-column'>
+					<input type="text" id="wp_slimbox_overlayColor" name="wp_slimbox_overlayColor" value="<?php echo $options->get_option('overlayColor'); ?>" size="7" maxlength="7"/><div id="picker"></div>
+
+				</th>
+				<td class='desc'>
+					<p> <?php _e('This option allows the user to set the color of the overlay by selecting your hue from the circle and color gradient from the square. Alternatively you may manually enter a valid HTML color code. The color of the entry field will change to reflect your selected color. <b>Default is #000000.</b>', 'wp-slimbox2'); ?>
+					</p>
+				</td>
+			</tr>
+			<tr class='inactive'>
+				<td class='name'><?php _e('Overlay Fade Duration', 'wp-slimbox2'); ?></td>
+				<th scope='row' class='check-column'>
+					<select name="wp_slimbox_overlayFadeDuration">
+					<?php selectionGen($options->get_option('overlayFadeDuration'),$msArray); ?>
+					</select>
+				</th>
+				<td class='desc'>
+					<p> <?php _e('This option allows the user to adjust the duration of the overlay fade-in and fade-out animations, in milliseconds. <b>Default is 400.</b>', 'wp-slimbox2'); ?>
+					</p>
+				</td>
+			</tr>
+			<tr class='inactive'>
+				<td class='name'><?php _e('Resize Duration', 'wp-slimbox2'); ?></td>
+				<th scope='row' class='check-column'>
+					<select name="wp_slimbox_resizeDuration">
+					<?php selectionGen($options->get_option('resizeDuration'),$msArray); ?>
+					</select>
+				</th>
+				<td class='desc'>
+					<p> <?php _e('This option allows the user to adjust the duration of the resize animation for width and height, in milliseconds. <b>Default is 400.</b>', 'wp-slimbox2'); ?>
+					</p>
+				</td>
+			</tr>
+</pre>

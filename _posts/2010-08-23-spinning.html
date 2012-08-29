@@ -1,0 +1,94 @@
+---
+layout: post
+title: Spinning
+tags:
+- ActionScript
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ! '#secure_code #development'
+  _edit_last: '1'
+  aktt_tweeted: '1'
+  _sexybookmarks_shortUrl: http://bit.ly/90jlUs
+  _sexybookmarks_permaHash: 229a57c7362af51cc3df20deff7ca8f8
+---
+<blockquote><strong>My advice is keep your lips away from the spinning things</strong><strong>.</strong>
+<strong> -Adam Savage
+</strong></blockquote>
+[ccnLe_actionscript3]
+public class FLVideo extends Sprite {
+private var videoUrl:String;
+private var video:Video;
+private var connection:NetConnection;
+private var autoPlay:Boolean;
+private var videoStream:NetStream;
+private var videoWidth:Number;
+private var videoHeight:Number;
+private var _currentVideo:VideoContainer;
+private var preview:VideoContainer;
+private var currentVolume:Number = 1;
+private var isFullscreen:Boolean = false;
+private var playlist:VideoPlaylist;
+private var hasPlaylist:Boolean = false;
+private var mode:String = "preview";
+
+public function FLVideo() {
+Security.allowDomain("*");
+stage.scaleMode = StageScaleMode.NO_SCALE;
+stage.align = StageAlign.TOP_LEFT;
+stage.addEventListener(Event.RESIZE, onStageResize);
+stage.addEventListener(FullScreenEvent.FULL_SCREEN , onFullscreenChange);
+stage.addEventListener(MouseEvent.CLICK, onClick);
+
+var obj:Object = LoaderInfo(this.root.loaderInfo).parameters;
+trace(obj)
+
+if(!obj.videoUrl){
+obj = {
+autoPlay: true,
+isDebug: true,
+videoUrl:"demo_video.flv"
+};
+}
+
+
+// ugh - booleans not coming through
+if(obj.autoPlay===true || obj.autoPlay=="true"){
+autoPlay = true;
+}
+
+if(obj.volume) {
+currentVolume = obj.volume;
+}
+
+if(obj.isDebug===true || obj.isDebug=="true"){
+console.isDebug(true);
+Tracer.init({both:true})
+Tracer.log("FLVideo initialized...")
+}
+
+MovieIdentity.identity = obj.id || "default";
+this.playlist = new VideoPlaylist(autoPlay, currentVolume);
+
+if(obj.videoUrl) {
+videoUrl = obj.videoUrl;
+}
+
+preview = new VideoContainer(videoUrl, autoPlay, currentVolume);
+addChild(preview);
+provideCallbacks();
+}
+
+
+public function get currentVideo():VideoContainer{
+
+if(mode=="playlist" &amp;&amp; hasPlaylist){
+return this.playlist.current;
+}else{
+return preview;
+}
+}
+[/ccnLe_actionscript3] 

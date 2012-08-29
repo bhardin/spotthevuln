@@ -1,0 +1,298 @@
+---
+layout: post
+title: Beer - XSS
+tags:
+- All
+- attacker
+- attribute
+- bugs
+- cross site scripting
+- Cross-Site Scripting (XSS)
+- html tag
+- input field
+- Java
+- markup
+- Openfire
+- Solution
+- strip_tags
+- vulnerabilities
+- vulnerability
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+  _syntaxhighlighter_encoded: '1'
+  _aktt_hash_meta: ! '#secure #code #dev'
+  aktt_notify_twitter: 'yes'
+  aktt_tweeted: '1'
+  _sexybookmarks_shortUrl: http://bit.ly/axjOtf
+  _sexybookmarks_permaHash: ab8886ef656695503eb79a40c0b400c0
+---
+<h2>Details</h2>
+Affected Software: OpenFire
+
+Fixed in Version: 3.7.0b
+
+Issue Type: XSS
+
+Original Code: <a title="Beer" href="http://spotthevuln.com/2010/10/beer/" target="_blank">Found    Here</a>
+<h2>Description</h2>
+This week’s bug was an XSS vulnerability caused by the improper escaping of an HTML attribute.  It’s obvious that the developers attempted to protect their software from XSS vulnerabilities.  They even wrote their own XSS sanitizing method (escapeHTMLTags).  The escapeHTMLTags() method is simple, strip out &lt; and &gt; characters and return the string.  Unfortunately, this simple pattern isn’t sufficient in defending against all XSS vulnerabilities.  There is a bit of tracing that is required to understand this bug, so let’s start the tracing.  The bug begins with the following variable assignment:
+<blockquote>String username = ParamUtils.getParameter(request, "username");</blockquote>
+The username value is assigned directly from the HTTP request.  Later, the username variable is escaped using the custom escapeHTMLTags() function.  The escaping occurs in the following line:
+<blockquote>username = org.jivesoftware.util.StringUtils.escapeHTMLTags(username);</blockquote>
+Later in the code, the escaped username value is used in the markup as part of an HTML attribute.  The vulnerable line is presented below:
+<blockquote>&lt;input size="15" maxlength="50" value="&lt;%= (username != null ? username : "") %&gt;"&gt;</blockquote>
+The line above checks to see if the username variable has been assigned a value.  If the username variable contains a value, it is displayed in the markup as the value attribute for an input field.  While sanitizing the &lt; and &gt; characters would prevent an attacker closing the input field and starting a new html tag, it doesn’t prevent an attacker from closing off the attribute value and injecting a new HTML attribute for the input field.  Some consider injection into a input field to be unexploitable (or limited to certain browsers), check out Gareth Heyes blog post about exploiting text fields with new HTML5 events <a href="http://www.thespanner.co.uk/2009/12/06/html5-new-xss-vectors/">http://www.thespanner.co.uk/2009/12/06/html5-new-xss-vectors/</a>
+<h2>Developers Solution</h2>
+[sourcecode language="diff"]
+    /**
+     * This method takes a string which may contain HTML tags (ie, &amp;lt;b&amp;gt;,
+     * &amp;lt;table&amp;gt;, etc) and converts the '&amp;lt'' and '&amp;gt;' characters to
+     * their HTML escape sequences. It will also replace LF  with &amp;lt;br&amp;gt;.
+     *
+     * @param in the text to be converted.
+     * @return the input string with the characters '&amp;lt;' and '&amp;gt;' replaced
+     *         with their HTML escape sequences.
+     */
+    public static String escapeHTMLTags(String in) {
+        if (in == null) {
+            return null;
+        }
+        char ch;
+        int i = 0;
+        int last = 0;
+        char[] input = in.toCharArray();
+        int len = input.length;
+        StringBuilder out = new StringBuilder((int)(len * 1.3));
+        for (; i &lt; len; i++) {
+            ch = input[i];
+            if (ch &gt; '&gt;') {
+            }
+            else if (ch == '&lt;') {
+                if (i &gt; last) {
+                    out.append(input, last, i - last);
+                }
+                last = i + 1;
+                out.append(LT_ENCODE);
+            }
+            else if (ch == '&gt;') {
+                if (i &gt; last) {
+                    out.append(input, last, i - last);
+                }
+                last = i + 1;
+                out.append(GT_ENCODE);
+            }
+            else if (ch == '\n') {
+                if (i &gt; last) {
+                    out.append(input, last, i - last);
+                }
+                last = i + 1;
+                out.append(&quot;&lt;br&gt;&quot;);
+            }
+        }
+        if (last == 0) {
+            return in;
+        }
+        if (i &gt; last) {
+            out.append(input, last, i - last);
+        }
+        return out.toString();
+    }
+
+... &lt;snip&gt; ...
+
+&lt;% // get parameters
+    String username = ParamUtils.getParameter(request, &quot;username&quot;);
+
+    String password = ParamUtils.getParameter(request, &quot;password&quot;);
+    String url = ParamUtils.getParameter(request, &quot;url&quot;);
+    url = org.jivesoftware.util.StringUtils.escapeHTMLTags(url);
+
+    // SSO between cluster nodes
+    String secret = ParamUtils.getParameter(request, &quot;secret&quot;);
+    String nodeID = ParamUtils.getParameter(request, &quot;nodeID&quot;);
+    String nonce = ParamUtils.getParameter(request, &quot;nonce&quot;);
+
+    // The user auth token:
+    AuthToken authToken = null;
+
+    // Check the request/response for a login token
+
+    Map&lt;String, String&gt; errors = new HashMap&lt;String, String&gt;();
+
+    if (ParamUtils.getBooleanParameter(request, &quot;login&quot;)) {
+        String loginUsername = username;
+        if (loginUsername != null) {
+            loginUsername = JID.escapeNode(loginUsername);
+        }
+        try {
+            if (secret != null &amp;&amp; nodeID != null) {
+                if (StringUtils.hash(AdminConsolePlugin.secret).equals(secret) &amp;&amp; ClusterManager.isClusterMember(Base64.decode(nodeID, Base64.URL_SAFE))) {
+                    authToken = new AuthToken(loginUsername);
+                }
+                else if (&quot;clearspace&quot;.equals(nodeID) &amp;&amp; ClearspaceManager.isEnabled()) {
+                    ClearspaceManager csmanager = ClearspaceManager.getInstance();
+                    String sharedSecret = csmanager.getSharedSecret();
+                    if (nonce == null || sharedSecret == null || !csmanager.isValidNonce(nonce) ||
+                            !StringUtils.hash(loginUsername + &quot;:&quot; + sharedSecret + &quot;:&quot; + nonce).equals(secret)) {
+                        throw new UnauthorizedException(&quot;SSO failed. Invalid secret was provided&quot;);
+                    }
+                    authToken = new AuthToken(loginUsername);
+                }
+                else {
+                    throw new UnauthorizedException(&quot;SSO failed. Invalid secret or node ID was provided&quot;);
+                }
+            }
+            else {
+                // Check that a username was provided before trying to verify credentials
+                if (loginUsername != null) {
+                    if (LoginLimitManager.getInstance().hasHitConnectionLimit(loginUsername, request.getRemoteAddr())) {
+                        throw new UnauthorizedException(&quot;User '&quot; + loginUsername +&quot;' or address '&quot; + request.getRemoteAddr() + &quot;' has his login attempt limit.&quot;);
+                    }
+                    if (!AdminManager.getInstance().isUserAdmin(loginUsername, true)) {
+                        throw new UnauthorizedException(&quot;User '&quot; + loginUsername + &quot;' not allowed to login.&quot;);
+                    }
+                    authToken = AuthFactory.authenticate(loginUsername, password);
+                }
+                else {
+                    errors.put(&quot;unauthorized&quot;, LocaleUtils.getLocalizedString(&quot;login.failed.unauthorized&quot;));
+                }
+            }
+
+... &lt;snip&gt; ...
+
+    // Escape HTML tags in username to prevent cross-site scripting attacks. This
+    // is necessary because we display the username in the page below.
+    username = org.jivesoftware.util.StringUtils.escapeHTMLTags(username);
+
+%&gt;
+
+&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+	&lt;title&gt;&lt;%= AdminConsole.getAppName() %&gt; &lt;fmt:message key=&quot;login.title&quot; /&gt;&lt;/title&gt;
+	&lt;script language=&quot;JavaScript&quot; type=&quot;text/javascript&quot;&gt;
+		&lt;!--
+		// break out of frames
+		if (self.parent.frames.length != 0) {
+			self.parent.location=document.location;
+		}
+        function updateFields(el) {
+            if (el.checked) {
+                document.loginForm.username.disabled = true;
+                document.loginForm.password.disabled = true;
+            }
+            else {
+                document.loginForm.username.disabled = false;
+                document.loginForm.password.disabled = false;
+                document.loginForm.username.focus();
+            }
+        }
+		//--&gt;
+	&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style/global.css&quot; type=&quot;text/css&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style/login.css&quot; type=&quot;text/css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;form action=&quot;login.jsp&quot; name=&quot;loginForm&quot; method=&quot;post&quot;&gt;
+
+&lt;%  if (url != null) { try { %&gt;
+
+    &lt;input type=&quot;hidden&quot; name=&quot;url&quot; value=&quot;&lt;%= url %&gt;&quot;&gt;
+
+&lt;%  } catch (Exception e) { Log.error(e); } } %&gt;
+
+&lt;input type=&quot;hidden&quot; name=&quot;login&quot; value=&quot;true&quot;&gt;
+
+&lt;div align=&quot;center&quot;&gt;
+    &lt;!-- BEGIN login box --&gt;
+    &lt;div id=&quot;jive-loginBox&quot;&gt;
+
+        &lt;div align=&quot;center&quot; id=&quot;jive-loginTable&quot;&gt;
+
+            &lt;span id=&quot;jive-login-header&quot; style=&quot;background: transparent url(images/login_logo.gif) no-repeat left; padding: 29px 0 10px 205px;&quot;&gt;
+            &lt;fmt:message key=&quot;admin.console&quot; /&gt;
+            &lt;/span&gt;
+
+            &lt;div style=&quot;text-align: center; width: 380px;&quot;&gt;
+            &lt;table cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; border=&quot;0&quot; align=&quot;center&quot;&gt;
+                &lt;tr&gt;
+                    &lt;td align=&quot;right&quot; class=&quot;loginFormTable&quot;&gt;
+
+                        &lt;table cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; border=&quot;0&quot;&gt;
+                        &lt;noscript&gt;
+                            &lt;tr&gt;
+                                &lt;td colspan=&quot;3&quot;&gt;
+                                    &lt;table cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; border=&quot;0&quot;&gt;
+                                    &lt;tr valign=&quot;top&quot;&gt;
+                                        &lt;td&gt;&lt;img src=&quot;images/error-16x16.gif&quot; width=&quot;16&quot; height=&quot;16&quot; border=&quot;0&quot; alt=&quot;&quot; vspace=&quot;2&quot;&gt;&lt;/td&gt;
+                                        &lt;td&gt;&lt;div class=&quot;jive-error-text&quot; style=&quot;padding-left:5px; color:#cc0000;&quot;&gt;&lt;fmt:message key=&quot;login.error&quot; /&gt;&lt;/div&gt;&lt;/td&gt;
+                                    &lt;/tr&gt;
+                                    &lt;/table&gt;
+                                &lt;/td&gt;
+                            &lt;/tr&gt;
+                        &lt;/noscript&gt;
+                        &lt;%  if (errors.size() &gt; 0) { %&gt;
+                            &lt;tr&gt;
+                                &lt;td colspan=&quot;3&quot;&gt;
+                                    &lt;table cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; border=&quot;0&quot;&gt;
+                                        &lt;% for (String error:errors.values()) { %&gt;
+                                    &lt;tr valign=&quot;top&quot;&gt;
+                                        &lt;td&gt;&lt;img src=&quot;images/error-16x16.gif&quot; width=&quot;16&quot; height=&quot;16&quot; border=&quot;0&quot; alt=&quot;&quot; vspace=&quot;2&quot;&gt;&lt;/td&gt;
+                                        &lt;td&gt;&lt;div class=&quot;jive-error-text&quot; style=&quot;padding-left:5px; color:#cc0000;&quot;&gt;&lt;%= error%&gt;&lt;/div&gt;&lt;/td&gt;
+                                    &lt;/tr&gt;
+                                        &lt;% } %&gt;
+                                    &lt;/table&gt;
+                                &lt;/td&gt;
+                            &lt;/tr&gt;
+                        &lt;%  } %&gt;
+                        &lt;tr&gt;
++                           &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;username&quot; size=&quot;15&quot; maxlength=&quot;50&quot; id=&quot;u01&quot; value=&quot;&lt;%= (username != null ? StringUtils.removeXSSCharacters(username) : &quot;&quot;) %&gt;&quot;&gt;&lt;/td&gt;
+-                           &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;username&quot; size=&quot;15&quot; maxlength=&quot;50&quot; id=&quot;u01&quot; value=&quot;&lt;%= (username != null ? username : &quot;&quot;) %&gt;&quot;&gt;&lt;/td&gt;
+                            &lt;td&gt;&lt;input type=&quot;password&quot; name=&quot;password&quot; size=&quot;15&quot; maxlength=&quot;50&quot; id=&quot;p01&quot;&gt;&lt;/td&gt;
+                            &lt;td align=&quot;center&quot;&gt;&lt;input type=&quot;submit&quot; value=&quot;&amp;nbsp; &lt;fmt:message key=&quot;login.login&quot; /&gt; &amp;nbsp;&quot;&gt;&lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr valign=&quot;top&quot;&gt;
+                            &lt;td class=&quot;jive-login-label&quot;&gt;&lt;label for=&quot;u01&quot;&gt;&lt;fmt:message key=&quot;login.username&quot; /&gt;&lt;/label&gt;&lt;/td&gt;
+                            &lt;td class=&quot;jive-login-label&quot;&gt;&lt;label for=&quot;p01&quot;&gt;&lt;fmt:message key=&quot;login.password&quot; /&gt;&lt;/label&gt;&lt;/td&gt;
+                            &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;/table&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td align=&quot;right&quot;&gt;
+                        &lt;div align=&quot;right&quot; id=&quot;jive-loginVersion&quot;&gt;
+                        &lt;%= AdminConsole.getAppName() %&gt;, &lt;fmt:message key=&quot;login.version&quot; /&gt;: &lt;%= AdminConsole.getVersionString() %&gt;
+                        &lt;/div&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/table&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+    &lt;/div&gt;
+    &lt;!-- END login box --&gt;
+&lt;/div&gt;
+
+&lt;/form&gt;
+
+&lt;script language=&quot;JavaScript&quot; type=&quot;text/javascript&quot;&gt;
+&lt;!--
+    if (document.loginForm.username.value == '')  {
+	    document.loginForm.username.focus();
+    } else {
+        document.loginForm.password.focus();
+    }
+//--&gt;
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+
+[/sourcecode] 

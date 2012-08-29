@@ -1,0 +1,60 @@
+---
+layout: post
+title: Madman
+tags:
+- Code Snippet
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _sexybookmarks_permaHash: 29be87a1feaef1291272666486da4499
+  _sexybookmarks_shortUrl: http://bit.ly/d8VU9d
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ''
+  _edit_last: '1'
+  _headspace_page_title: Vulnerable Source Code - PHP
+  aktt_tweeted: '1'
+  _headspace_description: Can you spot the vulnerability in this piece of PHP code?
+  bfa_ata_body_title: Madman
+  bfa_ata_display_body_title: ''
+  bfa_ata_body_title_multi: Madman
+  bfa_ata_meta_title: ''
+  bfa_ata_meta_keywords: ''
+  bfa_ata_meta_description: ''
+---
+<blockquote><span>The only difference between me and a madman is that I am not mad.</span>
+
+- <span>Salvador Dali</span></blockquote>
+[ccnLe_php]
+
+// Set flag that this is a parent file
+define( '_VALID_MOS', 1 );
+
+if (!file_exists( '../configuration.php' )) {
+header( 'Location: ../installation/index.php' );
+exit();
+}
+
+require( '../globals.php' );
+require_once( '../configuration.php' );
+
+// SSL check - $http_host returns &lt;live site url&gt;:&lt;port number if it is 443&gt;
+$http_host = explode(':', $_SERVER['HTTP_HOST'] );
+if( (!empty( $_SERVER['HTTPS'] ) &amp;&amp; strtolower( $_SERVER['HTTPS'] ) != 'off' || isset( $http_host[1] ) &amp;&amp; $http_host[1] == 443) &amp;&amp; substr( $mosConfig_live_site, 0, 8 ) != 'https://' ) {
+$mosConfig_live_site = 'https://'.substr( $mosConfig_live_site, 7 );
+}
+
+require_once( '../includes/joomla.php' );
+include_once ( $mosConfig_absolute_path . '/language/'. $mosConfig_lang .'.php' );
+
+//Installation sub folder check, removed for work with SVN
+if (file_exists( '../installation/index.php' ) &amp;&amp; $_VERSION-&gt;SVN == 0) {
+define( '_INSTALL_CHECK', 1 );
+include ($mosConfig_absolute_path .'/offline.php');
+exit();
+}
+
+$option = strtolower( strval( mosGetParam( $_REQUEST, 'option', NULL ) ) );
+
+[/ccnLe_php] 

@@ -1,0 +1,89 @@
+---
+layout: post
+title: Errors
+tags:
+- All
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  _aktt_hash_meta: ! '#secure #code #dev'
+  aktt_notify_twitter: 'yes'
+  _edit_last: '2'
+  aktt_tweeted: '1'
+  _sexybookmarks_shortUrl: http://bit.ly/cyu0Yv
+  _sexybookmarks_permaHash: dffd115a82ab7269ffda2ffff9d06698
+---
+<blockquote><strong>Errors using inadequate data are much less than those using no data at all</strong><strong>.</strong>
+<strong> -Charles Babbage
+</strong></blockquote>
+[ccnLe_php]
+&lt;?php
+if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comply']))
+{
+if (isset($_POST['prune_comply']))
+{
+confirm_referrer('admin_prune.php');
+
+$prune_from = $_POST['prune_from'];
+$prune_days = intval($_POST['prune_days']);
+$prune_date = ($prune_days) ? time() - ($prune_days*86400) : -1;
+
+@set_time_limit(0);
+
+if ($prune_from == 'all')
+{
+$result = $db-&gt;query('SELECT id FROM '.$db-&gt;prefix.'forums') or error('Unable to fetch forum list', __FILE__, __LINE__, $db-&gt;error());
+$num_forums = $db-&gt;num_rows($result);
+
+for ($i = 0; $i &lt; $num_forums; ++$i)
+{
+$fid = $db-&gt;result($result, $i);
+
+prune($fid, $_POST['prune_sticky'], $prune_date);
+update_forum($fid);
+}
+}
+else
+{
+$prune_from = intval($prune_from);
+prune($prune_from, $_POST['prune_sticky'], $prune_date);
+update_forum($prune_from);
+}
+
+// Locate any "orphaned redirect topics" and delete them
+$result = $db-&gt;query('SELECT t1.id FROM '.$db-&gt;prefix.'topics AS t1 LEFT JOIN '.$db-&gt;prefix.'topics AS t2 ON t1.moved_to=t2.id WHERE t2.id IS NULL AND t1.moved_to IS NOT NULL') or error('Unable to fetch redirect topics', __FILE__, __LINE__, $db-&gt;error());
+$num_orphans = $db-&gt;num_rows($result);
+
+if ($num_orphans)
+{
+for ($i = 0; $i &lt; $num_orphans; ++$i)
+$orphans[] = $db-&gt;result($result, $i);
+
+$db-&gt;query('DELETE FROM '.$db-&gt;prefix.'topics WHERE id IN('.implode(',', $orphans).')') or error('Unable to delete redirect topics', __FILE__, __LINE__, $db-&gt;error());
+}
+
+redirect('admin_prune.php', 'Posts pruned. Redirecting &amp;hellip;');
+}
+?&gt;
+...&lt;snip&gt;...
+
+&lt;div&gt;
+&lt;h2&gt;&lt;span&gt;Prune&lt;/span&gt;&lt;/h2&gt;
+&lt;div&gt;
+&lt;form method="post" action="admin_prune.php?action=foo"&gt;
+&lt;div&gt;
+&lt;input type="hidden" name="prune_days" value="&lt;?php echo $prune_days ?&gt;" /&gt;
+&lt;input type="hidden" name="prune_sticky" value="&lt;?php echo $_POST['prune_sticky'] ?&gt;" /&gt;
+&lt;input type="hidden" name="prune_from" value="&lt;?php echo $prune_from ?&gt;" /&gt;
+&lt;fieldset&gt;
+&lt;legend&gt;Confirm prune posts&lt;/legend&gt;
+&lt;div&gt;
+&lt;p&gt;Are you sure that you want to prune all topics older than &lt;?php echo $prune_days ?&gt; days from &lt;?php echo $forum ?&gt;? (&lt;?php echo $num_topics ?&gt; topics)&lt;/p&gt;
+&lt;p&gt;WARNING! Pruning posts deletes them permanently.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/fieldset&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;input type="submit" name="prune_comply" value="Prune" /&gt;&lt;a href="javascript:history.go(-1)"&gt;Go back&lt;/a&gt;&lt;/p&gt;
+[/ccnLe_php] 

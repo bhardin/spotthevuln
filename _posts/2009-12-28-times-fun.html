@@ -1,0 +1,138 @@
+---
+layout: post
+title: Time's Fun
+tags:
+- Code Snippet
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ! '#code #development'
+  _edit_last: '1'
+  aktt_tweeted: '1'
+  bfa_ata_body_title: Time's Fun
+  bfa_ata_display_body_title: ''
+  bfa_ata_body_title_multi: Time's Fun
+  bfa_ata_meta_title: ''
+  bfa_ata_meta_keywords: ''
+  bfa_ata_meta_description: ''
+  _sexybookmarks_shortUrl: http://bit.ly/68DClQ
+  _sexybookmarks_permaHash: 03adb8bfe5eae105a28c608691a4ca87
+---
+<blockquote>Time's fun when you're having fun.
+
+- Kermit the Frog</blockquote>
+[ccnLe_php]
+
+var $xssAuto; // default = 1
+var $tagBlacklist = array ('applet', 'body', 'bgsound', 'base', 'basefont', 'embed', 'frame', 'frameset', 'head', 'html', 'id', 'iframe', 'ilayer', 'layer', 'link', 'meta', 'name', 'object', 'script', 'style', 'title', 'xml');
+var $attrBlacklist = array ('action', 'background', 'codebase', 'dynsrc', 'lowsrc'); // also will strip ALL event handlers
+
+...
+
+/**
+* Internal method to strip a tag of certain attributes
+*
+* @access    protected
+* @param    array    $attrSet    Array of attribute pairs to filter
+* @return    array    $newSet        Filtered array of attribute pairs
+*/
+function filterAttr($attrSet)
+{
+/*
+* Initialize variables
+*/
+$newSet = array ();
+
+/*
+* Iterate through attribute pairs
+*/
+for ($i = 0; $i &lt; count($attrSet); $i ++)
+{
+/*
+* Skip blank spaces
+*/
+if (!$attrSet[$i])
+{
+continue;
+}
+
+/*
+* Split into name/value pairs
+*/
+$attrSubSet = explode('=', trim($attrSet[$i]), 2);
+list ($attrSubSet[0]) = explode(' ', $attrSubSet[0]);
+
+/*
+* Remove all "non-regular" attribute names
+* AND blacklisted attributes
+*/
+if ((!eregi("^[a-z]*$", $attrSubSet[0])) || (($this-&gt;xssAuto) &amp;&amp; ((in_array(strtolower($attrSubSet[0]), $this-&gt;attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on'))))
+{
+continue;
+}
+
+/*
+* XSS attribute value filtering
+*/
+if ($attrSubSet[1])
+{
+// strips unicode, hex, etc
+$attrSubSet[1] = str_replace('&amp;#', '', $attrSubSet[1]);
+// strip normal newline within attr value
+$attrSubSet[1] = preg_replace('/\s+/', '', $attrSubSet[1]);
+// strip double quotes
+$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
+// [requested feature] convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr value)
+if ((substr($attrSubSet[1], 0, 1) == "'") &amp;&amp; (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'"))
+{
+$attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
+}
+// strip slashes
+$attrSubSet[1] = stripslashes($attrSubSet[1]);
+}
+
+/*
+* Autostrip script tags
+*/
+if (InputFilter :: badAttributeValue($attrSubSet))
+{
+continue;
+}
+
+/*
+* Is our attribute in the user input array?
+*/
+$attrFound = in_array(strtolower($attrSubSet[0]), $this-&gt;attrArray);
+
+/*
+* If the tag is allowed lets keep it
+*/
+if ((!$attrFound &amp;&amp; $this-&gt;attrMethod) || ($attrFound &amp;&amp; !$this-&gt;attrMethod))
+{
+/*
+* Does the attribute have a value?
+*/
+if ($attrSubSet[1])
+{
+$newSet[] = $attrSubSet[0].'="'.$attrSubSet[1].'"';
+}
+elseif ($attrSubSet[1] == "0")
+{
+/*
+* Special Case
+* Is the value 0?
+*/
+$newSet[] = $attrSubSet[0].'="0"';
+} else
+{
+$newSet[] = $attrSubSet[0].'="'.$attrSubSet[0].'"';
+}
+}
+}
+return $newSet;
+}
+
+[/ccnLe_php] 

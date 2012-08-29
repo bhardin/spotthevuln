@@ -1,0 +1,100 @@
+---
+layout: post
+title: Noble
+tags:
+- All
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ! '#secure #code #dev'
+  _edit_last: '2'
+  aktt_tweeted: '1'
+  _sexybookmarks_shortUrl: http://bit.ly/cFmZD0
+  _sexybookmarks_permaHash: c0fff928ab1460f166c7311842596c10
+---
+<blockquote><strong>I'm sorry my existence is not very noble or sublime.</strong><strong>
+</strong> <strong> -Keanu Reeves</strong></blockquote>
+[ccnLe_php]
+&lt;?php //Makes sure they choose a file
+
+//print_r($HTTP_POST_FILES);
+//die();
+
+
+$imgalt = (isset($_POST['imgalt'])) ? $_POST['imgalt'] : $imgalt;
+
+$img1_name = (strlen($imgalt)) ? $_POST['imgalt'] : $HTTP_POST_FILES['img1']['name'];
+$img1_type = (strlen($imgalt)) ? $_POST['img1_type'] : $HTTP_POST_FILES['img1']['type'];
+$imgdesc = str_replace('"', '&amp;amp;quot;', $_POST['imgdesc']);
+
+$imgtype = explode(".",$img1_name);
+$imgtype = strtolower($imgtype[count($imgtype)-1]);
+
+if (in_array($imgtype, $allowed_types) == false) {
+die(sprintf(__('File %1$s of type %2$s is not allowed.') , $img1_name, $imgtype));
+}
+
+if (strlen($imgalt)) {
+$pathtofile = get_settings('fileupload_realpath')."/".$imgalt;
+$img1 = $_POST['img1'];
+} else {
+$pathtofile = get_settings('fileupload_realpath')."/".$img1_name;
+$img1 = $HTTP_POST_FILES['img1']['tmp_name'];
+}
+
+// makes sure not to upload duplicates, rename duplicates
+$i = 1;
+$pathtofile2 = $pathtofile;
+$tmppathtofile = $pathtofile2;
+$img2_name = $img1_name;
+
+while (file_exists($pathtofile2)) {
+$pos = strpos($tmppathtofile, '.'.trim($imgtype));
+$pathtofile_start = substr($tmppathtofile, 0, $pos);
+$pathtofile2 = $pathtofile_start.'_'.zeroise($i++, 2).'.'.trim($imgtype);
+$img2_name = explode('/', $pathtofile2);
+$img2_name = $img2_name[count($img2_name)-1];
+}
+
+if (file_exists($pathtofile) &amp;&amp; !strlen($imgalt)) {
+$i = explode(' ', get_settings('fileupload_allowedtypes'));
+$i = implode(', ',array_slice($i, 1, count($i)-2));
+$moved = move_uploaded_file($img1, $pathtofile2);
+// if move_uploaded_file() fails, try copy()
+if (!$moved) {
+$moved = copy($img1, $pathtofile2);
+}
+if (!$moved) {
+die(sprintf(__("Couldn't upload your file to %s."), $pathtofile2));
+} else {
+chmod($pathtofile2, 0666);
+@unlink($img1);
+}
+
+//
+
+// duplicate-renaming function contributed by Gary Lawrence Murphy
+?&gt;
+&lt;p&gt;&lt;strong&gt;&lt;?php __('Duplicate File?') ?&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;&lt;em&gt;&lt;?php printf(__("The filename '%s' already exists!"), $img1_name); ?&gt;&lt;/em&gt;&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt; &lt;?php printf(__("Filename '%1\$s' moved to '%2\$s'"), $img1, "$pathtofile2 - $img2_name") ?&gt;&lt;/p&gt;
+&lt;p&gt;&lt;?php _e('Confirm or rename:') ?&gt;&lt;/p&gt;
+&lt;form action="upload.php" method="post" enctype="multipart/form-data"&gt;
+&lt;input type="hidden" name="MAX_FILE_SIZE" value="&lt;?php echo  get_settings('fileupload_maxk') *1024 ?&gt;" /&gt;
+&lt;input type="hidden" name="img1_type" value="&lt;?php echo $img1_type;?&gt;" /&gt;
+&lt;input type="hidden" name="img1_name" value="&lt;?php echo $img2_name;?&gt;" /&gt;
+&lt;input type="hidden" name="img1_size" value="&lt;?php echo $img1_size;?&gt;" /&gt;
+&lt;input type="hidden" name="img1" value="&lt;?php echo $pathtofile2;?&gt;" /&gt;
+&lt;input type="hidden" name="thumbsize" value="&lt;?php echo $_REQUEST['thumbsize'];?&gt;" /&gt;
+&lt;input type="hidden" name="imgthumbsizecustom" value="&lt;?php echo $_REQUEST['imgthumbsizecustom'];?&gt;" /&gt;
+&lt;?php _e('Alternate name:') ?&gt;&lt;br /&gt;&lt;input type="text" name="imgalt" size="30" value="&lt;?php echo $img2_name;?&gt;" /&gt;&lt;br /&gt;
+&lt;br /&gt;
+&lt;?php _e('Description:') ?&gt;&lt;br /&gt;&lt;input type="text" name="imgdesc" size="30" value="&lt;?php echo $imgdesc;?&gt;" /&gt;
+&lt;br /&gt;
+&lt;input type="submit" name="submit" value="&lt;?php _e('Rename') ?&gt;" /&gt;
+&lt;/form&gt;
+&lt;/div&gt;
+[/ccnLe_php] 

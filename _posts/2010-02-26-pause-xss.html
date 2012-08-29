@@ -1,0 +1,119 @@
+---
+layout: post
+title: Pause - XSS
+tags:
+- Apache
+- Cross-Site Scripting (XSS)
+- Encode
+- JackRabbit
+- JSP
+- Simple
+- Solution
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ''
+  _edit_last: '1'
+  aktt_tweeted: '1'
+  _headspace_page_title: Cross-Site Scripting (XSS) Vulnerability Code Example
+  _headspace_description: XSS vulnerability affected JackRabbit
+  _sexybookmarks_permaHash: 0cf391d266d0c3698e6be4fc74352b7e
+  _sexybookmarks_shortUrl: http://bit.ly/a8eYDm
+---
+<h2>Details</h2>
+Affected Software: JackRibbit
+
+Fixed in Version: 1.5.2
+
+Issue Type: XSS
+
+Original Code: <a title="Pause" href="http://spotthevuln.com/2010/02/pause/" target="_blank">Found Here</a>
+<h2>Description</h2>
+<div><span>This particular issue was a XSS vulnerability that affected JackRabbit &lt; 1.5.2. The issue was reported to the JackRabbit team by the Red Hat Security Response Team. The symptoms are fairly straightforward. First, the JackRabbit code takes user/attacker supplied via the "q" parameter:</span></div>
+<span>
+<blockquote>String q = new String(request.getParameter("q").getBytes("ISO-8859-1"), "UTF-8");</blockquote>
+later, this value is used to build HTML markup without any type of encoding or sanitization
+<blockquote>&lt;/b&gt; results for &lt;b&gt;&lt;%= q %&gt;&lt;/b&gt;.&lt;br&gt;
+
+&lt;INPUT type=hidden name=q value="&lt;%= q %&gt;"&gt;</blockquote>
+This type of issue could have easily been caught through static analysis and represents one of the most basic forms of XSS. The JackRabbit developers fixed this issue by encoding the "q" parameter before using it to build HTML markup. The specific method chosen by the JackRabbit team was the "Text.encodeIllegalXMLCharacters()". I've included the most relevant portions of "encodeIllegalXMLCharacters()" below, do you consider it robust?:
+<blockquote>...
+
+for (int i = 0; i &lt; length; i++) {
+
+int ch = text.charAt(i);
+
+switch (ch) {
+
+case '&lt;':
+
+case '&gt;':
+
+case '&amp;':
+
+case '"':
+
+case '\'':
+
+...
+
+if (ch == '&lt;') {
+
+buf.append("&lt;");
+
+} else if (ch == '&gt;') {
+
+buf.append("&gt;");
+
+} else if (ch == '&amp;') {
+
+buf.append("&amp;");
+
+} else if (ch == '"') {
+
+buf.append(""");
+
+} else if (ch == '\'') {
+
+buf.append("'");
+
+}</blockquote>
+ 
+
+</span>
+<h2>Developers Solution</h2>
+[cce lang="diff"]
+<div id="_mcePaste">try {
+String q = new String(request.getParameter("q").getBytes("ISO-8859-1"), "UTF-8");
+String swrnum = request.getParameter("swrnum");
+String numResults = null;
+try {
+numResults = NumberFormat.getNumberInstance().format(Long.parseLong(swrnum));
+} catch (NumberFormatException e) {
+// ignore
+}
+if (q == null || numResults == null) {
+return;
+}</div>
+<div>request.setAttribute("title", "Search within results");
+%&gt;&lt;jsp:include page="header.jsp"/&gt;
+&lt;form name=f action="search.jsp"&gt;
+&lt;table border=0 cellpadding=0 cellspacing=0 width=100%&gt;
+-&lt;tr&gt;&lt;table border=0 width=100%&gt;&lt;tr&gt;&lt;td&gt;&lt;br&gt;There were about &lt;b&gt;&lt;%= numResults %&gt;&lt;/b&gt; results for &lt;b&gt;&lt;%= q %&gt;&lt;/b&gt;.&lt;br&gt;
++&lt;tr&gt;&lt;table border=0 width=100%&gt;&lt;tr&gt;&lt;td&gt;&lt;br&gt;There were about &lt;b&gt;&lt;%= numResults %&gt;&lt;/b&gt; results for &lt;b&gt;&lt;%= Text.encodeIllegalXMLCharacters(q) %&gt;&lt;/b&gt;.&lt;br</div>
+<div>Use the search box below to search within these results.&lt;br&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td valign=middle&gt;
+&lt;table border=0 width=100%&gt;&lt;tr&gt;&lt;td&gt;
+- &lt;INPUT type=hidden name=q value="&lt;%= q %&gt;"&gt;
++&lt;INPUT type=hidden name=q value="&lt;%= Text.encodeIllegalXMLCharacters(q) %&gt;"&gt;
+&lt;INPUT type=text name=as_q size=31 maxlength=256 value=""&gt;
+&lt;INPUT type=submit VALUE="Search&amp;nbsp;within&amp;nbsp;results"&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;jsp:include page="footer.jsp"/&gt;</div>
+[/cce] 

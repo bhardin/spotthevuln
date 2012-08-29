@@ -1,0 +1,117 @@
+---
+layout: post
+title: Covet
+tags:
+- All
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ''
+  _edit_last: '2'
+  aktt_tweeted: '1'
+  _sexybookmarks_shortUrl: http://bit.ly/9nWoYD
+  _sexybookmarks_permaHash: 3f0957e0a6cbe3648d1bb29599362544
+---
+<blockquote><strong>...in order to make a man or a boy covet a thing, it is only necessary to make the thing difficult to obtain.</strong><strong>
+</strong> <strong> -Mark Twain
+</strong></blockquote>
+
+<pre lang="php">
+<?php
+
+/* ================= */
+/* Display Functions */
+/* ================= */
+
+/* -------------------------
+What follows are the functions that display things in your comments form.
+Feel free to customize them to your needs
+------------------------- */
+
+/* -------------------------
+This is the code that is inserted into your comment form.  You may modify it, if you wish.
+------------------------- */
+function show_subscription_checkbox ($id='0') {
+	global $sg_subscribe;
+	sg_subscribe_start();
+
+	if ( $sg_subscribe->checkbox_shown ) return $id;
+	if ( !$email = $sg_subscribe->current_viewer_subscription_status() ) : ?>
+
+<?php /* ------------------------------------------------------------------- */ ?>
+<?php /* This is the text that is displayed for users who are NOT subscribed */ ?>
+<?php /* ------------------------------------------------------------------- */ ?>
+
+	<p <?php if ($sg_subscribe->clear_both) echo 'style="clear: both;" '; ?>class="subscribe-to-comments">
+        <input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" <?php if ($sg_subscribe->default_subscribed) echo 'checked="checked" '; ?>/>
+        <label for="subscribe"><?php echo $sg_subscribe->not_subscribed_text; ?></label>
+	</p>
+
+<?php /* ------------------------------------------------------------------- */ ?>
+
+<?php elseif ( $email == 'admin' && current_user_can('manage_options') ) : ?>
+
+<?php /* ------------------------------------------------------------- */ ?>
+<?php /* This is the text that is displayed for the author of the post */ ?>
+<?php /* ------------------------------------------------------------- */ ?>
+
+	<p <?php if ($sg_subscribe->clear_both) echo 'style="clear: both;" '; ?>class="subscribe-to-comments">
+	<?php echo str_replace('[manager_link]', $sg_subscribe->manage_link($email, true, false), $sg_subscribe->author_text); ?>
+	</p>
+
+<?php else : ?>
+
+<?php /* --------------------------------------------------------------- */ ?>
+<?php /* This is the text that is displayed for users who ARE subscribed */ ?>
+<?php /* --------------------------------------------------------------- */ ?>
+
+	<p <?php if ($sg_subscribe->clear_both) echo 'style="clear: both;" '; ?>class="subscribe-to-comments">
+	<?php echo str_replace('[manager_link]', $sg_subscribe->manage_link($email, true, false), $sg_subscribe->subscribed_text); ?>
+	</p>
+
+<?php /* --------------------------------------------------------------- */ ?>
+
+<?php endif;
+
+$sg_subscribe->checkbox_shown = true;
+return $id;
+}
+
+
+
+/* -------------------------------------------------------------------- */
+/* This function outputs a "subscribe without commenting" form.         */
+/* Place this somewhere within "the loop", but NOT within another form  */
+/* This is NOT inserted automaticallly... you must place it yourself    */
+/* -------------------------------------------------------------------- */
+function show_manual_subscription_form () {
+	global $id, $sg_subscribe, $user_email;
+	sg_subscribe_start();
+	$sg_subscribe->show_errors('solo_subscribe', '<div class="solo-subscribe-errors">', '</div>', __('<strong>Error: </strong>', 'subscribe-to-comments'), '<br />');
+
+if ( !$sg_subscribe->current_viewer_subscription_status() ) :
+	get_currentuserinfo(); ?>
+
+<?php /* ------------------------------------------------------------------- */ ?>
+<?php /* This is the text that is displayed for users who are NOT subscribed */ ?>
+<?php /* ------------------------------------------------------------------- */ ?>
+
+	<form action="http://<?php echo $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ?>" method="post">
+	<input type="hidden" name="solo-comment-subscribe" value="solo-comment-subscribe" />
+	<input type="hidden" name="postid" value="<?php echo $id; ?>" />
+	<input type="hidden" name="ref" value="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>" />
+
+	<p class="solo-subscribe-to-comments">
+	<?php _e('Subscribe without commenting', 'subscribe-to-comments'); ?>
+	<br />
+	<label for="solo-subscribe-email"><?php _e('E-Mail:', 'subscribe-to-comments'); ?>
+	<input type="text" name="email" id="solo-subscribe-email" size="22" value="<?php echo $user_email; ?>" /></label>
+	<input type="submit" name="submit" value="<?php _e('Subscribe', 'subscribe-to-comments'); ?>" />
+	</p>
+	</form>
+
+<?php /* ------------------------------------------------------------------- */ ?>
+</pre>

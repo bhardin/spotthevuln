@@ -1,0 +1,123 @@
+---
+layout: post
+title: Armed - XSS
+tags:
+- All
+- attacker
+- Cross-Site Scripting (XSS)
+- developers
+- Encode
+- PHP
+- Solution
+- stripslashes
+- Wordpress
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ! '#secure #code #dev'
+  _edit_last: '2'
+  _sexybookmarks_shortUrl: http://bit.ly/azq1Si
+  aktt_tweeted: '1'
+  _wp_old_slug: ''
+  _sexybookmarks_permaHash: 8ee631f98d833342ddf12c769b1bd81c
+---
+<h2>Details</h2>
+Affected Software: WordPress-to-lead for Salesforce CRM
+
+Fixed in Version: 1.0.2
+
+Issue Type: Cross Site Scripting (XSS)
+
+Original Code: <a title="Armed" href="http://spotthevuln.com/2010/09/armed/" target="_blank">Found    Here</a>
+<h2>Description</h2>
+This week’s vulnerability affected the Wordpress-to-lead for Salesforce plugin.  Looking at the vulnerable code, we see that stripslashes was applied before echoing attacker controlled content into the HTML markup.  Stripslashes was applied in the following lines:
+<blockquote>$val    = strip_tags(stripslashes($_POST[$id]));
+
+$content .= "\t".'&lt;label for="sf_'.$id.'"&gt;'.esc_html(stripslashes($input['label'])).':';
+
+$content .= "\t".'&lt;input type="submit" value="'.esc_attr($submit).'"/&gt;'."\n";</blockquote>
+Unfortunately, stripslashes doesn’t help protect against XSS.  It’s uncertain whether the original developer thought stripslashes would help protect against XSS.  Regardless of the developer’s intentions, the example does bring a good principle to light.  Developers (and security professionals) should understand what security based APIs provide.  It can be difficult to understand which API is most appropriate for various situations.  Having guidance for non security focused developers is important.  As security professionals, the benefits of an API usage can be obvious.  For a non security focused developer, the number of security APIs can be daunting, much less understanding when to call one API versus another.  This vulnerability was addressed by using the proper escaping APIs as shown in the patch below.
+<h2>Developers Solution</h2>
+[cce lang="diff"]
+} else if ($is_sidebar &amp;&amp; $options['usecss']) {
+$content .= '&lt;style type="text/css"&gt;
+.sidebar form.w2llead{clear:none;text-align:left;}
+.sidebar .w2linput, #sidebar .w2llabel{float:none; display:inline;}
+.sidebar .w2llabel.error {color:#f00;}
+.sidebar .w2llabel {margin:4px 0;}
+.sidebar .w2linput.text{width:95%;height:18px;margin:4px 0;}
+.sidebar .w2linput.textarea {width:95%;height:50px;margin:10px 0;}
+.sidebar .w2linput.submit {margin:10px 0 0 0;}
+#salesforce{margin:3px 0 0 0;color:#aaa;}
+#salesforce a{color:#999;}
+&lt;/style&gt;';
+}
+$sidebar = '';
+if ($is_sidebar)
+$sidebar = ' sidebar';
+$content .= "\n".'&lt;form method="post"&gt;'."\n";
+foreach ($options['inputs'] as $id =&gt; $input) {
+if (!$input['show'])
+continue;
+$val    = '';
+if (isset($_POST[$id]))
+-$val    = strip_tags(stripslashes($_POST[$id]));
++$val  = esc_attr(strip_tags(stripslashes($_POST[$id])));
+
+$error  = ' ';
+if ($input['error'])
+$error  = ' error ';
+
+-$content .= "\t".'&lt;label for="sf_'.$id.'"&gt;'.stripslashes($input['label']).':';
++$content .= "\t".'&lt;label for="sf_'.$id.'"&gt;'.esc_html(stripslashes($input['label'])).':';
+if ($input['required'])
+$content .= ' *';
+$content .= '&lt;/label&gt;'."\n";
+if ($input['type'] == 'text') {
+$content .= "\t".'&lt;input value="'.$val.'" id="sf_'.$id.'" name="'.$id.'" type="text"/&gt;&lt;br/&gt;'."\n\n";
+} else if ($input['type'] == 'textarea') {
+$content .= "\t".'&lt;br/&gt;'."\n\t".'&lt;textarea id="sf_'.$id.'" name="'.$id.'"&gt;'.$val.'&lt;/textarea&gt;&lt;br/&gt;'."\n\n";
+}
+}
+$submit = stripslashes($options['submitbutton']);
+if (empty($submit))
+$submit = "Submit";
+-$content .= "\t".'&lt;input type="submit" name="w2lsubmit" value="'.$submit.'"/&gt;'."\n";
++$content .= "\t".'&lt;input type="submit" name="w2lsubmit" value="'.esc_attr($submit).'"/&gt;'."\n";
+$content .= '&lt;/form&gt;'."\n";
+
+$reqtext = stripslashes($options['requiredfieldstext']);
+if (!empty($reqtext))
+$content .= '&lt;p id="requiredfieldsmsg"&gt;&lt;sup&gt;*&lt;/sup&gt;'.$reqtext.'&lt;/p&gt;';
+$content .= '&lt;div id="salesforce"&gt;&lt;small&gt;Powered by &lt;a href="http://www.salesforce.com/"&gt;Salesforce CRM&lt;/a&gt;&lt;/small&gt;&lt;/div&gt;';
+return $content;
+}
+
+function submit_salesforce_form($post, $options) {
+global $wp_version;
+if (!isset($options['org_id']) || empty($options['org_id']))
+return false;
+
+$post['oid']                    = $options['org_id'];
+$post['lead_source']    = $options['source'];
+$post['debug']                  = 0;
+
+// Set SSL verify to false because of server issues.
+$args = array(
+'body'          =&gt; $post,
+'headers'       =&gt; array(
+'user-agent' =&gt; 'WordPress-to-Lead for Salesforce plugin - WordPress/'.$wp_version.'; '.get_bloginfo('url'),
+),
+'sslverify'     =&gt; false,
+);
+
+$result = wp_remote_post('https://www.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8', $args);
+
+if ($result['headers']['is-processed'] == "true")
+return true;
+else
+return false;
+}
+[/cce] 

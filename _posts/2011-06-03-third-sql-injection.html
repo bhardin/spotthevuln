@@ -1,0 +1,157 @@
+---
+layout: post
+title: Third - SQL Injection
+tags:
+- PHP
+- SQL Injection
+- Wordpress
+status: publish
+type: post
+published: true
+meta:
+  _aktt_hash_meta: ! '#secure #code #dev'
+  aktt_notify_twitter: 'yes'
+  _edit_last: '2'
+  _syntaxhighlighter_encoded: '1'
+  aktt_tweeted: '1'
+---
+<h1>Details</h1>
+Affected Software: Ninja Announcements
+
+Fixed in Version: 1.3
+
+Issue Type: SQL Injection
+
+Original Code: <a href="http://spotthevuln.com/2011/05/third/">Found Here</a>
+<h1>Details</h1>
+Lots of potential issues here, but we’ll focus on what was patched.  Here we have a basic SQL injection vulnerability.  The bug is the most simple example of tracing a variable from assignment to usage.  On line 54, the $ninja_annc_id is assigned a value directly from the user/attacker controlled $_REQUEST[‘ninja_annc_id’].  The very next line, the developer uses the tainted $ninja_annc_id to string build a SQL statement.
+
+The developers addressed this issue by moving the dynamic SQL statement to a prepared SQL statement.  Prepared statements are the preferred method for dealing with SQL requests that could potentially contain tainted values.
+
+
+<h1>Developers Solution</h1>
+<code lang="PHP">
+<?php
+...snip...
+	//This if() statement handles user input from the edit section.
+	if($_REQUEST['submitted'] == 'yes'){ // BEGIN submit handling if()
+
+		$ninja_annc_id = $_REQUEST['ninja_annc_id'];
+	
+		$ninja_annc_begindate = $_REQUEST['begindate'];
+		$ninja_annc_begintimehr = $_REQUEST['begintimehr'];
+		$ninja_annc_begintimemin = $_REQUEST['begintimemin'];
+		$ninja_annc_begintimeampm = $_REQUEST['begintimeampm'];
+		
+		$ninja_annc_enddate = $_REQUEST['enddate'];
+		$ninja_annc_endtimehr = $_REQUEST['endtimehr'];
+		$ninja_annc_endtimemin = $_REQUEST['endtimemin'];
+		$ninja_annc_endtimeampm = $_REQUEST['endtimeampm'];
+		
+		$ninja_annc_begindate = $ninja_annc_begindate.' '.$ninja_annc_begintimehr.':'.$ninja_annc_begintimemin.$ninja_annc_begintimeampm;
+		$ninja_annc_enddate = $ninja_annc_enddate.' '.$ninja_annc_endtimehr.':'.$ninja_annc_endtimemin.$ninja_annc_endtimeampm;
+		
+		//echo "begin before ".$ninja_annc_begindate;
+		//echo "end before ".$ninja_annc_enddate;
+		
+		$ninja_annc_message = stripslashes($_REQUEST['content']);
+		$ninja_annc_active = 1;
+		$ninja_annc_location = $_REQUEST['ninja_annc_location'];
+		
+		$ninja_annc_begindate = strtotime($ninja_annc_begindate);
+		$ninja_annc_enddate = strtotime($ninja_annc_enddate);
+		
+		//echo "begin after ".$ninja_annc_begindate;
+		//echo "end after ".$ninja_annc_enddate;
+		
+		if($_REQUEST['ignoredates'] == "checked"){
+			$ninja_annc_begindate = 0;
+			$ninja_annc_enddate = 0;
+		}
+		
+		if($_REQUEST['ninja_annc_id'] == 'new'){
+			$rows_affected = $wpdb->insert( $ninja_annc_table_name, array( 'begindate' => $ninja_annc_begindate, 'enddate' => $ninja_annc_enddate, 'message' => $ninja_annc_message, 'active' => '0', 'location' => $ninja_annc_location ) );
+		}else{
+			$wpdb->update( $ninja_annc_table_name, array( 'begindate' => $ninja_annc_begindate, 'enddate' => $ninja_annc_enddate, 'message' => $ninja_annc_message, 'location' => $ninja_annc_location ), array( 'id' => $ninja_annc_id ));
+		}
+		
+		echo "<script language='javascript'>window.location = '".$admin_url."'</script>";
+	} // END submit handling if()
+	
+	//This if...else() statement handles the nuts and bolts of our html output. 
+	//Eventually it will be replaced by a switch().
+	//Flow goes: Edit Announcement? -> New Announcement? -> Table.
+	//This part of our If...else statement creates the editing HTML
+	if($_REQUEST['action'] == 'edit') { //BEGIN edit handling if()
+		
+		$ninja_annc_id = $_REQUEST['ninja_annc_id'];
+-		$ninja_annc_row = $wpdb->get_row("SELECT * FROM $ninja_annc_table_name WHERE id = $ninja_annc_id", ARRAY_A);
++		$ninja_annc_row = $wpdb->get_row( 
++		$wpdb->prepare( "SELECT * FROM $ninja_annc_table_name WHERE id = %d", $ninja_annc_id), ARRAY_A);
+
+		$ninja_annc_id = $ninja_annc_row['id'];
+		$ninja_annc_location = $ninja_annc_row['location'];
+		$ninja_annc_message = stripslashes($ninja_annc_row['message']);
+		$ninja_annc_begin = $ninja_annc_row['begindate'];
+		$ninja_annc_end = $ninja_annc_row['enddate'];
+		$rightnow = current_time("timestamp");
+		
+		if($ninja_annc_end != 0){
+			$ninja_annc_begindate = date("m/d/Y", $ninja_annc_begin);
+			$ninja_annc_begintimehr =  date("g", $ninja_annc_begin);
+			$ninja_annc_begintimemin =  date("i", $ninja_annc_begin);
+			$ninja_annc_begintimeampm =  date("a", $ninja_annc_begin);
+			
+			$ninja_annc_enddate = date("m/d/Y", $ninja_annc_end);
+			$ninja_annc_endtimehr = date("g", $ninja_annc_end);
+			$ninja_annc_endtimemin = date("i", $ninja_annc_end);
+			$ninja_annc_endtimeampm = date("a", $ninja_annc_end);
+			
+		}else{
+			$ninja_annc_ignore = 1;
+			$ninja_annc_begindate = date("m/d/Y", $rightnow);
+			$ninja_annc_enddate = date("m/d/Y", $rightnow);	
+		}
+		
+		//$ninja_annc_begindate = $ninja_annc_begindate.' '.$ninja_annc_begintimehr.':'.$ninja_annc_begintimemin.$ninja_annc_begintimeampm;
+		
+		//echo $ninja_annc_begindate;
+		wp_tiny_mce( false,  // true makes the editor "teeny"
+		array(
+			"theme_advanced_path" => false
+		)
+		);
+		wp_tiny_mce_preload_dialogs();
+		?>
+        <div class="wrap">
+	<div id="ninja_annc_options_edit" class="icon32"><br></div>
+	<h2 id="opener">Edit Announcement - ID: <?php echo $ninja_annc_id;?></h2>
+		<form name="" action="" method="post">
+		<input type="hidden" name="submitted" value="yes">
+		<input type="hidden" name="ninja_annc_id" value="<?php echo $ninja_annc_id;?>">
+		Ignore Dates: <input type="checkbox" name="ignoredates" id="ignoredates" value="checked" <?php if($ninja_annc_ignore == 1){ echo "checked";}?>><br>
+		Begin Date: <input type="text" class="date" name="begindate" id="begindate" value="<?php echo $ninja_annc_begindate;?>" <?php if($ninja_annc_ignore == 1){ echo "style='background-color: gray' disabled";}?>>
+		Time: 
+		<select name="begintimehr" id="begintimehr" class="time" <?php if($ninja_annc_ignore == 1){ echo "style='background-color: gray' disabled";}?>>
+			<?php
+				$x = 1;
+				while($x <= 12){
+					echo "<option";
+					if($x <= 9){
+						echo " value = '0$x'";
+					}else{
+						echo " value = '$x'";
+					}
+					if($ninja_annc_begintimehr == $x){
+						echo " selected";
+					}elseif($x == 12 && $ninja_annc_ignore == 1){
+						echo " selected";
+					}
+					echo ">$x</option>";
+					$x++;
+				}
+			
+			?>
+...snip...
+?>
+</code>

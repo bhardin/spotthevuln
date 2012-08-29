@@ -1,0 +1,80 @@
+---
+layout: post
+title: Pause
+tags:
+- Code Snippet
+- Java
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ''
+  _edit_last: '2'
+  aktt_tweeted: '1'
+  _sexybookmarks_shortUrl: http://bit.ly/bUN8uS
+  _sexybookmarks_permaHash: 59aa1b7a853b2e8b595441e80f852b97
+---
+<blockquote><strong>It’s not so much knowing when to speak, when to pause.
+- Jack Benny</strong></blockquote>
+[ccnLe_java]
+
+try {
+
+String q = new String(request.getParameter("q").getBytes("ISO-8859-1"), "UTF-8");
+
+String swrnum = request.getParameter("swrnum");
+
+String numResults = null;
+
+try {
+
+numResults = NumberFormat.getNumberInstance().format(Long.parseLong(swrnum));
+
+} catch (NumberFormatException e) {
+
+// ignore
+
+}
+
+if (q == null || numResults == null) {
+
+return;
+
+}
+
+request.setAttribute("title", "Search within results");
+
+%&gt;&lt;jsp:include page="header.jsp"/&gt;
+
+&lt;form name=f action="search.jsp"&gt;
+
+&lt;table border=0 cellpadding=0 cellspacing=0 width=100%&gt;
+
+&lt;tr&gt;&lt;table border=0 width=100%&gt;&lt;tr&gt;&lt;td&gt;&lt;br&gt;There were about &lt;b&gt;&lt;%= numResults %&gt;&lt;/b&gt; results for &lt;b&gt;&lt;%= q %&gt;&lt;/b&gt;.&lt;br&gt;
+
+Use the search box below to search within these results.&lt;br&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;/td&gt;&lt;/tr&gt;
+
+&lt;tr&gt;&lt;td valign=middle&gt;
+
+&lt;table border=0 width=100%&gt;&lt;tr&gt;&lt;td&gt;
+
+&lt;INPUT type=hidden name=q value="&lt;%= q %&gt;"&gt;
+
+&lt;INPUT type=text name=as_q size=31 maxlength=256 value=""&gt;
+
+&lt;INPUT type=submit VALUE="Search&amp;nbsp;within&amp;nbsp;results"&gt;
+
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;/td&gt;&lt;/tr&gt;
+
+&lt;/table&gt;
+
+&lt;/form&gt;
+
+&lt;jsp:include page="footer.jsp"/&gt;
+
+[/ccnLe_java] 

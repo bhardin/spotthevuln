@@ -1,0 +1,120 @@
+---
+layout: post
+title: Slinky
+tags:
+- Code Snippet
+- Java
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ''
+  _edit_last: '2'
+  aktt_tweeted: '1'
+  bfa_ata_body_title: Slinky
+  bfa_ata_display_body_title: ''
+  bfa_ata_body_title_multi: Slinky
+  bfa_ata_meta_title: ''
+  bfa_ata_meta_keywords: ''
+  bfa_ata_meta_description: ''
+  _sexybookmarks_shortUrl: http://bit.ly/cSUE6U
+  _sexybookmarks_permaHash: 2101031755015b2393b1a143c8423dca
+---
+<blockquote><strong>People are like slinkys, they get on your nerves, but its still fun to push them down some stairs.
+- Anonymous</strong></blockquote>
+Hint:  WSSecurityException returns an error message to the user :)
+
+[ccnLe_java]
+
+public WSUsernameTokenPrincipal handleUsernameToken(Element token, CallbackHandler cb)
+throws WSSecurityException {
+ut = new UsernameToken(token);
+String user = ut.getName();
+String password = ut.getPassword();
+String nonce = ut.getNonce();
+String createdTime = ut.getCreated();
+String pwType = ut.getPasswordType();
+if (log.isDebugEnabled()) {
+log.debug("UsernameToken user " + user);
+log.debug("UsernameToken password " + password);
+}
+
+Callback[] callbacks = new Callback[1];
+String origPassword = null;
+
+//
+// If the UsernameToken is hashed, then retrieve the password from the callback handler
+// and compare directly. If the UsernameToken is in plaintext or of some unknown type,
+// then delegate authentication to the callback handler
+//
+if (ut.isHashed()) {
+if (cb == null) {
+throw new WSSecurityException(WSSecurityException.FAILURE, "noCallback");
+}
+
+WSPasswordCallback pwCb = new WSPasswordCallback(user, WSPasswordCallback.USERNAME_TOKEN);
+callbacks[0] = pwCb;
+try {
+cb.handle(callbacks);
+} catch (IOException e) {
+if (log.isDebugEnabled()) {
+log.debug(e);
+}
+throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);
+} catch (UnsupportedCallbackException e) {
+if (log.isDebugEnabled()) {
+log.debug(e);
+}
+throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);
+}
+origPassword = pwCb.getPassword();
+if (log.isDebugEnabled()) {
+log.debug("UsernameToken callback password " + origPassword);
+}
+if (origPassword == null) {
+throw new WSSecurityException(WSSecurityException.FAILURE,
+"noPassword", new Object[]{user});
+}
+String passDigest = UsernameToken.doPasswordDigest(nonce, createdTime, origPassword);
+if (!passDigest.equals(password)) {
+throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);
+}
+ut.setRawPassword(origPassword);
+} else {
+if (cb == null) {
+throw new WSSecurityException(WSSecurityException.FAILURE, "noCallback");
+} else if (!WSConstants.PASSWORD_TEXT.equals(pwType) &amp;&amp; !handleCustomPasswordTypes) {
+if (log.isDebugEnabled()) {
+log.debug("Authentication failed as handleCustomUsernameTokenTypes is false");
+}
+throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);
+}
+WSPasswordCallback pwCb = new WSPasswordCallback(user, password,
+pwType, WSPasswordCallback.USERNAME_TOKEN_UNKNOWN);
+callbacks[0] = pwCb;
+try {
+cb.handle(callbacks);
+} catch (IOException e) {
+if (log.isDebugEnabled()) {
+log.debug(e);
+}
+throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);
+} catch (UnsupportedCallbackException e) {
+if (log.isDebugEnabled()) {
+log.debug(e);
+}
+throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);
+}
+ut.setRawPassword(password);
+}
+WSUsernameTokenPrincipal principal = new WSUsernameTokenPrincipal(user, ut.isHashed());
+principal.setNonce(nonce);
+principal.setPassword(password);
+principal.setCreatedTime(createdTime);
+principal.setPasswordType(pwType);
+
+return principal;
+}
+
+[/ccnLe_java] 

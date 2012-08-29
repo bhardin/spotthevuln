@@ -1,0 +1,81 @@
+---
+layout: post
+title: Karate
+tags:
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ''
+  _edit_last: '2'
+  _headspace_page_title: Karate
+  aktt_tweeted: '1'
+  bfa_ata_body_title: Karate
+  bfa_ata_display_body_title: ''
+  bfa_ata_body_title_multi: Karate
+  bfa_ata_meta_title: ''
+  bfa_ata_meta_keywords: ''
+  bfa_ata_meta_description: ''
+  _sexybookmarks_permaHash: fd195b3dc9050c558963443c5361ca8a
+  _sexybookmarks_shortUrl: http://bit.ly/aGzi7F
+---
+<blockquote><strong>Karate is a form of martial arts in which people who have had years and years of training can, using only their hands and feet, make some of the worst movies in the history of the world.</strong><strong>
+- Dave Berry
+</strong></blockquote>
+Hint:  Template Language
+
+[ccnLe_java]
+
+&lt;title&gt;${rc.getMessage("userList.title")}&lt;/title&gt;
+
+&lt;button onclick="location.href='userform.html'"style="float: right; margin-top: -30px; width: 100px"&gt;Add User&lt;/button&gt;
+
+&lt;table class="table" id="userList"&gt;
+
+&lt;thead&gt;
+
+&lt;tr&gt;
+
+&lt;th&gt;${rc.getMessage("user.id")}&lt;/th&gt;
+
+&lt;th&gt;${rc.getMessage("user.firstName")}&lt;/th&gt;
+
+&lt;th&gt;${rc.getMessage("user.lastName")}&lt;/th&gt;
+
+&lt;th&gt;${rc.getMessage("user.birthday")}&lt;/th&gt;
+
+&lt;/tr&gt;
+
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+&lt;#list userList as user&gt;
+
+&lt;#if user_index % 2 == 0&gt; &lt;tr class="odd"&gt;
+
+&lt;#else&gt; &lt;tr class="even"&gt;
+
+&lt;/#if&gt;
+
+&lt;td&gt;&lt;a href="userform.html?id=${user.id}"&gt;${user.id}&lt;/a&gt;&lt;/td&gt;
+
+&lt;td&gt;${user.firstName}&lt;/td&gt;
+
+&lt;td&gt;${user.lastName}&lt;/td&gt;
+
+&lt;td&gt;&lt;#if user.birthday??&gt;${user.birthday?date}&lt;/#if&gt;&lt;/td&gt;
+
+&lt;/tr&gt;
+
+&lt;/#list&gt;
+
+&lt;/tbody&gt;
+
+&lt;/table&gt;
+
+&lt;script type="text/javascript"&gt;highlightTableRows("userList");&lt;/script
+
+[/ccnLe_java] 

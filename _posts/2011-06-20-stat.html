@@ -1,0 +1,121 @@
+---
+layout: post
+title: State
+tags:
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ! '#secure #code #dev'
+  _edit_last: '2'
+  aktt_tweeted: '1'
+---
+<blockquote><strong>State Legislators are merely politicians whose darkest secret prevents them from running for a higher office.
+Dennis Miller</strong></blockquote>
+<code lang="PHP">
+<?php
+...snip...
+function srch( )
+{
+    set_time_limit( 0 );
+    $word = $_REQUEST['word'];
+    $word2 = $word;
+    $logfolder = $_REQUEST['infile'];
+    $arch = $_REQUEST['xxx'];
+    if ( $word != "" )
+    {
+        $word = explode( "\r\n", $word );
+        $wordc = count( $word );
+        $hl9 = fopen( $logfolder."/.out.txt", "w" );
+        fclose( $hl9 );
+        $dir = opendir( $logfolder );
+        $finded = "";
+        while ( $file = readdir( $dir ) )
+        {
+            if ( !( $file != "." ) || !( $file != ".." ) || !( $file != ".out.txt" ) || !( substr( $file, -4 ) == ".txt" ) )
+            {
+                $hl = fopen( $logfolder."/".$file, "rb" );
+                $readsz = filesize( $logfolder."/".$file );
+                if ( $readsz < 1041076 )
+                {
+                    $readszR = $readsz;
+                }
+                else
+                {
+                    $readszR = 1041076;
+                    $readsz -= 1041076;
+                }
+                while ( $data = fread( $hl, $readszR ) )
+                {
+                    $pos = 0;
+                    $posC = 0;
+                    $posS = 0;
+                    while ( $pos = strpos( $data, "[IP:", $pos ) )
+                    {
+                        $pos = strpos( $data, "]", $pos ) + 1;
+                        if ( $pos < $posC )
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            $posC = $pos;
+                            $lent = $pos - $posS;
+                            unset( $cutblock );
+                            $cutblock = substr( $data, $posS, $lent );
+                            $rd = 0;
+                            for ( ; $rd < $wordc; ++$rd )
+                            {
+                            }
+                            if ( !( $word[$rd] != "" ) || !( $ftmp = strpos( $cutblock, $word[$rd], 0 ) ) )
+                            {
+                                $hl9 = fopen( $logfolder."/.out.txt", "ab+" );
+                                fwrite( $hl9, $cutblock );
+                                fclose( $hl9 );
+                            }
+                        }
+                        unset( $rd );
+                        unset( $lent );
+                        unset( $ftmp );
+                        unset( $cutblock );
+                        $posS = $pos;
+                    }
+                    unset( $data );
+                    if ( $readsz < 1041076 )
+                    {
+                        $readszR = $readsz;
+                    }
+                    else
+                    {
+                        $readszR = 1041076;
+                        $readsz -= 1041076;
+                    }
+                }
+                unset( $data );
+                fclose( $hl );
+            }
+        }
+        if ( 0 < filesize( $logfolder."/.out.txt" ) )
+        {
+            $hl9 = fopen( $logfolder."/.out.txt", "r" );
+            $finded = fread( $hl9, filesize( $logfolder."/.out.txt" ) );
+            fclose( $hl9 );
+            if ( $arch == 1 )
+            {
+                header( "Content-type: application/octet-stream" );
+                $cl_Zip = new cl_zip( );
+                $cl_Zip->onaddfile( $finded, "log".time( ).".txt" );
+                header( "Content-Length: ".strlen( $cl_Zip->ondumpfileout( ) ) );
+                header( "Content-disposition: attachment; filename=log".time( ).".zip" );
+                echo $cl_Zip->ondumpfileout( );
+                exit( );
+            }
+            return $finded;
+        }
+    }
+}
+...snip...
+?>
+</code>

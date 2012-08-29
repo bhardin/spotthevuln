@@ -1,0 +1,55 @@
+---
+layout: post
+title: Fish
+tags:
+- All
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  _aktt_hash_meta: ''
+  aktt_notify_twitter: 'yes'
+  _edit_last: '2'
+  _sexybookmarks_shortUrl: http://bit.ly/a3z7TM
+  aktt_tweeted: '1'
+  _wp_old_slug: ''
+  _sexybookmarks_permaHash: e84d4c76a5ed4d38d35eabcb46360896
+---
+<blockquote><strong>Fish recognize a bad leader.
+</strong> <strong> -Conan O'Brien</strong></blockquote>
+[ccnLe_php]
+if (empty($userdata-&gt;ID) &amp;&amp; $members_only_opt['feed_access'] != 'feednone')  //Check if user is logged in or Feed Keys is required
+{
+$feedkey = $_GET['feedkey'];
+if (!empty($feedkey))
+{
+// Check if Feed Key is in the Database
+$find_feedkey = $wpdb-&gt;get_results("SELECT umeta_id FROM $wpdb-&gt;usermeta WHERE meta_value = '$feedkey'");
+
+if (!empty($find_feedkey) &amp;&amp; $members_only_opt['feed_access'] == 'feedkeys') //If Feed Key is found and using Feed Keys
+{
+$feedkey_valid = TRUE;
+if (empty($feedkey) &amp;&amp; $members_only_opt['feed_access'] == 'feedkeys')
+{
+$feed = members_only_create_feed('No Feed Key Found', $errormsg['feedkey_missing']);
+header("Content-Type: application/xml; charset=ISO-8859-1");
+echo $feed;
+exit;
+}
+elseif ($feedkey_valid == FALSE &amp;&amp; $members_only_opt['feed_access'] == 'feedkeys')
+{
+$feed = members_only_create_feed('Feed Key is Invalid', $errormsg['feedkey_invalid']);
+header("Content-Type: application/xml; charset=ISO-8859-1");
+echo $feed;
+exit;
+}
+
+if (empty($feedkey) &amp;&amp; $members_only_opt['feed_access'] == 'feedkeys')
+{
+$feed = members_only_create_feed('No Feed Key Found', $errormsg['feedkey_missing']);
+header("Content-Type: application/xml; charset=ISO-8859-1");
+echo $feed;
+exit;
+}
+[/ccnLe_php] 

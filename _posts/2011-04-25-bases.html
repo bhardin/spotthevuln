@@ -1,0 +1,173 @@
+---
+layout: post
+title: Bases
+tags:
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ! '#secure #code #dev'
+  _edit_last: '2'
+  _syntaxhighlighter_encoded: '1'
+  aktt_tweeted: '1'
+---
+<blockquote><strong>I have only one superstition. Touch all the bases when I hit a home run.
+Babe Ruth</strong></blockquote>
+[sourcecode language="php"]
+&lt;?php
+ob_start();
+/*
+array( floor($code / 100)
+ 1=&gt;'INFO', 2=&gt;'SUCCESS', 3=&gt;'REDIRECT', 4|5=&gt;'ERROR', 4=&gt;'CLIENT_ERROR', 5=&gt;'SERVER_ERROR', 'VALID_RESPONSE');
+*/
+$http_status_codes=array(
+        100 =&gt; 'Continue',
+        101 =&gt; 'Switching Protocols',
+        102 =&gt; 'Processing',
+        200 =&gt; 'OK',
+        201 =&gt; 'Created',
+        202 =&gt; 'Accepted',
+        203 =&gt; 'Non-Authoritative Information',
+        204 =&gt; 'No Content',
+        205 =&gt; 'Reset Content',
+        206 =&gt; 'Partial Content',
+        207 =&gt; 'Multi-Status',
+        300 =&gt; 'Multiple Choices',
+        301 =&gt; 'Moved Permanently',
+        302 =&gt; 'Found',
+        303 =&gt; 'See Other',
+        304 =&gt; 'Not Modified',
+        305 =&gt; 'Use Proxy',
+        306 =&gt; 'unused',
+        307 =&gt; 'Temporary Redirect',
+        400 =&gt; 'Bad Request',
+        401 =&gt; 'Authorization Required',
+        402 =&gt; 'Payment Required',
+        403 =&gt; 'Forbidden',
+        404 =&gt; 'Not Found',
+        405 =&gt; 'Method Not Allowed',
+        406 =&gt; 'Not Acceptable',
+        407 =&gt; 'Proxy Authentication Required',
+        408 =&gt; 'Request Time-out',
+        409 =&gt; 'Conflict',
+        410 =&gt; 'Gone',
+        411 =&gt; 'Length Required',
+        412 =&gt; 'Precondition Failed',
+        413 =&gt; 'Request Entity Too Large',
+        414 =&gt; 'Request-URI Too Large',
+        415 =&gt; 'Unsupported Media Type',
+        416 =&gt; 'Requested Range Not Satisfiable',
+        417 =&gt; 'Expectation Failed',
+        418 =&gt; 'unused',
+        419 =&gt; 'unused',
+        420 =&gt; 'unused',
+        421 =&gt; 'unused',
+        422 =&gt; 'Unprocessable Entity',
+        423 =&gt; 'Locked',
+        424 =&gt; 'Failed Dependency',
+        425 =&gt; 'No code',
+        426 =&gt; 'Upgrade Required',
+        500 =&gt; 'Internal Server Error',
+        501 =&gt; 'Method Not Implemented',
+        502 =&gt; 'Bad Gateway',
+        503 =&gt; 'Service Temporarily Unavailable',
+        504 =&gt; 'Gateway Time-out',
+        505 =&gt; 'HTTP Version Not Supported',
+        506 =&gt; 'Variant Also Negotiates',
+        507 =&gt; 'Insufficient Storage',
+        508 =&gt; 'unused',
+        509 =&gt; 'unused',
+        510 =&gt; 'Not Extended',
+);
+
+$err_status_codes = array(
+'100'=&gt;array('Continue',''),
+'101'=&gt;array('Switching Protocols', ''),
+'102'=&gt;array('Processing',  ''),
+'200'=&gt;array('OK', ''),
+'201'=&gt;array('Created',  ''),
+'202'=&gt;array('Accepted',  ''),
+'203'=&gt;array('Non-Authoritative Information', ''),
+'204'=&gt;array('No Content',  ''),
+'205'=&gt;array('Reset Content',  ''),
+'206'=&gt;array('Partial Content', ''),
+'207'=&gt;array('Multi-Status',  ''),
+'300'=&gt;array('Multiple Choices', ''),
+'301'=&gt;array('Moved Permanently', 'The document has moved &lt;a href=&quot;THEREQUESTURI&quot;&gt;here&lt;/a&gt;.'),
+'302'=&gt;array('Found', 'The document has moved &lt;a href=&quot;THEREQUESTURI&quot;&gt;here&lt;/a&gt;.'),
+'303'=&gt;array('See Other',  'The answer to your request is located &lt;a href=&quot;THEREQUESTURI&quot;&gt;here&lt;/a&gt;.'),
+'304'=&gt;array('Not Modified',  ''),
+'305'=&gt;array('Use Proxy',  'This resource is only accessible through the proxy THEREQUESTURIYou will need to configure your client to use that proxy.'),
+'307'=&gt;array('Temporary Redirect', 'The document has moved &lt;a href=&quot;THEREQUESTURI&quot;&gt;here&lt;/a&gt;.'),
+'400' =&gt; array('Bad Request', 'Your browser sent a request that this server could not understand.'),
+'401' =&gt; array('Authorization Required', 'This server could not verify that you are authorized to access the document requested. Either you supplied the wrong credentials (e.g., bad password), or your browser doesn\'t understand how to supply the credentials required.'),
+'402' =&gt; array('Payment Required', 'INTERROR'),
+'403' =&gt; array('Forbidden', 'You don\'t have permission to access THEREQUESTURI on this server.'),
+'404' =&gt; array('Not Found', 'We couldn\'t find &lt;acronym title=&quot;THEREQUESTURI&quot;&gt;that uri&lt;/acronym&gt; on our server, though it\'s most certainly not your fault.'),
+'405' =&gt; array('Method Not Allowed', 'The requested method THEREQMETH is not allowed for the URL THEREQUESTURI.'),
+'406' =&gt; array('Not Acceptable', 'An appropriate representation of the requested resource THEREQUESTURI could not be found on this server.'),
+'407' =&gt; array('Proxy Authentication Required', 'This server could not verify that you are authorized to access the document requested. Either you supplied the wrong credentials (e.g., bad password), or your browser doesn\'t understand how to supply the credentials required.'),
+'408' =&gt; array('Request Time-out', 'Server timeout waiting for the HTTP request from the client.'),
+'409' =&gt; array('Conflict', 'INTERROR'),
+'410' =&gt; array('Gone', 'The requested resourceTHEREQUESTURIis no longer available on this server and there is no forwarding address. Please remove all references to this resource.'),
+'411' =&gt; array('Length Required', 'A request of the requested method GET requires a valid Content-length.'),
+'412' =&gt; array('Precondition Failed', 'The precondition on the request for the URL THEREQUESTURI evaluated to false.'),
+'413' =&gt; array('Request Entity Too Large', 'The requested resource THEREQUESTURI does not allow request data with GET requests, or the amount of data provided in the request exceeds the capacity limit.'),
+'414' =&gt; array('Request-URI Too Large', 'The requested URL\'s length exceeds the capacity limit for this server.'),
+'415' =&gt; array('Unsupported Media Type', 'The supplied request data is not in a format acceptable for processing by this resource.'),
+'416' =&gt; array('Requested Range Not Satisfiable', ''),
+'417' =&gt; array('Expectation Failed', 'The expectation given in the Expect request-header field could not be met by this server. The client sent &lt;code&gt;Expect:&lt;/code&gt;'),
+'422' =&gt; array('Unprocessable Entity', 'The server understands the media type of the request entity, but was unable to process the contained instructions.'),
+'423' =&gt; array('Locked', 'The requested resource is currently locked. The lock must be released or proper identification given before the method can be applied.'),
+'424' =&gt; array('Failed Dependency', 'The method could not be performed on the resource because the requested action depended on another action and that other action failed.'),
+'425' =&gt; array('No code', 'INTERROR'),
+'426' =&gt; array('Upgrade Required', 'The requested resource can only be retrieved using SSL. The server is willing to upgrade the current connection to SSL, but your client doesn\'t support it. Either upgrade your client, or try requesting the page using https://'),
+'500' =&gt; array('Internal Server Error', 'INTERROR'),
+'501' =&gt; array('Method Not Implemented', 'GET to THEREQUESTURI not supported.'),
+'502' =&gt; array('Bad Gateway', 'The proxy server received an invalid response from an upstream server.'),
+'503' =&gt; array('Service Temporarily Unavailable', 'The server is temporarily unable to service your request due to maintenance downtime or capacity problems. Please try again later.'),
+'504' =&gt; array('Gateway Time-out', 'The proxy server did not receive a timely response from the upstream server.'),
+'505' =&gt; array('HTTP Version Not Supported', 'INTERROR'),
+'506' =&gt; array('Variant Also Negotiates', 'A variant for the requested resource &lt;code&gt;THEREQUESTURI&lt;/code&gt; is itself a negotiable resource. This indicates a configuration error.'),
+'507' =&gt; array('Insufficient Storage','The method could not be performed on the resource because the server is unable to store the representation needed to successfully complete the request. There is insufficient free space left in your storage allocation.'),
+'510' =&gt; array('Not Extended', 'A mandatory extension policy in the request is not accepted by the server for this resource.')
+);
+
+if (isset($_SERVER['REDIRECT_STATUS'])) $err_code = $_SERVER['REDIRECT_STATUS'];
+
+$err_req_meth = $_SERVER['REQUEST_METHOD'];
+$err_req = htmlentities(strip_tags($_SERVER['REQUEST_URI']));
+$err_phrase = $err_status_codes[$err_code][0];
+$err_body = str_replace(
+ array('INTERROR', 'THEREQUESTURI', 'THEREQMETH'),
+ array('The server encountered an internal error or misconfiguration and was unable to complete your request.',$err_req, $err_req_meth),$err_status_codes[$err_code][1]);
+
+@header(&quot;HTTP/1.1 $err_code $err_phrase&quot;, 1);
+@header(&quot;Status: $err_code $err_phrase&quot;, 1);
+
+if ( $err_code=='400'||$err_code=='403'||$err_code=='405'||$err_code[0]=='5'){
+ @header(&quot;Connection: close&quot;, 1);
+ if ($err_code == '405') @header('Allow: GET,HEAD,POST,OPTIONS,TRACE');
+ echo &quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//IETF//DTD HTML 2.0//EN\&quot;&gt;\n&lt;html&gt;\n&lt;head&gt;\n&lt;title&gt;{$err_code} {$err_phrase}&lt;/title&gt;\n&lt;h1&gt;{$err_phrase}&lt;/h1&gt;\n&lt;p&gt;{$err_body}&lt;br&gt;\n&lt;/p&gt;\n&lt;/body&gt;&lt;/html&gt;&quot;;
+} else echo '&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot;
+       &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;
+&lt;html xml:lang=&quot;en&quot; lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;title&gt;'.$err_code.' '.$err_phrase.'&lt;/title&gt;
+  &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;'.$err_code.' '.$err_phrase.'&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;
+'.$err_body.'&lt;br /&gt;
+&lt;/p&gt;
+&lt;pre&gt;
+'.print_r($_SERVER,1).'
+&lt;/pre&gt;
+  &lt;/body&gt;
+&lt;/html&gt;';
+?&gt;
+[/sourcecode] 

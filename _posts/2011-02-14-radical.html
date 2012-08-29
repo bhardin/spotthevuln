@@ -1,0 +1,58 @@
+---
+layout: post
+title: Radical
+tags:
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  _aktt_hash_meta: ! '#secure #code #dev'
+  aktt_notify_twitter: 'yes'
+  _syntaxhighlighter_encoded: '1'
+  _edit_last: '2'
+  aktt_tweeted: '1'
+  _sexybookmarks_shortUrl: http://bit.ly/haruy9
+  _sexybookmarks_permaHash: 620e9e98733a8516afc9fde72764fbcd
+---
+<blockquote><strong>When you are right, you cannot be too radical; When you are wrong, you cannot be too conservative.</strong> <br><strong>  - Martin Luther King, Jr.
+</strong></blockquote>
+[sourcecode language="php"]
+&lt;?php
+    if ($data!='')
+    {
+?&gt;
+&lt;img src=&quot;/generator/?generate=&lt;?php echo urlencode($data)?&gt;&quot;/&gt;
+&lt;?php
+    }
+?&gt;
+&lt;/div&gt;&lt;br/&gt;
+&lt;form action=&quot;/generator/&quot; name=&quot;wizard&quot; method=&quot;post&quot; class=&quot;BezahlCodeForm&quot;&gt;
+
+&lt;label for=&quot;singlepayment&quot;&gt;&lt;input type=&quot;radio&quot; id=&quot;singlepayment&quot; name=&quot;gen_type&quot; value=&quot;singlepayment&quot; &lt;?php if($_REQUEST['gen_type']==&quot;singlepayment&quot; || empty($_REQUEST['gen_type'])) echo 'checked=&quot;checked&quot;'?&gt; /&gt; &amp;Uuml;berweisung&lt;/label&gt;&lt;br /&gt;
+&lt;label for=&quot;singlepaymentspende&quot;&gt;&lt;input type=&quot;radio&quot; id=&quot;singlepaymentspende&quot; name=&quot;gen_type&quot; value=&quot;singlepaymentspende&quot; &lt;?php if($_REQUEST['gen_type']==&quot;singlepaymentspende&quot;) echo 'checked=&quot;checked&quot;'?&gt;/&gt; Spendenzahlung&lt;/label&gt;&lt;br /&gt;
+&lt;label for=&quot;singledirectdebit&quot;&gt;&lt;input type=&quot;radio&quot; id=&quot;singledirectdebit&quot; name=&quot;gen_type&quot; value=&quot;singledirectdebit&quot; &lt;?php if($_REQUEST['gen_type']==&quot;singledirectdebit&quot;) echo 'checked=&quot;checked&quot;'?&gt;/&gt; Lastschrift&lt;/label&gt;&lt;br /&gt;
+
+Name:&lt;br /&gt;&lt;input type=&quot;text&quot; tooltipText=&quot;Format: DTAUS Text&quot; id=&quot;gen_name&quot; onblur=&quot;checkInput(this, 'dtaus')&quot; name=&quot;gen_name&quot; maxlength=&quot;27&quot; value=&quot;&lt;?= isset($_REQUEST['gen_name'])?$_REQUEST['gen_name']:&quot;&quot;?&gt;&quot;&gt;
+&lt;br /&gt;
+Kontonummer:&lt;br /&gt;&lt;input type=&quot;text&quot; tooltipText=&quot;Format: Ganzzahl z.B. 1234&quot; id=&quot;gen_account&quot; onblur=&quot;checkInput(this, 'ganzzahl')&quot; name=&quot;gen_account&quot; value=&quot;&lt;?= isset($_REQUEST['gen_account'])?$_REQUEST['gen_account']:&quot;&quot;?&gt;&quot; &gt;
+&lt;br /&gt;
+BLZ:&lt;br /&gt;&lt;input type=&quot;text&quot; tooltipText=&quot;Format: Ganzzahl z.B. 1234&quot; id=&quot;gen_BNC&quot; onblur=&quot;checkInput(this, 'ganzzahl')&quot; name=&quot;gen_BNC&quot; value=&quot;&lt;?= isset($_REQUEST['gen_BNC'])?$_REQUEST['gen_BNC']:&quot;&quot;?&gt;&quot; &gt;
+&lt;br /&gt;
+Betrag in Euro (z.B. 1234,50) &lt;br /&gt;&lt;input type=&quot;text&quot; tooltipText=&quot;Format: Dezimalzahl z.B. 1234,50&quot; onblur=&quot;checkInput(this, 'dezimalzahl')&quot; id=&quot;gen_amount&quot; name=&quot;gen_amount&quot; value=&quot;&lt;?= isset($_REQUEST['gen_amount'])?$_REQUEST['gen_amount']:&quot;&quot;?&gt;&quot; &gt;
+&lt;br /&gt;
+Verwendungszweck:&lt;br /&gt;&lt;input type=&quot;text&quot; id=&quot;gen_reason&quot; tooltipText=&quot;Format: DTAUS Text&quot; onblur=&quot;checkInput(this, 'dtaus')&quot; name=&quot;gen_reason&quot; maxlength=&quot;54&quot; value=&quot;&lt;?= isset($_REQUEST['gen_reason'])?$_REQUEST['gen_reason']:&quot;&quot;?&gt;&quot; &gt;
+&lt;br/&gt;
+&lt;input type=&quot;button&quot; value=&quot;Erstellen&quot; onclick='javascript:generateImage();'&gt;
+&lt;/form&gt;
+&lt;?php if(!(get_option(&quot;bezahlcode_showlink&quot;) == &quot;hidden&quot;)) {	?&gt;
+&lt;br /&gt;
+&lt;span class=&quot;bezahlCodeLink&quot;&gt;Weitere Informationen: &lt;a href=&quot;http://www.bezahlcode.de&quot; title=&quot;BezahlCode - Schnell, einfach und sicher bezahlen&quot; target=&quot;_blank&quot;&gt;www.bezahlcode.de&lt;/a&gt;&lt;/span&gt;
+&lt;?php } ?&gt;
+&lt;/div&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+var tooltipObj = new DHTMLgoodies_formTooltip();
+tooltipObj.initFormFieldTooltip();
+&lt;/script&gt;
+[/sourcecode] 

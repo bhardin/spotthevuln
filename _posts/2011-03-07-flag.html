@@ -1,0 +1,30 @@
+---
+layout: post
+title: Flag
+tags:
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ! '#secure #code #dev'
+  _edit_last: '3'
+  _syntaxhighlighter_encoded: '1'
+  aktt_tweeted: '1'
+---
+<blockquote><strong>Every normal man must be tempted, at times, to spit upon his hands, hoist the black flag, and begin slitting throats.
+~H.L. Mencken</strong></blockquote>
+[sourcecode language="javascript"]
+/**
+ * Encode special characters in a plain-text string for display as HTML.
+ */
+Drupal.checkPlain = function(str) {
+  str = String(str);
+  var replace = { '&amp;': '&amp;amp;', '&quot;': '&amp;quot;', '&lt;': '&amp;lt;', '&gt;': '&amp;gt;' };
+  for (var character in replace) {
+    str = str.replace(character, replace[character]);
+  }
+  return str;
+};
+[/sourcecode] 

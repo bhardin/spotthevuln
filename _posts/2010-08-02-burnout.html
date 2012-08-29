@@ -1,0 +1,89 @@
+---
+layout: post
+title: Burnout
+tags:
+- Code Snippet
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  _sexybookmarks_permaHash: 5d4bdac24d44137f04880226fb3ddd30
+  _sexybookmarks_shortUrl: http://bit.ly/dv5Y8M
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ''
+  _edit_last: '1'
+  bfa_ata_body_title: ''
+  bfa_ata_display_body_title: ''
+  bfa_ata_body_title_multi: ''
+  bfa_ata_meta_title: ''
+  bfa_ata_meta_keywords: ''
+  bfa_ata_meta_description: ''
+  aktt_tweeted: '1'
+---
+<blockquote><strong>Better to burn out than rust out</strong><strong>.</strong>
+<strong> -Neil Young
+</strong></blockquote>
+[ccnLe_php]
+// log all requests to register on our blog
+function ttc_add_to_log( $user, $error)
+{
+
+global $wpdb;
+$registration_log_table_name = $wpdb-&gt;prefix . "ttc_user_registration_log";
+$request_time = $_SERVER['REQUEST_TIME'];
+$http_accept = $_SERVER['HTTP_ACCEPT'];
+$http_user_agent = $_SERVER['HTTP_USER_AGENT'];
+$http_remote_addr = $_SERVER['REMOTE_ADDR'];
+
+
+if($wpdb-&gt;get_var("show tables like '$registration_log_table_name'") != $registration_log_table_name) {ttc_wp_user_registration_install();
+}
+
+// wtf? accept statements coming in at over 255 chars?  Prevent sql errors and any funny business
+// by shortening anything from user to 200 chars if over 255
+if ( strlen($email) &gt; 200 ){ $email = substr ($email, 0, 200 ); }
+if ( strlen($http_accept ) &gt; 200 ) { $http_accept = substr ( $http_accept, 0, 200 ); }
+if ( strlen($http_user_agent ) &gt; 200 ) { $http_user_agent = substr ( $http_user_agent, 0, 200 ); }
+
+$sql = "INSERT INTO " . $registration_log_table_name . " ( ip, email, problem, accept, agent, day )
+VALUES ( '$http_remote_addr', '$user', '$error', '$http_accept', '$http_user_agent', NOW() )";
+$result = $wpdb-&gt;query( $sql );
+}
+
+
+
+// add an email to our email blacklist if we decide it is an bot
+function ttc_add_to_blacklist( $email )
+{
+global $wpdb;
+$blacklist_table_name = $wpdb-&gt;prefix . "ttc_user_registration_blacklist";
+
+
+if($wpdb-&gt;get_var("show tables like '$blacklist_table_name'") != $blacklist_table_name) {
+ttc_wp_user_registration_install();
+}
+
+if ( strlen($email) &gt; 200 ){ $email = substr ($email, 0, 200 ); }
+
+$sql = "INSERT INTO " . $blacklist_table_name . " ( blacklisted ) VALUES ( '$email' )";
+$result = $wpdb-&gt;query( $sql );
+
+}
+
+
+// add an ip to our ip blacklist if we decide it is a bot
+function ttc_add_to_ip_blacklist( $ip )
+{
+global $wpdb;
+$ip_table_name = $wpdb-&gt;prefix . "ttc_ip_blacklist";
+
+
+if($wpdb-&gt;get_var("show tables like '$ip_table_name'") != $ip_table_name) {
+ttc_wp_user_registration_install();
+}
+
+$sql = "INSERT INTO " . $ip_table_name . " ( ip ) VALUES ( '$ip' )";
+$result = $wpdb-&gt;query( $sql );
+}
+[/ccnLe_php] 

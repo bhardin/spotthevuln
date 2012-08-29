@@ -1,0 +1,124 @@
+---
+layout: post
+title: Tougher
+tags:
+- All
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ! '#secure #code #dev'
+  _edit_last: '2'
+  _syntaxhighlighter_encoded: '1'
+  _sexybookmarks_shortUrl: http://bit.ly/ftbcJW
+  aktt_tweeted: '1'
+  _wp_old_slug: ''
+  _sexybookmarks_permaHash: 70975e2b77efbd78ab79cf0b60858e1a
+---
+<blockquote><strong>I survived because I was tougher than anybody else.</strong> <br><strong> - Bette Davis
+</strong></blockquote>
+[sourcecode language="php"]
+...&lt;snip&gt;...
+
+// Load the admin.php language file
+require FORUM_ROOT.'lang/'.$forum_user['language'].'/admin_common.php';
+require FORUM_ROOT.'lang/'.$forum_user['language'].'/admin_settings.php';
+
+$section = isset($_GET['section']) ? $_GET['section'] : null;
+
+
+if (isset($_POST['form_sent']))
+{
+	$form = array_map('trim', $_POST['form']);
+
+	($hook = get_hook('aop_form_submitted')) ? eval($hook) : null;
+
+...&lt;snip&gt;...
+
+	($hook = get_hook('aop_pre_update_configuration')) ? eval($hook) : null;
+
+	foreach ($form as $key =&gt; $input)
+	{
+		// Only update permission values that have changed
+		if (array_key_exists('p_'.$key, $forum_config) &amp;&amp; $forum_config['p_'.$key] != $input)
+		{
+			$query = array(
+				'UPDATE'	=&gt; 'config',
+				'SET'		=&gt; 'conf_value='.$input,
+				'WHERE'		=&gt; 'conf_name=\'p_'.$forum_db-&gt;escape($key).'\''
+			);
+
+			($hook = get_hook('aop_qr_update_permission_conf')) ? eval($hook) : null;
+			$forum_db-&gt;query_build($query) or error(__FILE__, __LINE__);
+		}
+
+		// Only update option values that have changed
+		if (array_key_exists('o_'.$key, $forum_config) &amp;&amp; $forum_config['o_'.$key] != $input)
+		{
+			if ($input != '' || is_int($input))
+				$value = '\''.$forum_db-&gt;escape($input).'\'';
+			else
+				$value = 'NULL';
+
+			$query = array(
+				'UPDATE'	=&gt; 'config',
+				'SET'		=&gt; 'conf_value='.$value,
+				'WHERE'		=&gt; 'conf_name=\'o_'.$forum_db-&gt;escape($key).'\''
+			);
+
+			($hook = get_hook('aop_qr_update_permission_option')) ? eval($hook) : null;
+			$forum_db-&gt;query_build($query) or error(__FILE__, __LINE__);
+		}
+	}
+
+	// Regenerate the config cache
+	if (!defined('FORUM_CACHE_FUNCTIONS_LOADED'))
+		require FORUM_ROOT.'include/cache.php';
+
+	generate_config_cache();
+
+	($hook = get_hook('aop_pre_redirect')) ? eval($hook) : null;
+
+	redirect(forum_link($forum_url['admin_settings_'.$section]), $lang_admin_settings['Settings updated'].' '.$lang_admin_common['Redirect']);
+}
+
+
+if (!$section || $section == 'setup')
+{
+	// Setup the form
+	$forum_page['group_count'] = $forum_page['item_count'] = $forum_page['fld_count'] = 0;
+
+	// Setup breadcrumbs
+	$forum_page['crumbs'] = array(
+		array($forum_config['o_board_title'], forum_link($forum_url['index'])),
+		array($lang_admin_common['Forum administration'], forum_link($forum_url['admin_index'])),
+		array($lang_admin_common['Settings'], forum_link($forum_url['admin_settings_setup'])),
+		array($lang_admin_common['Setup'], forum_link($forum_url['admin_settings_setup']))
+	);
+
+	($hook = get_hook('aop_setup_pre_header_load')) ? eval($hook) : null;
+
+	define('FORUM_PAGE_SECTION', 'settings');
+	define('FORUM_PAGE', 'admin-settings-setup');
+	require FORUM_ROOT.'header.php';
+
+	// START SUBST - &lt;!-- forum_main --&gt;
+	ob_start();
+
+	($hook = get_hook('aop_setup_output_start')) ? eval($hook) : null;
+
+?&gt;
+	&lt;div class=&quot;main-content main-frm&quot;&gt;
+		&lt;form class=&quot;frm-form&quot; method=&quot;post&quot; accept-charset=&quot;utf-8&quot; action=&quot;&lt;?php echo forum_link($forum_url['admin_settings_setup']) ?&gt;&quot;&gt;
+			&lt;div class=&quot;hidden&quot;&gt;
+				&lt;input type=&quot;hidden&quot; name=&quot;csrf_token&quot; value=&quot;&lt;?php echo generate_form_token(forum_link($forum_url['admin_settings_setup'])) ?&gt;&quot; /&gt;
+				&lt;input type=&quot;hidden&quot; name=&quot;form_sent&quot; value=&quot;1&quot; /&gt;
+			&lt;/div&gt;
+				&lt;div class=&quot;content-head&quot;&gt;
+					&lt;h2 class=&quot;hn&quot;&gt;&lt;span&gt;&lt;?php echo $lang_admin_settings['Setup personal'] ?&gt;&lt;/span&gt;&lt;/h2&gt;
+				&lt;/div&gt;
+
+...&lt;snip&gt;...
+[/sourcecode] 

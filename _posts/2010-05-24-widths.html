@@ -1,0 +1,111 @@
+---
+layout: post
+title: Widths
+tags:
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  _sexybookmarks_permaHash: ac01ffa878087c548f1f50077abeb028
+  _sexybookmarks_shortUrl: http://bit.ly/d0vOd6
+  bfa_ata_meta_description: ''
+  bfa_ata_meta_keywords: ''
+  bfa_ata_meta_title: ''
+  bfa_ata_body_title_multi: ''
+  bfa_ata_display_body_title: ''
+  bfa_ata_body_title: ''
+  _edit_last: '2'
+  _aktt_hash_meta: ! '#code #development'
+  aktt_tweeted: '1'
+  aktt_notify_twitter: 'yes'
+---
+<blockquote><strong>A lot of people are afraid of heights. Not me, I'm  afraid of widths.
+- Steven Wright</strong></blockquote>
+[ccnLe_php]&lt;?php
+
+function print_loginlockdownAdminPage() {
+
+global $wpdb;
+
+$table_name = $wpdb-&gt;prefix . "lockdowns";
+
+$loginlockdownAdminOptions = get_loginlockdownOptions();
+
+if (isset($_POST['update_loginlockdownSettings'])) {
+
+if (isset($_POST['ll_max_login_retries'])) {
+
+$loginlockdownAdminOptions['max_login_retries'] = $_POST['ll_max_login_retries'];
+
+}
+
+if (isset($_POST['ll_retries_within'])) {
+
+$loginlockdownAdminOptions['retries_within'] = $_POST['ll_retries_within'];
+
+}
+
+if (isset($_POST['ll_lockout_length'])) {
+
+$loginlockdownAdminOptions['lockout_length'] = $_POST['ll_lockout_length'];
+
+}
+
+if (isset($_POST['ll_lockout_invalid_usernames'])) {
+
+$loginlockdownAdminOptions['lockout_invalid_usernames'] = $_POST['ll_lockout_invalid_usernames'];
+
+}
+
+if (isset($_POST['ll_mask_login_errors'])) {
+
+$loginlockdownAdminOptions['mask_login_errors'] = $_POST['ll_mask_login_errors'];
+
+}
+
+update_option("loginlockdownAdminOptions", $loginlockdownAdminOptions);
+
+?&gt;
+
+&lt;div class="updated"&gt;&lt;p&gt;&lt;strong&gt;&lt;?php _e("Settings Updated.", "loginlockdown");?&gt;&lt;/strong&gt;&lt;/p&gt;&lt;/div&gt;
+
+&lt;?php
+
+}
+
+if (isset($_POST['release_lockdowns'])) {
+
+if (isset($_POST['releaseme'])) {
+
+$released = $_POST['releaseme'];
+
+foreach ( $released as $release_id ) {
+
+$results = $wpdb-&gt;query("UPDATE $table_name SET release_date = now() " .
+
+"WHERE lockdown_ID = $release_id");
+
+}
+
+}
+
+update_option("loginlockdownAdminOptions", $loginlockdownAdminOptions);
+
+?&gt;
+
+&lt;div&gt;&lt;p&gt;&lt;strong&gt;&lt;?php _e("Lockdowns Released.", "loginlockdown");?&gt;&lt;/strong&gt;&lt;/p&gt;&lt;/div&gt;
+
+&lt;?php
+
+}
+
+$dalist = listLockedDown();
+
+?&gt;
+
+&lt;div&gt;
+
+&lt;form method="post" action="&lt;?php echo $_SERVER["REQUEST_URI"]; ?&gt;"&gt;
+
+[/ccnLe_php] 

