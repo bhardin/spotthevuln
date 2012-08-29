@@ -31,7 +31,7 @@ $browser is taken from getenv("HTTP_USER_AGENT"), which is attacker controlled (
 <br/>
 Upon first glance, it seems like $real_ip and $socksport could be used to reach a SQL injection.  After some more investigation, it is likely that the fsockopen call would probably fail before $real_ip and $socksport could be passed to a dynamic SQL statement.  With that said, $real_ip and $socksport can be still be used to generate a fsockopen request to an arbitrary system (line 59). 
 <br/>
-<h1>Developers Solution</h1>
+## Developers Solution
 <code lang="PHP" highlight="59,67,71,74,98,102,105">
 <?php
 

@@ -38,7 +38,7 @@ Now, looking at lines 30-35, we see the developer uses stripslashes before echoi
 From the looks of this code, it's likely the developer doesn't know what XSS is.  Any security training should probably first focus on this deficiency.  Other code written by this developer should also be audited for XSS.
 
 
-<h1>Developers Solution</h1>
+## Developers Solution
 [sourcecode language="diff" highlight="37-42,68,70"]
 &lt;?php
 ...snip...

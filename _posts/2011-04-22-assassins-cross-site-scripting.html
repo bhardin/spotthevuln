@@ -33,7 +33,7 @@ Later, in wp_nonce_ays(), the tainted wp_get_referer() value is passed to the $a
 
 Well, url values are always a bit tricky.  These values have to be encoded before being used to build HTML markup.  URLs also have to be validated if they are being passed to a SRC, HREF, or other HTML attribute which causes a browser navigation or request.  In this example, the tainted $adminurl is used to populate an A HREF value.  The value is encoded, however that encoding doesn't stop an attacker from passing a javascript:payload url... 
 
-<h1>Developers Solution</h1>
+## Developers Solution
 [sourcecode language="diff" highlight="9,55,56,73,74"]
 &lt;?php
 

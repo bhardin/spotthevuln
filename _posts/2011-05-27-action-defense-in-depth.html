@@ -30,7 +30,7 @@ This week's bug is more of a design issue as opposed to an implementation issue.
 So what should the author do?  Change 'time' to time()?  Even if the author changed the string 'time' to the function time(), time() in PHP only returns seconds since epoch time.  If an attacker can leak system time, they'll still be able to predict the password reset value… 
 
 
-<h1>Developers Solution</h1>
+## Developers Solution
 [sourcecode language="php" highlight="31"]
 &lt;?php
 
