@@ -14,7 +14,7 @@ meta:
   _edit_last: '2'
   aktt_tweeted: '1'
 ---
-<h1>Details</h1>
+## Details
 Affected Software: Corpse C&C
 
 Fixed in Version: ?
@@ -22,11 +22,14 @@ Fixed in Version: ?
 Issue Type: SQL Injection
 
 Original Code: <a href="http://spotthevuln.com/2011/07/floods/">Found Here</a>
-<h1>Details</h1>
+
+## Description
 This week's bug is in Corpse C&C.  SpotTheVuln reader Christina hits it right on the head,  line 32 contains a ridiculous amount of SQL injection.  Most of the parameters passed to the INSERT statement results in SQL injection.  $id, $info, and $user are all set directly from $_GET or $_POST and are used in the SQL statement without any sanitization.  Despite its name, $real_ip is also completely attacker controlled and can be used for SQL injection.  Getenv("HTTP_X_FORWARDED_FOR") doesn't sanitize the user controlled value in any way.  For some reason, many developers assume the X-Forwarded-For header will only specify an IP address or domain name.  X-Forwarded-For can contain any characters (including angle brackets, single quotes, and double quotes). 
 
-<h1>Vulnerable Code</h1>
-<code lang="PHP" highlight="32">
+## Vulnerable Code
+Line 32
+
+{% highlight html+php linenos %}
 <?php
 
 $use_mysql = 1;
@@ -81,4 +84,4 @@ function decode_string($string) {
     return addslashes($bindata);
 }
 ?>
-</code>
+{% endhighlight %}
