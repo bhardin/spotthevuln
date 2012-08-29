@@ -3,10 +3,31 @@
     <title>{{ page.title }}</title>
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/syntax.css" rel="stylesheet">
+    <link href="/assets/css/custom.css" rel="stylesheet">
   </head>
   <body>
+  
+  <div class="navbar">
+    <div class="navbar-inner">
+    <ul class="nav">
+      <li><a href="/">Home</a></li>
+      <li><a href="/purpose">Purpose</a></li>
+      <li><a href="/schedule">Schedule</a></li>
+      <li><a href="/using-this-site">Using This Site</a></li>
+      <li><a href="/about">About Us</a></li>
+    </ul>
+    </div>
+  </div>
+
+
+    <div class="header container">
+      <h1>SpotTheVuln.com</h1>
+      <h2>Helping Developers Understand Security</h2>
+    </div>
+
   	<div class="container">
     	{{ content }}
   	</div>
+  
   </body>
 </html>

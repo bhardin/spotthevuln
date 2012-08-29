@@ -1,0 +1,14 @@
+.header {
+	background-color: #263347;
+}
+
+.header h1 {
+	color: #FFF;
+	margin-left: 25px;
+}
+
+.header h2 {
+	color: #EEE;
+	margin-left: 25px;
+	font-size: 20px;
+}
