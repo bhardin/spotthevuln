@@ -33,7 +33,7 @@ __Fixed in Version:__  revision 697031
 Issue Type: Defense in Depth
 
 Original Code: <a title="Slinky" href="http://spotthevuln.com/2010/03/slinky/" target="_blank">Found Here</a>
-<h2>Description</h2>
+## Description
 <div>
 
 This is a defense in depth fix checked into the Apache SVN under web services.  This particular issue prevented a username enumeration/disclosure bug that would occur if a null password was sent with a value username.  The developers fixed this particular issue by logging the failure in the debug log and displaying a generic authentication failure message back to the user.

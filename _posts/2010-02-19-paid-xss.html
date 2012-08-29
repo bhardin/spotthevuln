@@ -26,7 +26,7 @@ __Fixed in Version:__  1.5.1.3
 Issue Type: XSS
 
 Original Code: <a title="Paid" href="http://spotthevuln.com/2010/02/paid/" target="_blank">Found Here</a>
-<h2>Description</h2>
+## Description
 This particular issue was a super simple XSS affecting WordPress.  In this case, the comment parameter is taken directly from the querystring here:
 <blockquote>$comment = $_GET['comment'];</blockquote>
  and used to build HTML markup here:

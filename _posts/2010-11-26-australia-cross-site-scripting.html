@@ -34,7 +34,7 @@ __Fixed in Version:__  2.5
 Issue Type: Cross Site Scripting (XSS)
 
 Original Code: <a title="Australia" href="http://spotthevuln.com/2010/11/australia/" target="_blank">Found    Here</a>
-<h2>Description</h2>
+## Description
 One of the more weird XSS vulnerabilities I've seen :)
 Here we see FreePBX using a potion of a log file in their HTML markup.  Specifically, the PHP code uses the system() API to execute a command on the PBX system.  The results of the system() command are printed to the HTML markup.  In this case, FreePBX runs a tail on a log file displaying some of the entries contained within that log file.  Looking at the vulnerable code sample, it is impossible to understand exactly what is contained in these log files, however it appears that HTML can exist in the log entries due to the sed command being run on the log file output:
 

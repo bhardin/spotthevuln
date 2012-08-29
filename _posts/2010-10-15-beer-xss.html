@@ -37,7 +37,7 @@ __Fixed in Version:__  3.7.0b
 Issue Type: XSS
 
 Original Code: <a title="Beer" href="http://spotthevuln.com/2010/10/beer/" target="_blank">Found    Here</a>
-<h2>Description</h2>
+## Description
 This week's bug was an XSS vulnerability caused by the improper escaping of an HTML attribute.  It's obvious that the developers attempted to protect their software from XSS vulnerabilities.  They even wrote their own XSS sanitizing method (escapeHTMLTags).  The escapeHTMLTags() method is simple, strip out &lt; and &gt; characters and return the string.  Unfortunately, this simple pattern isn't sufficient in defending against all XSS vulnerabilities.  There is a bit of tracing that is required to understand this bug, so let's start the tracing.  The bug begins with the following variable assignment:
 <blockquote>String username = ParamUtils.getParameter(request, "username");</blockquote>
 The username value is assigned directly from the HTTP request.  Later, the username variable is escaped using the custom escapeHTMLTags() function.  The escaping occurs in the following line:

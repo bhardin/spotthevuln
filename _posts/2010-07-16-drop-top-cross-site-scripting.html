@@ -51,7 +51,7 @@ __Fixed in Version:__  3.6.1
 Issue Type: XSS
 
 Original Code: <a title="Drop Top" href="http://spotthevuln.com/2010/07/drop-top/" target="_blank">Found   Here</a>
-<h2>Description</h2>
+## Description
 This is a straightforward XSS bug that affecting the Admin Console of OpenFire by Ignite Realtime/Jive software.  The code fix is simple, encode a tainted URL variable before using it in markup.  The URL variable is assigned an attacker controlled value here:
 <blockquote>String url = ParamUtils.getParameter(request, "url");</blockquote>
 And is later used in the HTML markup here:

@@ -24,7 +24,7 @@ meta:
 <strong>__Fixed in Version:__ </strong> 2.6.2
 <strong>Issue Type:</strong> <a href="http://spotthevuln.com/category/vulnerability/sql-injection/">SQL Injection</a> through MySQL Column Truncation
 <strong>Original Code:</strong> <a href="http://spotthevuln.com/2009/10/vulnerable-code-choice-of-enemies/">Found Here</a>
-<h2>Description</h2>
+## Description
 This was a tricky SQL Injection through truncation issue which affected WordPress installations using MySQL back ends (which seem to be the majority of WordPress installations).
 
 When a user is registered inside WordPress, the username value undergoes some sanitization/validation before being inserted into the WordPress database.  One of the routines that validates usernames is named sanitize_user().  Inside of the sanitize_user() function, WordPress attempts to sanitize the username by stripping certain characters (entities and octets).

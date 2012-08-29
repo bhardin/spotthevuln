@@ -32,7 +32,7 @@ __Fixed in Version:__  1.2
 Issue Type: XSS
 
 Original Code: <a title="Noble" href="http://spotthevuln.com/2010/09/noble/" target="_blank">Found    Here</a>
-<h2>Description</h2>
+## Description
 Looking at this code made me smile, its about 6 years old.  There's a lot going on here and quite a few issues.  The first thing that jumped out at me was the use of $HTTP_POST_FILES.  $HTTP_POST_FILES means were working with user controlled files.  There are tons of things that can go wrong when dealing with user/attacker controlled files (a list too long to go into here).  Lets hope the WordPress devs are on their A-game here.  Looking at the patch submitted by the WordPress developers, we see that they changed references to $HTTP_POST_FILES to the superglobal $_FILES.  Within the $_FILES array there are a couple indexes that are commonly used.  These indexes are:
 <blockquote>[name]
 [type]

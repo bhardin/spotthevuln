@@ -30,7 +30,7 @@ __Fixed in Version:__  1.5.2
 Issue Type: XSS
 
 Original Code: <a title="Pause" href="http://spotthevuln.com/2010/02/pause/" target="_blank">Found Here</a>
-<h2>Description</h2>
+## Description
 <div><span>This particular issue was a XSS vulnerability that affected JackRabbit &lt; 1.5.2. The issue was reported to the JackRabbit team by the Red Hat Security Response Team. The symptoms are fairly straightforward. First, the JackRabbit code takes user/attacker supplied via the "q" parameter:</span></div>
 <span>
 <blockquote>String q = new String(request.getParameter("q").getBytes("ISO-8859-1"), "UTF-8");</blockquote>

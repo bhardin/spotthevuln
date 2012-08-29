@@ -29,7 +29,7 @@ __Fixed in Version:__  2.3.2
 <strong>Issue Type:</strong> Privilege Escalation
 
 <strong>Original Code: </strong><a title="Vulnerable Code" href="http://spotthevuln.com/2009/10/vulnerable-code-one-damn-thing/" target="_blank">Found Here</a>
-<h2>Description</h2>
+## Description
 The vulnerable code here deals with the use of the $_SERVER['PHP_SELF'] global variable.  PHP_SELF has a few quirks that are not well understood by many developers and can easily introduce security issues in web applications.  If we take a look at the PHP manual page for $_SERVER['PHP_SELF'], we see the following:
 <blockquote>The filename of the currently executing script, relative to the document root. For instance, <var>$_SERVER['PHP_SELF']</var> in a script at the address <var>http://example.com/test.php/foo.bar</var> would be <var>/test.php/foo.bar</var>.</blockquote>
 Examining the example provided in the PHP manual page, we see that an attacker is free to specify an arbitrary value (foo.bar) after a valid php file (test.php).  This arbitrary value will be included in the $_SERVER['PHP_SELF'] global variable.

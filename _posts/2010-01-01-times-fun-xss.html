@@ -27,7 +27,7 @@ __Fixed in Version:__  1.0.14
 Issue Type: Cross Site Scripting (XSS)
 
 Original Code: <a title="Time's Fun" href="http://spotthevuln.com/2009/12/times-fun/" target="_blank">Found Here</a>
-<h2>Description</h2>
+## Description
 <div id="_mcePaste">
 <p id="_mcePaste">This is a very subtle bug in Joomla's XSS filtering.  Joomla establishes a blacklist of HTML tags and attributes that are not allowed.  Blacklists always seem to be the easiest way to go… but rarely do they standup in the long run.  We'll touch on blacklists in a bit, but for now on to the bug!  In this case, the attacker can provide a HTML tag and a HTML tag attribute (the attribute is optional).  Knowing the dangers of giving users the option to provide arbitrary HTML tags and attributes, the Joomla team devised a blacklist of "bad" HTML tags and attributes.  If the HTML tags and attributes provided by the user happens to match one of the tags or attributes listed in the blacklist, then we enter a failure condition.  Knowing some of the trickery used by  web hackers, the Joomla team first converts the user controlled attribute to lower before checking to see if the provided attribute is in the attribute blacklist.</p>
 

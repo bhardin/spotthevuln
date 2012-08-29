@@ -24,7 +24,7 @@ __Fixed in Version:__  1.x
 Issue Type: SQL Injection
 
 Original Code: <a title="Fishing and Standing" href="http://spotthevuln.com/2010/01/fishing-and-standing/" target="_blank">Found Here</a>
-<h2>Description</h2>
+## Description
 Straight up SQL injection in Joomla.  The $order_by and the $direction values are taken directly from POST parameters.  They are then passed to a SQL statement as part of ORDER BY clause without sanitization.  The attacker is free to use traditional SQL injection methods to pass malicious SQL statements to the backend database.
 
 This bug was fixed by sanitizing the values passed to $order_by and $direction.  I like the fact that the Joomla developers used a whitelist to restrict the values passed to $order_by and $direction. The whitelist is established in the following line of code:

@@ -39,7 +39,7 @@ __Fixed in Version:__  2.1
 Issue Type: Cross Site Scripting (XSS)
 
 Original Code: <a title="Covet" href="http://spotthevuln.com/2010/11/covet/" target="_blank">Found    Here</a>
-<h2>Description</h2>
+## Description
 A familiar symptom here with the same ole result.  In the vulnerable code we see a call to $_SERVER['REQUEST_URI'].  For some reason, many developers assume REQUEST_URI cannot be tainted and used for XSS.  REQUEST_URI will not only include the path to current php file, it will also include any querystring parameters in the URI as well.  Here's a few examples of what REQUEST_URI will return:
 <blockquote>http://spotthevuln.com/blah/
 results in --&gt; /

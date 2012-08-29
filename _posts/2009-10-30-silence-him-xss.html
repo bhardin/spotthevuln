@@ -26,7 +26,7 @@ __Affected Software:__ <strong><a title="WordPress bugs" href="http://spotthevul
 <strong>Issue Type: </strong><strong><a title="Cross Site Scripting" href="http://spotthevuln.com/category/vulnerability/xss/" target="_blank">Cross Site Scripting</a></strong>
 
 <strong>Original Code: <a href="http://spotthevuln.com/2009/10/vulnerable-code-silence-him/">Found Here</a></strong>
-<h2>Description</h2>
+## Description
 This is a classic Cross-Site Scripting (XSS) vulnerability.  The $_POST and the $_GET parameters passed to the vulnerable file are printed to the WordPress markup without being sanitized, exposing the vulnerability and making exploitation of this issue extremely simple.  The XSS Vulnerability was fixed by the WordPress team by simply removing the vulnerable code.
 
 This particular issue is interesting because it contains valuable lessons for the software project manager.  The vulnerable code serves no purpose to enhance WordPress functionality.  In fact, the vulnerable code was actually checked in as "debugging" code used by the developer to debug a separate issue.  While most XSS vulnerabilities are simply a matter of implementation or coding mistakes, this particular issue (IMHO) is an indication of weaknesses in the software project management of the WordPress project.

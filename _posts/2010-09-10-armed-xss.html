@@ -31,7 +31,7 @@ __Fixed in Version:__  1.0.2
 Issue Type: Cross Site Scripting (XSS)
 
 Original Code: <a title="Armed" href="http://spotthevuln.com/2010/09/armed/" target="_blank">Found    Here</a>
-<h2>Description</h2>
+## Description
 This week's vulnerability affected the Wordpress-to-lead for Salesforce plugin.  Looking at the vulnerable code, we see that stripslashes was applied before echoing attacker controlled content into the HTML markup.  Stripslashes was applied in the following lines:
 <blockquote>$val    = strip_tags(stripslashes($_POST[$id]));
 
