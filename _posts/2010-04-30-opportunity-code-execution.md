@@ -32,7 +32,7 @@ Original Code: <a title="Opportunity" href="http://spotthevuln.com/2010/04/oppor
 <p class="MsoNormal" style="margin: 0in 0in 10pt;"><span style="font-family: Calibri; font-size: small;">In this specific example, we have a condition where the attacker has the ability to pass an arbitrary URL (with an arbitrary protocol handler) to the fopen() PHP API.<span style="mso-spacerun: yes;">  </span>By allowing the attacker to pass arbitrary URLs to the fopen() API, the developers have introduced an opportunity for several different types of exploits.<span style="mso-spacerun: yes;">  </span>Using this vulnerability, the attacker has the ability to fopen() any file on the local file system of the web server.<span style="mso-spacerun: yes;">  </span>Configuration and files holding sensitive information located on the web server would be a great target, especially if the contents of the files were eventually echoed back to the attacker.<span style="mso-spacerun: yes;">  </span>In addition to the information disclosure bug, some servers are configured to allow fopen() to actually execute PHP code as if it were an include.<span style="mso-spacerun: yes;">  </span>In addition to the information disclosure, this bug could also be used to pull of XSS and a variety of other exploits.</span></p>
 <p class="MsoNormal" style="margin: 0in 0in 10pt;"><span style="font-family: Calibri; font-size: small;">The iBegin Share developers addressed the issue by forcing the URL provided to have the "HTTP/HTTPS" prefix...<span style="mso-spacerun: yes;">  </span>I wonder if this strategy is robust against the code execution attack</span>.</p>
 
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 <div id="_mcePaste">
 

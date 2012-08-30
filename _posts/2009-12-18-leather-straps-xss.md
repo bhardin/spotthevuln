@@ -34,7 +34,7 @@ meta:
 This was a cross site scripting bug affecting the Press This component for WordPress.  The developers fixed several XSS bugs in this single code change.  I find two things that are interesting in this code change. First, all the XSS bugs seem to be fixed using different encoding functions.  $title now has strip_tags applied, while $selection has htmlspecialchars() AND html_entity_decode() applied!  Later we see wp_htmledit_pre() used to encode output in one place and wp_richedit_pre() used a few lines down.  We also see see esc_html() used to escape output for the same variable in the same code change.  These kinds of deltas make code maintenance difficult, as the developer (and tester) has to understand why the particular encoding methods were applied for each situation and what the differences between the encoding methods exist.  The second item I find interesting in this fix has to do with the original, vulnerable code.  If we take a look at the following line of source that was removed:
 <blockquote>&lt;?php if ($selection) echo wp_richedit_pre(htmlspecialchars_decode($selection)); ?&gt;</blockquote>
 Here we see that the develop explicitly used the htmlspecialchars_decode() function before echoing the contents of $selection to the user.  This could be an indication that this particular developer doesn't understand the code symptoms that introduce XSS as it takes an otherwise safe code segment and makes it more vulnerable to XSS conditions.  Conditions like this are good justification to provide some targeted training to this particular group or even individual developer.
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 
 &lt;?php

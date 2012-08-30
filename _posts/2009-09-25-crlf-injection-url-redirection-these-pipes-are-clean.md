@@ -37,7 +37,7 @@ The vulnerable WordPress code snippet actually contained logic to detect carriag
 The CRLF detection logic used by the vulnerable WordPress version was not very robust.  The CRLF detection logic simply checked for the presence of "%0d" and "%0a" in the $url variable and failed to consider UPPERCASE "%0D" or "%0A".  The $url variable is assigned the CRLF tainted string and eventually passed to a HTTP Location header, giving the attacker an opportunity for URL Redirection, CRLF injection, HTTP header injection, and even <a href="http://misc-security.com/2009/05/21/xss-cross-site-scripting/">Cross Site Scripting (XSS)</a>.
 
 In addition to adding UPPERCASE variants of "%0D" and "%0A" to the detection logic, a function to recursively detect the presence of CRLF was also added.  Before this function was added, it was possible to defeat the detection logic by simply passing a string such as %0%0d%0ad%0%0d%0aa which would have "%0d%0a" character sequences stripped out, resulting in %0d%0a being passed to the $url variable.  The WordPress developers addressed this issue by adding a recursive verifier (_deep_request()), whose source is included in the Developers Solution.
-<h2>Developers Solution</h2>
+## Developers Solution
 [cc lang="diff"]
 
 function clean_url( $url, $protocols = null, $context = 'display' ) {

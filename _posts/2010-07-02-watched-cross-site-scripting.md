@@ -44,7 +44,7 @@ The <a title="PHP Doc" href="http://php.net/manual/en/reserved.variables.server.
 <blockquote>The URI which was given in order to access this page; for instance, '/index.html'.</blockquote>
 No escaping is done before returning the predefined value.  Also, ['REQUEST_URI'] actually returns the file requested as well as any query string parameters in the URI.  For example, a request for <a href="http://server/index.php?blah=foo">http://server/index.php?blah=foo</a> will return 'index.php?blah=foo'.  With this in mind, the attacker is free to set up arbitrary query string parameters which contain the XSS payload
 <blockquote>http://server/qtranslate_widget.php?xss="&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;</blockquote>
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 
 &lt;?php

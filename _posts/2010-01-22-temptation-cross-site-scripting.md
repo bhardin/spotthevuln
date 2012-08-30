@@ -30,7 +30,7 @@ Classic XSS on Joomla.  This particular XSS isn't anything really special, but a
 
 $this_page .= '&amp;' . ((!empty($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : $_ENV['QUERY_STRING']);</blockquote>
 $this_page is then used to build an HTML string.  The Joomla developers fixed this vulnerability by simply calling htmlspecialchars() before echoing $this_page to the user.
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 
 function sql_freeresult($query_id = false)

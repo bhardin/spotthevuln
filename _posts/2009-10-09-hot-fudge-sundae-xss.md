@@ -34,7 +34,7 @@ The vulnerable code takes explicit actions to escape Arrays before echoing the c
 Objects however, are NOT explicitly escaped in the vulnerable code. If an attacker could pass their payload as a PHP object, it would be echoed back to the user without encoding or sanitation.
 
 The WordPress developers simple placed conditional logic to determine whether the data being passed was from an array or an object and escaped the data as needed, protecting the user from XSS.</div>
-<h2>Developers Solution</h2>
+## Developers Solution
 [cc lang="diff"]
 
 /**

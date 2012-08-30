@@ -65,7 +65,7 @@ document.write('&lt;link rel="stylesheet" type="text/css" href="'+<span style="c
 
 document.write('&lt;link rel="stylesheet" type="text/css" href="'+<span style="color: #ff0000;">themeCssRtl</span>+'"&gt;');</blockquote>
 The patch checked in by the DojoToolkit team sanitizes the "value" JavaScript variable by allowing only word characters (^\w).
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 
 if(window.location.href.indexOf("?") &gt; -1){

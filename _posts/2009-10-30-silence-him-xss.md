@@ -34,7 +34,7 @@ This particular issue is interesting because it contains valuable lessons for th
 The core of the issue stems from the fact that a developer was allowed to check-in debugging code into a production build.  Checking in this vulnerable code was most likely accidental. Problems with code check-in can be solved though the use of an informal buddy code review requirement, formal code review for check-ins to production, or even automation which scans the code quality for certain indicators.  <a href="http://msdn.microsoft.com/en-us/library/bb429476(VS.80).aspx" target="_blank">FxCop</a> and <a href="http://msdn.microsoft.com/en-us/library/ms933794.aspx" target="_blank">PreFast</a> are great examples of free, customizable automation that can provide a baseline indicator of code quality for check-ins, although neither of these can be used against a PHP code base.  The WordPress team should also consider purchasing a commercial source code scanner to provide a baseline analysis of code checked into production.  At minimum, when WordPress developers check-in to production should include "hotspotter" checks which highlight dangerous APIs/common coding errors (e.g. echo, print APIs, exec(), system() ...etc.). This would greatly reduce the amount of vulnerable code that is checked-in to the production builds.
 
 The vulnerable code was discovered over two years ago by the WordPress team.  Hopefully, the check-in process has improved and all new check-in's undergo a baseline security check, either through automation or manual review.
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 
 function convert_all() {

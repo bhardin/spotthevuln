@@ -42,7 +42,7 @@ Although the Joomla developers checked in a code change which changed the requir
 
 It is also interesting that we see a call to the include() function, which remained unchanged:
 <blockquote>include ($mosConfig_absolute_path .'/offline.php');</blockquote>
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 
 // Set flag that this is a parent file

@@ -50,7 +50,7 @@ indicatorText = translate.strong;</blockquote>
 Using this logic, it was possible for a user to select a 4 character password that was rated as strong.  To combat this, the Durpal developers penalized the user 30 points if they selected a password with less than 6 characters, guaranteeing that a password with less than 6 characters would never be rated "strong".
 
 The safer way to go about this might be to assign a password strength of zero and build up the strength value as conditions are met.
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 
 /**

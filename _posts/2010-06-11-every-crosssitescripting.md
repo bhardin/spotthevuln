@@ -58,7 +58,7 @@ document.write("&lt;scr"+"ipt type='text/javascript' src='"+<span style="color: 
 The Dojo developers addressed this vulnerability by replacing characters from the attacker controlled input.  The specific regular expression used is provided below:
 <blockquote>value=tp[1].replace(/[&lt;&gt;"']/g, "");</blockquote>
 I see a major issue with this code fix... can you spot it as well?
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 
                 &lt;script type="text/javascript"&gt;

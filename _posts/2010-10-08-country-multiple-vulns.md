@@ -31,7 +31,7 @@ There were a ton of issues addressed in this patch.  Let's start from the top an
 The next issue is a classic SQL injection vulnerability.  In line 38 we see that the developer has set $_POST['releaseme'] to a variable named $released.  A few lines later, $released is used to build a dynamic SQL statement.  What's interesting is $released is used at the end of a SQL statement and appears to be an integer, there could be other issues here if the escaping isn't done properly :)
 
 Next up is a slew of XSS bugs.  Lines 10-29 use various $_POST parameters to set a number of variables.  These variables are then used to build HTML markup in lines 54-78.  The developer addressed these XSS bugs by using the esc_attr() API before allowing PHP to echo the variable value.  The developer also echoed the $_SERVER["REQUEST_URI"] value directly into HTML markup as well.  This variable represents the URI given in order to access the page and is considered tainted/attacker controlled.
-<h2>Developers Solution</h2>
+## Developers Solution
 [sourcecode language="diff"]
 
 &lt;?php

@@ -48,7 +48,7 @@ $subject = htmlspecialchars($subject);</blockquote>
 The two lines above show that the author was careful to encode the $subject and $content variables before using them in markup.  Although the $writeto variable was assigned in a similar manner and even in the same code block, it doesn't undergo any encoding.  $writeto is then used in the markup in the code provided below, resulting in XSS:
 <blockquote>"&lt;input type=\"text\" name=\"to\" value=\"$writeto\" size=\"60\"&gt;"</blockquote>
 Some other interesting items.  This page is using the .inc extension for includes.  Hopefully, the correct extension mappings are done to avoid source code disclosure of includes.  While the application logic is open source, I'm sure there are configuration settings like database connection strings which could be exposed.  Also, instead of using htmlspecialchars() to encode $writeto, the developers chose to use a function named sanitize_tags().  I hope sanitize tags defends against attribute injection which doesn't require any HTML tags!
-<h2>Developers Solution</h2>
+## Developers Solution
 [sourcecode language="diff"]
 &lt;?php
 

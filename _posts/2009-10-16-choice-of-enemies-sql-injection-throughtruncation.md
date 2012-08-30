@@ -36,7 +36,7 @@ Knowing this, an attacker could create a new user account named "admin          
 The truncated admin username allows for the creation of two accounts named "admin" in the WordPress user database.  One admin account is attacker controlled and the other belongs to the actual admin of the WordPress installation.  An exploitable condition arises when security checks are done against one admin account (the attacker account, in which the attacker knows all the account details), but later serve data/content from the other admin account (data from the actual WordPress administrator), giving the attacker the ability to hijack the WordPress administrator account.  For more information on SQL truncation read <a href="http://www.suspekt.org/2008/08/18/mysql-and-sql-column-truncation-vulnerabilities/">Stefan Esser's MySQL truncation issues</a>.
 
 Interestingly, WordPress had a conditional which would reduce the username to only ASCII characters in place before this issue was discovered and exploited in the wild.  This conditional would have likely eliminated this vulnerability; however this conditional is disabled by default.  Also, the code fix implemented by the WordPress team did not validate length (only stripped whitespace), keeping the possibility of truncation issues open (ie. truncation issues against users with usernames of 16 characters).
-<h2>Developers Solution</h2>
+## Developers Solution
 [cc lang="diff"]
 
 /**

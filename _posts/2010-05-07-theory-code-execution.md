@@ -39,7 +39,7 @@ Original Code: <a title="Theory" href="http://spotthevuln.com/2010/05/theory/" t
 This particular bug was a remote file inclusion vulnerability in a WordPress plugin known as BackupWordPress. This particular vulnerability was actually publically disclosed on Milworm by the "Xmors Underground Team" (http://www.milw0rm.com/exploits/4593). The vulnerability, combined with the register_globals behavior in older versions of PHP allowed attackers to simply provide the "$GLOBALS['bkpwp_plugin_path']" via the URL in a GET request, supplying an attacker controlled location for the include.
 
 The developers fixed this particular vulnerability by removing the $GLOBALS from the source.
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 
 &lt;?php

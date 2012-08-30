@@ -35,7 +35,7 @@ In addition to the whitelist, the Joomla developers also escaped the variables b
 <blockquote>
 
 'ORDER BY'  =&gt; $forum_db-&gt;escape($order_by).' '.$forum_db-&gt;escape($direction)</blockquote>
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 $form['username'] = $_POST['username'];
 

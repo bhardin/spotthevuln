@@ -45,7 +45,7 @@ In this particular SWF file, we see that the developers explicitly set the Secur
 The Dojo toolkit devs fixed this particular issue by removing the allowDomain call and adding an Externalinterface call checking to see if a particular wrapper was available in HTML.  If you're interested in Flash security, an excellent presentation on Flash security given by Stefano Di Paola can be found here:
 
 <a href="http://www.slideshare.net/guestb0af15/owasp-wasc-app-sec2007-san-jose-finding-vulnsin-flash-apps">http://www.slideshare.net/guestb0af15/owasp-wasc-app-sec2007-san-jose-finding-vulnsin-flash-apps</a>
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 
 public class FLVideo extends Sprite {

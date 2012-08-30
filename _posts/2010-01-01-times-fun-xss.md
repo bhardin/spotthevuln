@@ -44,7 +44,7 @@ Original Code: <a title="Time's Fun" href="http://spotthevuln.com/2009/12/times-
 <p id="_mcePaste">Now, onto the blacklist... To put it simply, blacklists are tough.  Even if you somehow manage to get the blacklist correct today, that doesn't mean someone will change the rules and render your blacklist ineffective tomorrow.  Looking at the blacklist Joomla HTML tag blacklist in this particular code sample, it seems the blacklist is geared towards HTML4.  HTML5 has added new HTML tags which don't appear to be covered by the blacklist in this example... I wonder if the Joomla devs have updated their blacklist.  Even if the blacklist was updated, it will have to be updated again when new HTML tags are added for the next version of HTML... let's hope no one forgets :)</p>
 
 </div>
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 
 var $xssAuto; // default = 1

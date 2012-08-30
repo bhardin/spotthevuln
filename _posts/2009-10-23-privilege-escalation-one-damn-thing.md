@@ -41,7 +41,7 @@ http://wordpressblog.com/index.php/wp-admin/
 The request above will request index.php from the server while setting the $_SERVER['PHP_SELF'] variable to /index.php/wp-admin/.  This tricks the vulnerable WordPress code into assuming the user is an administrator and grants the user administrative access to certain pages on the blog.
 
 The WordPress developers addressed this vulnerability by removing the faulty checks and adding a function which was designed to determine whether the user has administrative privilege.
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 
 if ( '' != $qv['tb'] )

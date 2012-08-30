@@ -37,7 +37,7 @@ From a security code review perspective, encoding data at the point of entry req
 Sanitizing at the point of consumption offers advantages as the developer has a clear understanding as to how the data will be used (inserted into a database, output to HTML, used in LDAP queries, used as part of a mail API...etc.) and can implement the best sanitization routine for the situation.  From a security code review perspective, code that sanitizes at the point of consumption requires less flow analysis as each consumption point can be evaluated independently of other consumption points.  This independence comes at a cost as each point of consumption must now be evaluated in order to ensure the proper sanitization is being put in place.  A single missed consumption point will likely result in the introduction of a vulnerability in the application.
 
 It's also interesting seeing the vulnerable code sample has comments related to Edit.jsp and Comment.jsp.  It seems the conditionals for these two JSP files may not be very robust and could be an interesting avenue for attack.  I'm also curious as to whether this particular FORM has a robust CSRF token...
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 &lt;% if( usertext == null ) usertext = ""; %&gt;
 &lt;%

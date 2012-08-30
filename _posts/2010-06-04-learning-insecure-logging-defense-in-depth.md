@@ -60,7 +60,7 @@ This vulnerability was in the aa_pp_hashit() function. The aa_pp_hashit() functi
 The aa_pp_mess() function actually logged the clear text username and password before putting it through a hashing function.  There is rarely a need to log a clear text password... in fact, I'm going to go out on a limb here and say there is NEVER a good time when you should log a clear text password.  Even password hashes or other weird representations of passwords shouldn't be logged.  Logging sensitive data is always tricky.  If you're logging sensitive data please consider the permissions required to access that sensitive data, ensure the file is properly ACL'd and conduct regular audits of log file access.  Most importantly, ask yourself:  Why do I need to log this data?
 
 The vulnerability was fixed by removing references to user password (and even references to the user that called the function).  Now I just have to figure out why the AskApache devs are passing a default value for $pass :)
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 
 // aa_pp_hashit

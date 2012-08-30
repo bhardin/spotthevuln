@@ -44,7 +44,7 @@ The defense in depth fix is pretty straightforward... what's interesting however
 I hope origPassword doesn't actually represent a user's password!
 
 </div>
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 
 http://svn.apache.org/viewvc/webservices/wss4j/trunk/src/org/apache/ws/security/processor/UsernameTokenProcessor.java?p2=/webservices/wss4j/trunk/src/org/apache/ws/security/processor/UsernameTokenProcessor.java&amp;p1=/webservices/wss4j/trunk/src/org/apache/ws/security/processor/UsernameTokenProcessor.java&amp;r1=697031&amp;r2=697030&amp;pathrev=697031&amp;view=diff&amp;diff_format=l

@@ -60,7 +60,7 @@ $start_date = $_GET["start_date"];
 $end_date = $_GET["end_date"];
 $goal = $_GET["goal"];
 $maint_mode = $_GET["maint_mode"];</blockquote>
-<h2>Developers Solution</h2>
+## Developers Solution
 [cce lang="diff"]
 &lt;?php
 include (dirname(__FILE__)."/jpgraph/jpgraph.php");

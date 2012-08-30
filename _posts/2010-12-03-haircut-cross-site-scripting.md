@@ -33,7 +33,7 @@ Original Code: <a title="Haircut" href="http://spotthevuln.com/2010/11/haircut/"
 ## Description
 A bit of a head fake here.  There are a lot of variable assignments in this code.  Lots of variable assignments results in a lot of tracing during security code audits.  As a variable is set with an untrusted value, it becomes tainted.  Following that variable until you find exactly where its being used is crucial in understanding whether a security bug exists or not.  Any one of those variable assignments could easily result in a major security vulnerability.  In this week's example, the vulnerable line came before the massive set of variable assignments.  Once again, we see PHP_SELF being used to create a URL.  Instead of trying to encode the value before using it in markup, the developer chose to remove the reference to PHP_SELF.
 
-<h2>Developers Solution</h2>
+## Developers Solution
 [sourcecode language="diff" highlight="8,9"]
 &lt;?php
 	$easingArray = array(swing,easeInQuad,easeOutQuad,easeInOutQuad,easeInCubic,easeOutCubic,easeInOutCubic,easeInQuart,easeOutQuart,easeInOutQuart,easeInQuint,easeOutQuint,easeInOutQuint,easeInSine,easeOutSine,easeInOutSine,easeInExpo,easeOutExpo,easeInOutExpo,easeInCirc,easeOutCirc,easeInOutCirc,easeInElastic,easeOutElastic,easeInOutElastic,easeInBack,easeOutBack,easeInOutBack,easeInBounce,easeOutBounce,easeInOutBounce);
