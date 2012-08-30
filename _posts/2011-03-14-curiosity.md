@@ -5,6 +5,8 @@ tags:
 - Code Snippet
 status: publish
 type: post
+quote: The cure for boredom is curiosity. There is no cure for curiosity.
+quote_author: Ellen Parr
 published: true
 meta:
   _syntaxhighlighter_encoded: '1'
@@ -13,9 +15,8 @@ meta:
   aktt_notify_twitter: 'yes'
   aktt_tweeted: '1'
 ---
-<blockquote><strong>The cure for boredom is curiosity. There is no cure for curiosity.
-Ellen Parr</strong></blockquote>
-[sourcecode language="php"]
+
+{% highlight html+php %}
 &lt;?php
 
 require_once('../../../wp-config.php');
@@ -118,4 +119,4 @@ if ($total &gt; 0) { $total = &quot;+$total&quot;; }
 // WP-superCache may attached to the end of the return.
 echo(&quot;done|$k_id|$rating|$k_path|$direction|$total|$k_imgIndex|dummy&quot;);
 ?&gt;
-[/sourcecode] 
+{% endhighlight %}
