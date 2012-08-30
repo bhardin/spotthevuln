@@ -25,7 +25,7 @@ meta:
 &lt;?php
 $cat_id = $_POST['cat_id'];
 if (($cat_id == '') || ($cat_id == 0)) {
-$cat_id  = 1;
+$cat_id  = 1;
 }
 
 $opml_url = $_POST['opml_url'];

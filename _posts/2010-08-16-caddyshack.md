@@ -47,7 +47,7 @@ while (iter.hasNext()) {
 FormField.Option option = (FormField.Option)iter.next();
 String value = option.getLabel();
 builder.append("<input name="\&quot;&quot;" type="\&quot;checkbox\&quot;" value="\&quot;&quot;" />");
-builder.append(" ");
+builder.append(" ");
 builder.append(value);
 builder.append(" ");
 

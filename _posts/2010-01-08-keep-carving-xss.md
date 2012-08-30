@@ -25,16 +25,16 @@ __Fixed in Version:__  1.x
 
 __Issue Type:__ Cross Site Scripting (XSS)
 
-Original Code: <a title="Keep Carving" href="http://spotthevuln.com/2010/01/keepcarving/" target="_blank">Found Here</a>
+Original Code: <a title="Keep Carving" href="http://spotthevuln.com/2010/01/keepcarving/" target="_blank">Found Here</a>
 ## Description
-This was an XSS bug which affected 1.x versions of Joomla.  Looking at the provided code sample, we see two different functions (function display and function conclusion).  Both functions take various parameters including a parameter named $searchword.  Looking at the function display(), we see a hint that exposes the cross site scripting vulnerability.  Function display() takes the $searchword value, urldecodes the value, then passes the urldecoded value to htmlspecialchars().  This sanitization is conducted in the following lines of code:
-<blockquote>$searchword = <a href="http://www.php.net/urldecode">urldecode</a>( <span style="color: #ff0000;">$searchword</span> );
-$searchword    = <a href="http://www.php.net/htmlspecialchars">htmlspecialchars</a>(<span style="color: #ff0000;">$searchword</span>, ENT_QUOTES);</blockquote>
+This was an XSS bug which affected 1.x versions of Joomla.  Looking at the provided code sample, we see two different functions (function display and function conclusion).  Both functions take various parameters including a parameter named $searchword.  Looking at the function display(), we see a hint that exposes the cross site scripting vulnerability.  Function display() takes the $searchword value, urldecodes the value, then passes the urldecoded value to htmlspecialchars().  This sanitization is conducted in the following lines of code:
+<blockquote>$searchword = <a href="http://www.php.net/urldecode">urldecode</a>( <span style="color: #ff0000;">$searchword</span> );
+$searchword    = <a href="http://www.php.net/htmlspecialchars">htmlspecialchars</a>(<span style="color: #ff0000;">$searchword</span>, ENT_QUOTES);</blockquote>
 Once the $searchword variable has been sanitized, it is ultimately used in creating a link (href) to a Google search query.
-<blockquote>&lt;a href="http://www.google.com/search?q=&lt;?php echo <span style="color: #ff0000;">$searchword</span>; ?&gt;</blockquote>
+<blockquote>&lt;a href="http://www.google.com/search?q=&lt;?php echo <span style="color: #ff0000;">$searchword</span>; ?&gt;</blockquote>
 This gives us some indication that values passed as $searchword are likely to be untrusted and could contain bad characters.
 
-Now, if we take a look at the conclusion() function, we see that it also takes a $searchword parameter.  In this case however $searchword is NOT sanitized and is passed to what appears to be a querystring.  Oddly enough, it seems the Joomla developers understood some of the dangers of passing un-sanitized values to a href/link as they were careful to sanitize the $ordering and $searchphrase variables (mosGetParam provides some sanitization against XSS, but we didn't expect you to know that).  In fact, $searchphrase actually undergoes two rounds of sanitization before being used to build the querystring!  Eventually, the un-sanitized $searchword is used to build a querystring which is assigned to the $link variable.  The $link variable is then used to write a link (href) on the page.  If the $searchword variable had contained quotes, an attacker could easily inject arbitrary HTML attributes into the href, resulting in XSS.
+Now, if we take a look at the conclusion() function, we see that it also takes a $searchword parameter.  In this case however $searchword is NOT sanitized and is passed to what appears to be a querystring.  Oddly enough, it seems the Joomla developers understood some of the dangers of passing un-sanitized values to a href/link as they were careful to sanitize the $ordering and $searchphrase variables (mosGetParam provides some sanitization against XSS, but we didn't expect you to know that).  In fact, $searchphrase actually undergoes two rounds of sanitization before being used to build the querystring!  Eventually, the un-sanitized $searchword is used to build a querystring which is assigned to the $link variable.  The $link variable is then used to write a link (href) on the page.  If the $searchword variable had contained quotes, an attacker could easily inject arbitrary HTML attributes into the href, resulting in XSS.
 
 Adding sanitization routines similar to those found in the display() function can help prevent this exposure.
 
@@ -49,10 +49,10 @@ function display( &amp;$rows, $params, $pageNav, $limitstart, $limit, $total, $t
 global $mosConfig_hideCreateDate;
 global $mosConfig_live_site, $option, $Itemid;
 
-$c             = count ($rows);
-$image         = mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
+$c             = count ($rows);
+$image         = mosAdminMenus::ImageCheck( 'google.png', '/images/M_images/', NULL, NULL, 'Google', 'Google', 1 );
 $searchword = urldecode( $searchword );
-$searchword    = htmlspecialchars($searchword, ENT_QUOTES);
+$searchword    = htmlspecialchars($searchword, ENT_QUOTES);
 
 // number of matches found
 echo '&lt;br/&gt;';
@@ -72,14 +72,14 @@ eval ('echo "'._CONCLUSION.'";');
 function conclusion( $searchword, $pageNav ) {
 global $mosConfig_live_site, $option, $Itemid;
 
-$ordering         = strtolower( strval( mosGetParam( $_REQUEST, 'ordering', 'newest' ) ) );
-$searchphrase     = strtolower( strval( mosGetParam( $_REQUEST, 'searchphrase', 'any' ) ) );
+$ordering         = strtolower( strval( mosGetParam( $_REQUEST, 'ordering', 'newest' ) ) );
+$searchphrase     = strtolower( strval( mosGetParam( $_REQUEST, 'searchphrase', 'any' ) ) );
 
-$searchphrase    = htmlspecialchars($searchphrase);
+$searchphrase    = htmlspecialchars($searchphrase);
 +$searchword = urldecode( $searchword );
-+$searchword    = htmlspecialchars($searchword, ENT_QUOTES);
++$searchword    = htmlspecialchars($searchword, ENT_QUOTES);
 
-$link             = $mosConfig_live_site ."/index.php?option=$option&amp;Itemid=$Itemid&amp;searchword=$searchword&amp;searchphrase=$searchphrase&amp;ordering=$ordering";
+$link             = $mosConfig_live_site ."/index.php?option=$option&amp;Itemid=$Itemid&amp;searchword=$searchword&amp;searchphrase=$searchphrase&amp;ordering=$ordering";
 ?&gt;
 &lt;tr&gt;
 &lt;td colspan="3"&gt;

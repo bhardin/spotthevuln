@@ -42,15 +42,15 @@ __Fixed in Version:__  1.3.1.0
 
 __Issue Type:__ Sql Injection
 
-Original Code: <a title="Will" href="http://spotthevuln.com/2010/06/will/" target="_blank">Found  Here</a>
+Original Code: <a title="Will" href="http://spotthevuln.com/2010/06/will/" target="_blank">Found  Here</a>
 ## Description
-This week's vulnerability affected the WP Category Manager plugin.  There were two interesting characteristics I noticed with this code fix.  First, while there were a number of SQL injection vulnerabilities fixed with this change list, there were also a large number of non security fixes included in this change list as well.  It's generally a good idea to keep security change lists separate from other change lists.  The number of non security fixes included in this particular list was so distracting, I removed them from the post.  The SQL injection fixes are pretty straight forward, changing dynamically built SQL statements into WordPress' built-in $wpdb-&gt;prepare() function.
+This week's vulnerability affected the WP Category Manager plugin.  There were two interesting characteristics I noticed with this code fix.  First, while there were a number of SQL injection vulnerabilities fixed with this change list, there were also a large number of non security fixes included in this change list as well.  It's generally a good idea to keep security change lists separate from other change lists.  The number of non security fixes included in this particular list was so distracting, I removed them from the post.  The SQL injection fixes are pretty straight forward, changing dynamically built SQL statements into WordPress' built-in $wpdb-&gt;prepare() function.
 
-The second characteristic that caught my attention was usage of numeric IDs at the end of SQL statements.  For example:
+The second characteristic that caught my attention was usage of numeric IDs at the end of SQL statements.  For example:
 <blockquote>where object_id = $postId and<span style="color: #ff0000;"> term_taxonomy_id= $categoryId";</span></blockquote>
-This syntax creates a condition in which the typical addslashes() used to protect against SQL injection can be bypassed.  For example, an attacker could craft a SQL injection string like:
+This syntax creates a condition in which the typical addslashes() used to protect against SQL injection can be bypassed.  For example, an attacker could craft a SQL injection string like:
 <blockquote>Sqli.php?categoryId=-1 union select 1,2,3,4,5--</blockquote>
-As you can see, the injection string above contains no special characters that would be escaped by addslashes().  Fortunately, the Category Manager plugin developers chose to utilze $wpdb-&gt;prepare() instead of addslashes().
+As you can see, the injection string above contains no special characters that would be escaped by addslashes().  Fortunately, the Category Manager plugin developers chose to utilze $wpdb-&gt;prepare() instead of addslashes().
 <h2>Developers Solution</h2>
 [cce lang="diff"]&lt;?php
 /*
@@ -64,22 +64,22 @@ class wpcm_functions
 {
 public static function remove_category($postId, $categoryId)
 {
--               global $wpdb;
--               $wpdb-&gt;show_errors();
--               $queryStr = "DELETE FROM $wpdb-&gt;term_relationships
--                         where object_id = $postId and term_taxonomy_id= $categoryId";
-+        echo $postId;
+-               global $wpdb;
+-               $wpdb-&gt;show_errors();
+-               $queryStr = "DELETE FROM $wpdb-&gt;term_relationships
+-                         where object_id = $postId and term_taxonomy_id= $categoryId";
++        echo $postId;
 
--               $wpdb-&gt;query($queryStr);
-+        if(is_int(intval($postId)))
-+        {
-+            global $wpdb;
+-               $wpdb-&gt;query($queryStr);
++        if(is_int(intval($postId)))
++        {
++            global $wpdb;
 +
-+            $wpdb-&gt;show_errors();
++            $wpdb-&gt;show_errors();
 +
-+            $queryStr = $wpdb-&gt;prepare("DELETE FROM $wpdb-&gt;term_relationships where object_id = %d and term_taxonomy_id= %s", $postId, $categoryId);
-+            $wpdb-&gt;query($queryStr);
-+        }
++            $queryStr = $wpdb-&gt;prepare("DELETE FROM $wpdb-&gt;term_relationships where object_id = %d and term_taxonomy_id= %s", $postId, $categoryId);
++            $wpdb-&gt;query($queryStr);
++        }
 }
 
 /*
@@ -103,33 +103,33 @@ $offset = $pageSize * $page;
 
 $finalQueryLine = "limit " . $pageSize . " offset " . $offset;
 
-+                    }
++                    }
 +
-+            $querystr = $wpdb-&gt;prepare("select wposts.*, wp_term_taxonomy.term_taxonomy_id
-+                                    from $wpdb-&gt;posts wposts
-+                                    LEFT JOIN $wpdb-&gt;term_relationships wp_term_relationships ON wposts.ID = wp_term_relationships.object_id
-+                                    LEFT JOIN $wpdb-&gt;term_taxonomy wp_term_taxonomy ON wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id
-+                                    LEFT JOIN $wpdb-&gt;terms wp_terms ON wp_terms.term_id = wp_term_taxonomy.term_id
-+                                        WHERE wp_term_taxonomy.taxonomy = 'category'
-+                                            and wp_terms.name = '%s'
-+                                            and wposts.post_status='publish'
-+                                        ORDER BY wposts.ID " . $finalQueryLine , $category);
++            $querystr = $wpdb-&gt;prepare("select wposts.*, wp_term_taxonomy.term_taxonomy_id
++                                    from $wpdb-&gt;posts wposts
++                                    LEFT JOIN $wpdb-&gt;term_relationships wp_term_relationships ON wposts.ID = wp_term_relationships.object_id
++                                    LEFT JOIN $wpdb-&gt;term_taxonomy wp_term_taxonomy ON wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id
++                                    LEFT JOIN $wpdb-&gt;terms wp_terms ON wp_terms.term_id = wp_term_taxonomy.term_id
++                                        WHERE wp_term_taxonomy.taxonomy = 'category'
++                                            and wp_terms.name = '%s'
++                                            and wposts.post_status='publish'
++                                        ORDER BY wposts.ID " . $finalQueryLine , $category);
 +
-+            $postlist = $wpdb-&gt;get_results($querystr);
-+            return $postlist;
++            $postlist = $wpdb-&gt;get_results($querystr);
++            return $postlist;
 }
--               $querystr = "select wposts.*, wp_term_taxonomy.term_taxonomy_id
--                                from $wpdb-&gt;posts wposts
--                                 LEFT JOIN $wpdb-&gt;term_relationships wp_term_relationships ON wposts.ID = wp_term_relationships.object_id
--                                 LEFT JOIN $wpdb-&gt;term_taxonomy wp_term_taxonomy ON wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id
--                                 LEFT JOIN $wpdb-&gt;terms wp_terms ON wp_terms.term_id = wp_term_taxonomy.term_id
--                                               WHERE wp_term_taxonomy.taxonomy = 'category'
--                                                               and wp_terms.name = '" . $category . "'
--                                                               and wposts.post_status='publish'
--                                       ORDER BY wposts.ID " . $finalQueryLine;
+-               $querystr = "select wposts.*, wp_term_taxonomy.term_taxonomy_id
+-                                from $wpdb-&gt;posts wposts
+-                                 LEFT JOIN $wpdb-&gt;term_relationships wp_term_relationships ON wposts.ID = wp_term_relationships.object_id
+-                                 LEFT JOIN $wpdb-&gt;term_taxonomy wp_term_taxonomy ON wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id
+-                                 LEFT JOIN $wpdb-&gt;terms wp_terms ON wp_terms.term_id = wp_term_taxonomy.term_id
+-                                               WHERE wp_term_taxonomy.taxonomy = 'category'
+-                                                               and wp_terms.name = '" . $category . "'
+-                                                               and wposts.post_status='publish'
+-                                       ORDER BY wposts.ID " . $finalQueryLine;
 -
--                $postlist = $wpdb-&gt;get_results($querystr);
--                return $postlist;
+-                $postlist = $wpdb-&gt;get_results($querystr);
+-                return $postlist;
 }
 
 public static function get_postCount($category)
@@ -137,22 +137,22 @@ public static function get_postCount($category)
 global $wpdb;
 $wpdb-&gt;show_errors();
 
--               $querystr = "select count(*)
--                                from $wpdb-&gt;posts wposts
--                                 LEFT JOIN $wpdb-&gt;term_relationships wp_term_relationships ON wposts.ID = wp_term_relationships.object_id
--                                 LEFT JOIN $wpdb-&gt;term_taxonomy wp_term_taxonomy ON wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id
--                                 LEFT JOIN $wpdb-&gt;terms wp_terms ON wp_terms.term_id = wp_term_taxonomy.term_id
--                                               WHERE wp_term_taxonomy.taxonomy = 'category'
--                                                               and wp_terms.name = '" . $category . "'
--                                                               and wposts.post_status='publish'";
-+        $querystr = $wpdb-&gt;prepare("select count(*)
-+                                from $wpdb-&gt;posts wposts
-+                                    LEFT JOIN $wpdb-&gt;term_relationships wp_term_relationships ON wposts.ID = wp_term_relationships.object_id
-+                                    LEFT JOIN $wpdb-&gt;term_taxonomy wp_term_taxonomy ON wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id
-+                                    LEFT JOIN $wpdb-&gt;terms wp_terms ON wp_terms.term_id = wp_term_taxonomy.term_id
-+                                        WHERE wp_term_taxonomy.taxonomy = 'category'
-+                                            and wp_terms.name = '%s'
-+                                            and wposts.post_status='publish'" , $category);
+-               $querystr = "select count(*)
+-                                from $wpdb-&gt;posts wposts
+-                                 LEFT JOIN $wpdb-&gt;term_relationships wp_term_relationships ON wposts.ID = wp_term_relationships.object_id
+-                                 LEFT JOIN $wpdb-&gt;term_taxonomy wp_term_taxonomy ON wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id
+-                                 LEFT JOIN $wpdb-&gt;terms wp_terms ON wp_terms.term_id = wp_term_taxonomy.term_id
+-                                               WHERE wp_term_taxonomy.taxonomy = 'category'
+-                                                               and wp_terms.name = '" . $category . "'
+-                                                               and wposts.post_status='publish'";
++        $querystr = $wpdb-&gt;prepare("select count(*)
++                                from $wpdb-&gt;posts wposts
++                                    LEFT JOIN $wpdb-&gt;term_relationships wp_term_relationships ON wposts.ID = wp_term_relationships.object_id
++                                    LEFT JOIN $wpdb-&gt;term_taxonomy wp_term_taxonomy ON wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id
++                                    LEFT JOIN $wpdb-&gt;terms wp_terms ON wp_terms.term_id = wp_term_taxonomy.term_id
++                                        WHERE wp_term_taxonomy.taxonomy = 'category'
++                                            and wp_terms.name = '%s'
++                                            and wposts.post_status='publish'" , $category);
 
 $result = $wpdb-&gt;get_var($querystr, 0, 0);
 return $result;
@@ -167,7 +167,7 @@ foreach($postlist as $post)
 {
 echo '&lt;div id="catmanagerpost'. $post-&gt;ID .'"&gt;';
 echo '&lt;span &gt;&lt;a href="'. get_permalink($post-&gt;ID) .'" title="'.$post-&gt;post_title . '"&gt;' . $post-&gt;post_title . '&lt;/a&gt;&lt;/span&gt;&lt;span &gt;' . date_format(date_create($post-&gt;post_date), "F j, Y") . '&lt;/span&gt;';
-echo '&lt;p &gt;&lt;a href="javascript:void(0);" postID="'.$post-&gt;ID.'" catID="'. $post-&gt;term_taxonomy_id  .'" id="catmanremovepost'. $post-&gt;ID .'" title="Remove post from this category"&gt;Remove&lt;/a&gt; | ';
+echo '&lt;p &gt;&lt;a href="javascript:void(0);" postID="'.$post-&gt;ID.'" catID="'. $post-&gt;term_taxonomy_id  .'" id="catmanremovepost'. $post-&gt;ID .'" title="Remove post from this category"&gt;Remove&lt;/a&gt; | ';
 echo edit_post_link('Edit Post', '', '', $post-&gt;ID);
 echo '&lt;/p&gt;&lt;/div&gt;';
 }

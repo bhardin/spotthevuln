@@ -43,7 +43,7 @@ $actions['unapprove'] = "&lt;a href='$unapprove_url' class='dim:the-comment-list
 $actions['edit'] = "&lt;a href='comment.php?action=editcomment&amp;amp;c={$comment-&gt;comment_ID}' title='" . __('Edit comment') . "'&gt;". __('Edit') . '&lt;/a&gt;';
 //$actions['quickedit'] = '&lt;a onclick="commentReply.open(\''.$comment-&gt;comment_ID.'\',\''.$comment-&gt;comment_post_ID.'\',\'edit\');return false;" title="'.__('Quick Edit').'" href="#"&gt;' . __('Quick&amp;nbsp;Edit') . '&lt;/a&gt;';
 $actions['reply'] = '&lt;a onclick="commentReply.open(\''.$comment-&gt;comment_ID.'\',\''.$comment-&gt;comment_post_ID.'\');return false;" title="'.__('Reply to this comment').'" href="#"&gt;' . __('Reply') . '&lt;/a&gt;';
-$actions['spam'] = "&lt;a href='$spam_url' class='delete:the-comment-list:comment-$comment-&gt;comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'&gt;" . /* translators: mark as spam link */  _x( 'Spam', 'verb' ) . '&lt;/a&gt;';
+$actions['spam'] = "&lt;a href='$spam_url' class='delete:the-comment-list:comment-$comment-&gt;comment_ID::spam=1 vim-s vim-destructive' title='" . __( 'Mark this comment as spam' ) . "'&gt;" . /* translators: mark as spam link */  _x( 'Spam', 'verb' ) . '&lt;/a&gt;';
 $actions['delete'] = "&lt;a href='$delete_url' class='delete:the-comment-list:comment-$comment-&gt;comment_ID delete vim-d vim-destructive'&gt;" . __('Delete') . '&lt;/a&gt;';
 
 $actions = apply_filters( 'comment_row_actions', $actions, $comment );

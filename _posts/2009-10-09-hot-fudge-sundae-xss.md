@@ -50,12 +50,12 @@ The WordPress developers simple placed conditional logic to determine whether th
 * @return int 0 on failure, Post ID on success.
 */
 function wp_update_post($postarr = array()) {
--       if ( is_object($postarr) )
-+       if ( is_object($postarr) ) {
-+               // non-escaped post was passed
+-       if ( is_object($postarr) )
++       if ( is_object($postarr) ) {
++               // non-escaped post was passed
 $postarr = get_object_vars($postarr);
-+               $postarr = add_magic_quotes($postarr);
-+       }
++               $postarr = add_magic_quotes($postarr);
++       }
 // First, get all of the original fields
 $post = wp_get_single_post($postarr['ID'], ARRAY_A);
 

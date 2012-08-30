@@ -30,8 +30,8 @@ $this-&gt;escape($args);
 $blog_id = (int) $args[0];
 $username = $args[1];
 $password = $args[2];
-$category  = $args[3];
-$max_results  = $args[4];
+$category  = $args[3];
+$max_results  = $args[4];
 
 if(!$this-&gt;login_pass_ok($username, $password)) {
 return($this-&gt;error);

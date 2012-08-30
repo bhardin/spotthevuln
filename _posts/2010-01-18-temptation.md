@@ -70,7 +70,7 @@ $this_page = (!empty($_SERVER['PHP_SELF'])) ? $_SERVER['PHP_SELF'] : $_ENV['PHP_
 $this_page .= '&amp;' . ((!empty($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : $_ENV['QUERY_STRING']);
 
 
-$message = '&lt;u&gt;SQL ERROR&lt;/u&gt; [ ' . SQL_LAYER . ' ]&lt;br /&gt;&lt;br /&gt;' . @mysql_error() . '&lt;br /&gt;&lt;br /&gt;&lt;u&gt;CALLING PAGE&lt;/u&gt;&lt;br /&gt;&lt;br /&gt;'  . $this_page . (($sql != '') ? '&lt;br /&gt;&lt;br /&gt;&lt;u&gt;SQL&lt;/u&gt;&lt;br /&gt;&lt;br /&gt;' . $sql : '') . '&lt;br /&gt;';
+$message = '&lt;u&gt;SQL ERROR&lt;/u&gt; [ ' . SQL_LAYER . ' ]&lt;br /&gt;&lt;br /&gt;' . @mysql_error() . '&lt;br /&gt;&lt;br /&gt;&lt;u&gt;CALLING PAGE&lt;/u&gt;&lt;br /&gt;&lt;br /&gt;'  . $this_page . (($sql != '') ? '&lt;br /&gt;&lt;br /&gt;&lt;u&gt;SQL&lt;/u&gt;&lt;br /&gt;&lt;br /&gt;' . $sql : '') . '&lt;br /&gt;';
 
 trigger_error($message, E_USER_ERROR);
 

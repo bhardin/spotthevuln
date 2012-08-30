@@ -23,13 +23,13 @@ __Fixed in Version:__  1.x
 
 __Issue Type:__ Cross Site Scripting
 
-Original Code: <a title="Temptation" href="http://spotthevuln.com/2010/01/temptation/" target="_blank">Found Here</a>
+Original Code: <a title="Temptation" href="http://spotthevuln.com/2010/01/temptation/" target="_blank">Found Here</a>
 ## Description
-Classic XSS on Joomla.  This particular XSS isn't anything really special, but all the references to SQL and databases surrounding the vulnerable code could have thrown some people off during code review.  In this code $this_page is tainted with attacker controlled data in the two lines below:
+Classic XSS on Joomla.  This particular XSS isn't anything really special, but all the references to SQL and databases surrounding the vulnerable code could have thrown some people off during code review.  In this code $this_page is tainted with attacker controlled data in the two lines below:
 <blockquote>$this_page = (!empty($_SERVER['PHP_SELF'])) ? $_SERVER['PHP_SELF'] : $_ENV['PHP_SELF'];
 
 $this_page .= '&amp;' . ((!empty($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : $_ENV['QUERY_STRING']);</blockquote>
-$this_page is then used to build an HTML string.  The Joomla developers fixed this vulnerability by simply calling htmlspecialchars() before echoing $this_page to the user.
+$this_page is then used to build an HTML string.  The Joomla developers fixed this vulnerability by simply calling htmlspecialchars() before echoing $this_page to the user.
 <h2>Developers Solution</h2>
 [cce lang="diff"]
 
@@ -78,8 +78,8 @@ $this-&gt;sql_transaction('rollback');
 $this_page = (!empty($_SERVER['PHP_SELF'])) ? $_SERVER['PHP_SELF'] : $_ENV['PHP_SELF'];
 $this_page .= '&amp;' . ((!empty($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : $_ENV['QUERY_STRING']);
 
--$message = '&lt;u&gt;SQL ERROR&lt;/u&gt; [ ' . SQL_LAYER . ' ]&lt;br /&gt;&lt;br /&gt;' . @mysql_error() . '&lt;br /&gt;&lt;br /&gt;&lt;u&gt;CALLING PAGE&lt;/u&gt;&lt;br /&gt;&lt;br /&gt;'  . $this_page . (($sql != '') ? '&lt;br /&gt;&lt;br /&gt;&lt;u&gt;SQL&lt;/u&gt;&lt;br /&gt;&lt;br /&gt;' . $sql : '') . '&lt;br /&gt;';
-+$message = '&lt;u&gt;SQL ERROR&lt;/u&gt; [ ' . SQL_LAYER . ' ]&lt;br /&gt;&lt;br /&gt;' . @mysql_error() . '&lt;br /&gt;&lt;br /&gt;&lt;u&gt;CALLING PAGE&lt;/u&gt;&lt;br /&gt;&lt;br /&gt;'  . htmlspecialchars($this_page) . (($sql != '') ? '&lt;br /&gt;&lt;br /&gt;&lt;u&gt;SQL&lt;/u&gt;&lt;br /&gt;&lt;br /&gt;' . $sql : '') . '&lt;br /&gt;';
+-$message = '&lt;u&gt;SQL ERROR&lt;/u&gt; [ ' . SQL_LAYER . ' ]&lt;br /&gt;&lt;br /&gt;' . @mysql_error() . '&lt;br /&gt;&lt;br /&gt;&lt;u&gt;CALLING PAGE&lt;/u&gt;&lt;br /&gt;&lt;br /&gt;'  . $this_page . (($sql != '') ? '&lt;br /&gt;&lt;br /&gt;&lt;u&gt;SQL&lt;/u&gt;&lt;br /&gt;&lt;br /&gt;' . $sql : '') . '&lt;br /&gt;';
++$message = '&lt;u&gt;SQL ERROR&lt;/u&gt; [ ' . SQL_LAYER . ' ]&lt;br /&gt;&lt;br /&gt;' . @mysql_error() . '&lt;br /&gt;&lt;br /&gt;&lt;u&gt;CALLING PAGE&lt;/u&gt;&lt;br /&gt;&lt;br /&gt;'  . htmlspecialchars($this_page) . (($sql != '') ? '&lt;br /&gt;&lt;br /&gt;&lt;u&gt;SQL&lt;/u&gt;&lt;br /&gt;&lt;br /&gt;' . $sql : '') . '&lt;br /&gt;';
 trigger_error($message, E_USER_ERROR);
 
 }

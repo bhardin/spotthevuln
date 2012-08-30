@@ -30,15 +30,15 @@ __Fixed in Version:__  2.3.2
 
 <strong>Original Code: </strong><a title="Vulnerable Code" href="http://spotthevuln.com/2009/10/vulnerable-code-one-damn-thing/" target="_blank">Found Here</a>
 ## Description
-The vulnerable code here deals with the use of the $_SERVER['PHP_SELF'] global variable.  PHP_SELF has a few quirks that are not well understood by many developers and can easily introduce security issues in web applications.  If we take a look at the PHP manual page for $_SERVER['PHP_SELF'], we see the following:
+The vulnerable code here deals with the use of the $_SERVER['PHP_SELF'] global variable.  PHP_SELF has a few quirks that are not well understood by many developers and can easily introduce security issues in web applications.  If we take a look at the PHP manual page for $_SERVER['PHP_SELF'], we see the following:
 <blockquote>The filename of the currently executing script, relative to the document root. For instance, <var>$_SERVER['PHP_SELF']</var> in a script at the address <var>http://example.com/test.php/foo.bar</var> would be <var>/test.php/foo.bar</var>.</blockquote>
-Examining the example provided in the PHP manual page, we see that an attacker is free to specify an arbitrary value (foo.bar) after a valid php file (test.php).  This arbitrary value will be included in the $_SERVER['PHP_SELF'] global variable.
+Examining the example provided in the PHP manual page, we see that an attacker is free to specify an arbitrary value (foo.bar) after a valid php file (test.php).  This arbitrary value will be included in the $_SERVER['PHP_SELF'] global variable.
 
-Examining the vulnerable WordPress source code, we see that the WordPress developers used the PHP strpos() function to check to whether the $_SERVER['PHP_SELF'] global variable contained the string "wp-admin/".  If the strpos() function found the "wp-admin/" string within the $_SERVER['PHP_SELF'] variable, it would return TRUE which resulted in the setting of the "is_admin" value to true.  This ultimately granted the user administrative rights to certain portions of the web application.  The attacker could easily craft a request for a valid php file, while injecting the "wp-admin/" string into the $_SERVER['PHP_SELF'].  Such a request would look something like this:
+Examining the vulnerable WordPress source code, we see that the WordPress developers used the PHP strpos() function to check to whether the $_SERVER['PHP_SELF'] global variable contained the string "wp-admin/".  If the strpos() function found the "wp-admin/" string within the $_SERVER['PHP_SELF'] variable, it would return TRUE which resulted in the setting of the "is_admin" value to true.  This ultimately granted the user administrative rights to certain portions of the web application.  The attacker could easily craft a request for a valid php file, while injecting the "wp-admin/" string into the $_SERVER['PHP_SELF'].  Such a request would look something like this:
 
 http://wordpressblog.com/index.php/wp-admin/
 
-The request above will request index.php from the server while setting the $_SERVER['PHP_SELF'] variable to /index.php/wp-admin/.  This tricks the vulnerable WordPress code into assuming the user is an administrator and grants the user administrative access to certain pages on the blog.
+The request above will request index.php from the server while setting the $_SERVER['PHP_SELF'] variable to /index.php/wp-admin/.  This tricks the vulnerable WordPress code into assuming the user is an administrator and grants the user administrative access to certain pages on the blog.
 
 The WordPress developers addressed this vulnerability by removing the faulty checks and adding a function which was designed to determine whether the user has administrative privilege.
 <h2>Developers Solution</h2>

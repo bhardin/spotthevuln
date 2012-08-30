@@ -34,7 +34,7 @@ __Issue Type:__ Cross Site Scripting (XSS)
 
 Original Code: <a title="Expect" href="http://spotthevuln.com/2010/10/expect/" target="_blank">Found    Here</a>
 ## Description
-This week's bug was an easy one with a straightforward fix.  The vulnerable code sample is basically a single switch statement.  Most of the cases don't do anything interesting (from a security standpoint) however, the default case at the end of the switch statement leads to a vulnerable condition.  If all of the case statements fail, the application throws a useful error message echoing back a value directly from the query string.  The DojoX developers addressed the vulnerability by html encoding the value before echoing it back to the user.  Simple bug, simple fix.  I hope all the readers have a good weekend and a Happy Halloween!
+This week's bug was an easy one with a straightforward fix.  The vulnerable code sample is basically a single switch statement.  Most of the cases don't do anything interesting (from a security standpoint) however, the default case at the end of the switch statement leads to a vulnerable condition.  If all of the case statements fail, the application throws a useful error message echoing back a value directly from the query string.  The DojoX developers addressed the vulnerability by html encoding the value before echoing it back to the user.  Simple bug, simple fix.  I hope all the readers have a good weekend and a Happy Halloween!
 <h2>Developers Solution</h2>
 [sourcecode language="diff"]
 &lt;?php

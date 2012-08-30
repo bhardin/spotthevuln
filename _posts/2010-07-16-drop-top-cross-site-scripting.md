@@ -50,15 +50,15 @@ __Fixed in Version:__  3.6.1
 
 __Issue Type:__ XSS
 
-Original Code: <a title="Drop Top" href="http://spotthevuln.com/2010/07/drop-top/" target="_blank">Found   Here</a>
+Original Code: <a title="Drop Top" href="http://spotthevuln.com/2010/07/drop-top/" target="_blank">Found   Here</a>
 ## Description
-This is a straightforward XSS bug that affecting the Admin Console of OpenFire by Ignite Realtime/Jive software.  The code fix is simple, encode a tainted URL variable before using it in markup.  The URL variable is assigned an attacker controlled value here:
+This is a straightforward XSS bug that affecting the Admin Console of OpenFire by Ignite Realtime/Jive software.  The code fix is simple, encode a tainted URL variable before using it in markup.  The URL variable is assigned an attacker controlled value here:
 <blockquote>String url = ParamUtils.getParameter(request, "url");</blockquote>
 And is later used in the HTML markup here:
 <blockquote>&lt;input value="&lt;%= url %&gt;"&gt;</blockquote>
 The one line fix is to encode the URL parameter, which was done here:
 <blockquote>url = org.jivesoftware.util.StringUtils.escapeHTMLTags(url);</blockquote>
-Looking through the code, we see that OpenFire had previously fixed an XSS vulnerability just a few lines above in the USERNAME variable.  There is even comment indicating so!  It surprising that the Ignite Realtime/Jive developers missed this one as it is literally two lines below the previous fix.
+Looking through the code, we see that OpenFire had previously fixed an XSS vulnerability just a few lines above in the USERNAME variable.  There is even comment indicating so!  It surprising that the Ignite Realtime/Jive developers missed this one as it is literally two lines below the previous fix.
 <blockquote>String username = ParamUtils.getParameter(request, "username");
 
 if (username != null) {
@@ -134,7 +134,7 @@ String password = ParamUtils.getParameter(request, "password");
 
 String url = ParamUtils.getParameter(request, "url");
 
-+   url = org.jivesoftware.util.StringUtils.escapeHTMLTags(url);
++   url = org.jivesoftware.util.StringUtils.escapeHTMLTags(url);
 
 // SSO between cluster nodes
 
@@ -204,11 +204,11 @@ document.loginForm.username.focus();
 
 &lt;form action="login.jsp" name="loginForm" method="post"&gt;
 
-&lt;%  if (url != null) { try { %&gt;
+&lt;%  if (url != null) { try { %&gt;
 
 &lt;input type="hidden" value="&lt;%= url %&gt;"&gt;
 
-&lt;%  } catch (Exception e) { Log.error(e); } } %&gt;
+&lt;%  } catch (Exception e) { Log.error(e); } } %&gt;
 
 &lt;input value="true"&gt;
 
@@ -260,7 +260,7 @@ document.loginForm.username.focus();
 
 &lt;/noscript&gt;
 
-&lt;%  if (errors.size() &gt; 0) { %&gt;
+&lt;%  if (errors.size() &gt; 0) { %&gt;
 
 &lt;tr&gt;
 
@@ -286,7 +286,7 @@ document.loginForm.username.focus();
 
 &lt;/tr&gt;
 
-&lt;%  } %&gt;
+&lt;%  } %&gt;
 
 &lt;tr&gt;
 
@@ -346,7 +346,7 @@ document.loginForm.username.focus();
 
 &lt;!--
 
-if (document.loginForm.username.value == '')  {
+if (document.loginForm.username.value == '')  {
 
 document.loginForm.username.focus();
 

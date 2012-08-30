@@ -26,18 +26,18 @@ meta:
 
 <strong>Original Code: </strong><a href="http://spotthevuln.com/2009/11/vulnerable-code-left-to-chance/">Found Here</a>
 ## Description
-Yet another Cross Site Scripting vulnerability affecting WordPress.  In this case, the $cat_id variable is assigned a user controlled value and is used without sanitization.  It's a little difficult to determine using the code sample below, but the $cat_id is displayed in WordPress markup in multiple locations without being sanitized.  More importantly, examining the WordPress source we see that almost of the variables are not thoroughly sanitized before being assigned to a variable or being used by the application.  The WordPress team should have a solid understanding of the data definitions for each of the variables it uses and should make an effort to ensure the user controlled data matches that data definition.  In the case of $cat_id, the WordPress developers understood that $cat_id should only have a numerical value and made use of the abs() function to help validate $_POST['cat_id'] before assigning the user controlled value to $cat_id.
+Yet another Cross Site Scripting vulnerability affecting WordPress.  In this case, the $cat_id variable is assigned a user controlled value and is used without sanitization.  It's a little difficult to determine using the code sample below, but the $cat_id is displayed in WordPress markup in multiple locations without being sanitized.  More importantly, examining the WordPress source we see that almost of the variables are not thoroughly sanitized before being assigned to a variable or being used by the application.  The WordPress team should have a solid understanding of the data definitions for each of the variables it uses and should make an effort to ensure the user controlled data matches that data definition.  In the case of $cat_id, the WordPress developers understood that $cat_id should only have a numerical value and made use of the abs() function to help validate $_POST['cat_id'] before assigning the user controlled value to $cat_id.
 <h2>Developers Solution</h2>
 [cce lang="diff"]
 
 &lt;h2&gt;&lt;?php _e('Importing...') ?&gt;&lt;/h2&gt;
 &lt;?php
--              $cat_id = $_POST['cat_id'];
--              if (($cat_id == '') || ($cat_id == 0)) {
-+              $cat_id = abs( (int) $_POST['cat_id'] );
-+              if ( $cat_id &lt; 1 )
-$cat_id  = 1;
--              }
+-              $cat_id = $_POST['cat_id'];
+-              if (($cat_id == '') || ($cat_id == 0)) {
++              $cat_id = abs( (int) $_POST['cat_id'] );
++              if ( $cat_id &lt; 1 )
+$cat_id  = 1;
+-              }
 
 $opml_url = $_POST['opml_url'];
 if (isset($opml_url) &amp;&amp; $opml_url != '' &amp;&amp; $opml_url != 'http://') {

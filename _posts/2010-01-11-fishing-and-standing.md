@@ -42,16 +42,16 @@ require FORUM_ROOT.'lang/'.$forum_user['language'].'/misc.php';
 
 // Find any users matching the conditions
 $query = array(
-'SELECT'    =&gt; 'u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title',
-'FROM'        =&gt; 'users AS u',
-'JOINS'        =&gt; array(
+'SELECT'    =&gt; 'u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title',
+'FROM'        =&gt; 'users AS u',
+'JOINS'        =&gt; array(
 array(
-'LEFT JOIN'        =&gt; 'groups AS g',
-'ON'            =&gt; 'g.g_id=u.group_id'
+'LEFT JOIN'        =&gt; 'groups AS g',
+'ON'            =&gt; 'g.g_id=u.group_id'
 )
 ),
-'WHERE'        =&gt; 'u.id&gt;1 AND '.implode(' AND ', $conditions),
-'ORDER BY'  =&gt; $order_by.' '.$direction <ins></ins>
+'WHERE'        =&gt; 'u.id&gt;1 AND '.implode(' AND ', $conditions),
+'ORDER BY'  =&gt; $order_by.' '.$direction <ins></ins>
 );
 
 [/ccnLe_php] 

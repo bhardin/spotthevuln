@@ -31,11 +31,11 @@ __Fixed in Version:__  1.8.1
 
 __Issue Type:__ Cross Site Scripting
 
-Original Code: <a title="Karate" href="http://spotthevuln.com/2010/03/karate/" target="_blank">Found  Here</a>
+Original Code: <a title="Karate" href="http://spotthevuln.com/2010/03/karate/" target="_blank">Found  Here</a>
 ## Description
-Auditing template languages can be tricky.  Many times the tools and automation fall apart when dealing with template languages.  Also, many template languages separate markup and logic, forcing the code auditor to trace every alteration of markup.
+Auditing template languages can be tricky.  Many times the tools and automation fall apart when dealing with template languages.  Also, many template languages separate markup and logic, forcing the code auditor to trace every alteration of markup.
 
-In this specific example, we see that the developer has removed two lines that echoed the user's firstname and lastname to the HTML markup.  The removed lines were replaced with what appears to be encoded firstname and lastname values.  What's interesting is the birthdate and userid appear to be displayed without any encoding.  It would be interesting to see if the user/attacker could control these in a manner that could result in XSS.
+In this specific example, we see that the developer has removed two lines that echoed the user's firstname and lastname to the HTML markup.  The removed lines were replaced with what appears to be encoded firstname and lastname values.  What's interesting is the birthdate and userid appear to be displayed without any encoding.  It would be interesting to see if the user/attacker could control these in a manner that could result in XSS.
 <h2>Developers Solution</h2>
 [cce lang="diff"]
 
@@ -73,13 +73,13 @@ In this specific example, we see that the developer has removed two lines that e
 
 &lt;td&gt;&lt;a href="userform.html?id=${user.id}"&gt;${user.id}&lt;/a&gt;&lt;/td&gt;
 
--    &lt;td&gt;${user.firstName}&lt;/td&gt;
+-    &lt;td&gt;${user.firstName}&lt;/td&gt;
 
--    &lt;td&gt;${user.lastName}&lt;/td&gt;
+-    &lt;td&gt;${user.lastName}&lt;/td&gt;
 
-+    &lt;td&gt;${user.firstName?html}&lt;/td&gt;
++    &lt;td&gt;${user.firstName?html}&lt;/td&gt;
 
-+    &lt;td&gt;${user.lastName?html}&lt;/td&gt;
++    &lt;td&gt;${user.lastName?html}&lt;/td&gt;
 
 &lt;td&gt;&lt;#if user.birthday??&gt;${user.birthday?date}&lt;/#if&gt;&lt;/td&gt;
 

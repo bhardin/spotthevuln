@@ -34,9 +34,9 @@ When appended together the %0d (Carriage Return) and %0a (Line Feed) characters 
 
 The vulnerable WordPress code snippet actually contained logic to detect carriage returns and line feed characters, attempting to strip CRLF from data being assigned to the $url variable.
 
-The CRLF detection logic used by the vulnerable WordPress version was not very robust.  The CRLF detection logic simply checked for the presence of "%0d" and "%0a" in the $url variable and failed to consider UPPERCASE "%0D" or "%0A".  The $url variable is assigned the CRLF tainted string and eventually passed to a HTTP Location header, giving the attacker an opportunity for URL Redirection, CRLF injection, HTTP header injection, and even <a href="http://misc-security.com/2009/05/21/xss-cross-site-scripting/">Cross Site Scripting (XSS)</a>.
+The CRLF detection logic used by the vulnerable WordPress version was not very robust.  The CRLF detection logic simply checked for the presence of "%0d" and "%0a" in the $url variable and failed to consider UPPERCASE "%0D" or "%0A".  The $url variable is assigned the CRLF tainted string and eventually passed to a HTTP Location header, giving the attacker an opportunity for URL Redirection, CRLF injection, HTTP header injection, and even <a href="http://misc-security.com/2009/05/21/xss-cross-site-scripting/">Cross Site Scripting (XSS)</a>.
 
-In addition to adding UPPERCASE variants of "%0D" and "%0A" to the detection logic, a function to recursively detect the presence of CRLF was also added.  Before this function was added, it was possible to defeat the detection logic by simply passing a string such as %0%0d%0ad%0%0d%0aa which would have "%0d%0a" character sequences stripped out, resulting in %0d%0a being passed to the $url variable.  The WordPress developers addressed this issue by adding a recursive verifier (_deep_request()), whose source is included in the Developers Solution.
+In addition to adding UPPERCASE variants of "%0D" and "%0A" to the detection logic, a function to recursively detect the presence of CRLF was also added.  Before this function was added, it was possible to defeat the detection logic by simply passing a string such as %0%0d%0ad%0%0d%0aa which would have "%0d%0a" character sequences stripped out, resulting in %0d%0a being passed to the $url variable.  The WordPress developers addressed this issue by adding a recursive verifier (_deep_request()), whose source is included in the Developers Solution.
 <h2>Developers Solution</h2>
 [cc lang="diff"]
 
@@ -45,10 +45,10 @@ $original_url = $url;
 
 if ('' == $url) return $url;
 $url = preg_replace('|[^a-z0-9-~+_.?#=!&amp;;,/:%@$\|*\'()\\x80-\\xff]|i', '', $url);
--       $strip = array('%0d', '%0a');
--       $url = str_replace($strip, '', $url);
-+       $strip = array('%0d', '%0a', '%0D', '%0A');
-+       $url = _deep_replace($strip, $url);
+-       $strip = array('%0d', '%0a');
+-       $url = str_replace($strip, '', $url);
++       $strip = array('%0d', '%0a', '%0D', '%0A');
++       $url = _deep_replace($strip, $url);
 $url = str_replace(';//', '://', $url);
 /* If the URL doesn't appear to contain a scheme, we
 * presume it needs http:// appended (unless a relative
@@ -88,18 +88,18 @@ With _DEEP_REPLACE for recursive checks!
 + * @return string The processed string
 + */
 +function _deep_replace($search, $subject){
-+        $found = true;
-+        while($found) {
-+                $found = false;
-+                foreach( (array) $search as $val ) {
-+                        while(strpos($subject, $val) !== false) {
-+                                $found = true;
-+                                $subject = str_replace($val, '', $subject);
-+                        }
-+                }
-+        }
++        $found = true;
++        while($found) {
++                $found = false;
++                foreach( (array) $search as $val ) {
++                        while(strpos($subject, $val) !== false) {
++                                $found = true;
++                                $subject = str_replace($val, '', $subject);
++                        }
++                }
++        }
 +
-+        return $subject;
++        return $subject;
 +}
 
 [/cc] 

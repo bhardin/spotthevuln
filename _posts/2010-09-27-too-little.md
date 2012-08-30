@@ -64,7 +64,7 @@ echo "unknown messId:{$_GET['messId']}";
 }
 }
 
-if(isset($_GET['bounceGetStr']) &amp;&amp;  $_GET['bounceGetStr']){
+if(isset($_GET['bounceGetStr']) &amp;&amp;  $_GET['bounceGetStr']){
 echo "&lt;div id='bouncedGetStr'&gt;{$_SERVER["QUERY_STRING"]}&lt;/div&gt;";
 }
 

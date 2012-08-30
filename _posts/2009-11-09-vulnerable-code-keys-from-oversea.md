@@ -29,7 +29,7 @@ context.getURL(WikiContext.EDIT,context.getName());
 action="&lt;%=action%&gt;"
 name="editForm" enctype="application/x-www-form-urlencoded"&gt;
 &lt;p&gt;
-&lt;%-- Edit.jsp &amp; Comment.jsp rely on these being found.  So be careful, if you make changes. --%&gt;
+&lt;%-- Edit.jsp &amp; Comment.jsp rely on these being found.  So be careful, if you make changes. --%&gt;
 &lt;input name="author" type="hidden" value="&lt;%=session.getAttribute("author")%&gt;" /&gt;
 &lt;input name="link" type="hidden" value="&lt;%=session.getAttribute("link")%&gt;" /&gt;
 &lt;input name="remember" type="hidden" value="&lt;%=session.getAttribute("remember")%&gt;" /&gt;

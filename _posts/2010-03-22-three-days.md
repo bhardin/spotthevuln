@@ -42,7 +42,7 @@ die ('&lt;strong&gt;ERROR&lt;/strong&gt;: Please enter your password twice.');
 }
 
 /* checking the password has been typed twice the same */
-if ($pass1 != $pass2)    {
+if ($pass1 != $pass2)    {
 die ('&lt;strong&gt;ERROR&lt;/strong&gt;: Please type the same password in the two password fields.');
 }
 $user_nickname = $user_login;
@@ -83,7 +83,7 @@ for ($i = 0; $i &lt; strlen($pass1); $i = $i + 1) {
 $stars .= '*';
 }
 
-$message  = "New user registration on your blog $blogname:\r\n\r\n";
+$message  = "New user registration on your blog $blogname:\r\n\r\n";
 $message .= "Login: $user_login\r\n\r\nE-mail: $user_email";
 
 @mail($admin_email, "[$blogname] New User Registration", $message);

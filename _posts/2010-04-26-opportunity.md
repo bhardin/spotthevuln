@@ -28,58 +28,58 @@ meta:
 
 switch($db['type'])
 {
-   case 'mysql':
-       $db_link = new MySQLdb($db['host'], $db['username'], $db['password'], false, $db['database']);
-    break;
-    case 'postgresql':
-        $db_link = new PostgreSQL($db['host'], $db['username'], $db['password'], false, $db['database']);
-    break;
+   case 'mysql':
+       $db_link = new MySQLdb($db['host'], $db['username'], $db['password'], false, $db['database']);
+    break;
+    case 'postgresql':
+        $db_link = new PostgreSQL($db['host'], $db['username'], $db['password'], false, $db['database']);
+    break;
 }
 unset($db);
- 
+ 
 // Set Header and cache expiration
 $offset = 60 * 60 * 24 * 2; // 2 days to expiry date.
 @ob_start("ob_gzhandler");
-header("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");                                                                 
+header("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");                                                                 
 header('Cache-Control: ');
 header('Pragma: ');
- 
+ 
 foreach ($_GET as $key=&gt;$value)
 {
-    $_GET[$key] = urldecode($value);
+    $_GET[$key] = urldecode($value);
 }
- 
+ 
 $raw_content = '(No content available)';
 if (!empty($_GET['content']))
 {
-    $fp = @fopen(urldecode($_GET['content']),'r');
-    if (is_resource($fp))
-    {
-        $raw_content = '';
-        while(!feof($fp)) $raw_content .= fread($fp,4096); 
-    }
+    $fp = @fopen(urldecode($_GET['content']),'r');
+    if (is_resource($fp))
+    {
+        $raw_content = '';
+        while(!feof($fp)) $raw_content .= fread($fp,4096); 
+    }
 }
- 
+ 
 // just a namespace
 class iBeginShare
 {
-    function isValidEmail($email)
-    {
-        $email = trim($email);
-        return (bool)preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $email);
-    }
-    function quoteSmart($value)
-    {
-        if (is_array($value))
-        {
-            foreach ($value as $key =&gt; $value2):
-                $value[$key] = htmlspecialchars((string) trim($value2), ENT_QUOTES, 'UTF-8');
-            endforeach;
-            return $value;
-        }
-        else
-        {
-            return htmlspecialchars((string) trim($value), ENT_QUOTES, 'UTF-8');
-        }
-    }
+    function isValidEmail($email)
+    {
+        $email = trim($email);
+        return (bool)preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $email);
+    }
+    function quoteSmart($value)
+    {
+        if (is_array($value))
+        {
+            foreach ($value as $key =&gt; $value2):
+                $value[$key] = htmlspecialchars((string) trim($value2), ENT_QUOTES, 'UTF-8');
+            endforeach;
+            return $value;
+        }
+        else
+        {
+            return htmlspecialchars((string) trim($value), ENT_QUOTES, 'UTF-8');
+        }
+    }
 [/ccnLe_php] 

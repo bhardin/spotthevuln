@@ -23,7 +23,7 @@ __Fixed in Version:__  1.2.0
 
 __Issue Type:__ Defense in Depth
 
-Original Code: <a title="Elephant" href="http://spotthevuln.com/2010/02/elephants/" target="_blank">Found Here</a>
+Original Code: <a title="Elephant" href="http://spotthevuln.com/2010/02/elephants/" target="_blank">Found Here</a>
 ## Description
 This was a simple change to a security message shown to a user.  Although not a critical security fix, this can help users make better decisions with regards to choosing an appropriate password.  The code sample provided below shows that Durpal checks for lowercase, uppercase, numbers, and punctuation in the user's password.
 <blockquote>var weaknesses = 0, strength = 100, msg = [];
@@ -77,8 +77,8 @@ var username = (usernameBox.length &gt; 0) ? usernameBox.val() : translate.usern
 +// Lose 5 points for every character less than 6, plus a 30 point penalty.
 if (password.length &lt; 6) {
 msg.push(translate.tooShort);
--  strength -= (6 - password.length) * 10;
-+  strength -= ((6 - password.length) * 5) + 30;
+-  strength -= (6 - password.length) * 10;
++  strength -= ((6 - password.length) * 5) + 30;
 }
 
 // Count weaknesses.

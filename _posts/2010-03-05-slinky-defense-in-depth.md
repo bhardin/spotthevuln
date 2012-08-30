@@ -32,14 +32,14 @@ __Fixed in Version:__  revision 697031
 
 __Issue Type:__ Defense in Depth
 
-Original Code: <a title="Slinky" href="http://spotthevuln.com/2010/03/slinky/" target="_blank">Found Here</a>
+Original Code: <a title="Slinky" href="http://spotthevuln.com/2010/03/slinky/" target="_blank">Found Here</a>
 ## Description
 <div>
 
-This is a defense in depth fix checked into the Apache SVN under web services.  This particular issue prevented a username enumeration/disclosure bug that would occur if a null password was sent with a value username.  The developers fixed this particular issue by logging the failure in the debug log and displaying a generic authentication failure message back to the user.
+This is a defense in depth fix checked into the Apache SVN under web services.  This particular issue prevented a username enumeration/disclosure bug that would occur if a null password was sent with a value username.  The developers fixed this particular issue by logging the failure in the debug log and displaying a generic authentication failure message back to the user.
 <blockquote>throw new WSSecurityException(WSSecurityException.FAILURE,
 "noPassword", <span style="color: #ff0000;">new Object[]{user}</span>)</blockquote>
-The defense in depth fix is pretty straightforward… what's interesting however, is the code surrounding the fix.  A quick examination shows that there is a real possibility that clear text passwords are being logged in the debug log file.  Take the following code for example:
+The defense in depth fix is pretty straightforward… what's interesting however, is the code surrounding the fix.  A quick examination shows that there is a real possibility that clear text passwords are being logged in the debug log file.  Take the following code for example:
 <blockquote>log.debug("UsernameToken callback password " + <span style="color: #ff0000;">origPassword</span>);</blockquote>
 I hope origPassword doesn't actually represent a user's password!
 
@@ -98,13 +98,13 @@ if (log.isDebugEnabled()) {
 log.debug("UsernameToken callback password " + origPassword);
 }
 if (origPassword == null) {
-+                if (log.isDebugEnabled()) {
-+                    log.debug("Callback supplied no password for: " + user);
-+                }
-+                throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);
++                if (log.isDebugEnabled()) {
++                    log.debug("Callback supplied no password for: " + user);
++                }
++                throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);
 
--                throw new WSSecurityException(WSSecurityException.FAILURE,
--                        "noPassword", new Object[]{user});
+-                throw new WSSecurityException(WSSecurityException.FAILURE,
+-                        "noPassword", new Object[]{user});
 }
 String passDigest = UsernameToken.doPasswordDigest(nonce, createdTime, origPassword);
 if (!passDigest.equals(password)) {

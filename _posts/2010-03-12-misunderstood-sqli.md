@@ -30,11 +30,11 @@ __Fixed in Version:__
 
 __Issue Type:__ <a href="http://spotthevuln.com/category/vulnerability/sql-injection/">SQL Injection</a>
 
-Original Code: <a title="Paid" href="http://spotthevuln.com/2010/03/misunderstood/" target="_blank">Found Here</a>
+Original Code: <a title="Paid" href="http://spotthevuln.com/2010/03/misunderstood/" target="_blank">Found Here</a>
 ## Description
-Implementation bug here, leading to SQL injection.  The primary change involves the changing of a regular expression.  The initial check seemed be an attempt to validate data, but was too loose.  The data that slipped through validation eventually makes its way into a dynamically built SQL statement, resulting in SQL injection.
+Implementation bug here, leading to SQL injection.  The primary change involves the changing of a regular expression.  The initial check seemed be an attempt to validate data, but was too loose.  The data that slipped through validation eventually makes its way into a dynamically built SQL statement, resulting in SQL injection.
 
-The Regular Expression is tightened up and some of the SQL statement was changed.  It's interesting that the developers chose to implement better regular expression checking instead of trying to move this particular SQL statement to a prepared statement.
+The Regular Expression is tightened up and some of the SQL statement was changed.  It's interesting that the developers chose to implement better regular expression checking instead of trying to move this particular SQL statement to a prepared statement.
 <h2>Developers Solution</h2>
 [cce lang="diff"]
 

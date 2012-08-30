@@ -34,7 +34,7 @@ __Fixed in Version:__  2.1
 
 __Issue Type:__ Defense in Depth
 
-Original Code: <a title="More than one night" href="http://spotthevuln.com/2010/03/more-than-one-night/" target="_blank">Found Here</a>
+Original Code: <a title="More than one night" href="http://spotthevuln.com/2010/03/more-than-one-night/" target="_blank">Found Here</a>
 ## Description
 I found this issue interesting for a couple reasons. Upon first glance, the patch appears to be a defense against SQL Injection and in essence, it is. It seems that the $q['cat'] value is controlled by the user and is eventually used to help build a SQL statement. Before the $q['cat'] value is used in a SQL statement, it is actually sanitized by the following lines:
 <blockquote>$q['cat'] = ''.urldecode($q['cat']).'';
