@@ -38,7 +38,7 @@ __Issue Type:__ Defense in Depth
 
 Original Code: <a title="Spinning" href="http://spotthevuln.com/2010/08/spinning/" target="_blank">Found    Here</a>
 ## Description
-This was a vulnerability affecting the Dojo toolkit.   Apparently, the dojo toolkit shipped with a SWF file that had a few vulnerabilities.  This particular vulnerability affected one of those SWF files.  First, SWF files are compiled files, however they can be decompiled.  Unlike traditional server side web application languages (PHP, ASP, JSP…etc), SWF files are downloaded and rendered on the clientside.  Decompiling the SWF file gives the attacker full access to the ActionScript source code for the SWF application.
+This was a vulnerability affecting the Dojo toolkit.   Apparently, the dojo toolkit shipped with a SWF file that had a few vulnerabilities.  This particular vulnerability affected one of those SWF files.  First, SWF files are compiled files, however they can be decompiled.  Unlike traditional server side web application languages (PHP, ASP, JSP...etc), SWF files are downloaded and rendered on the clientside.  Decompiling the SWF file gives the attacker full access to the ActionScript source code for the SWF application.
 
 In this particular SWF file, we see that the developers explicitly set the Security.allowDomain to "*".  This makes it so SWF flies from other, external domains can include the Dojo toolkit SWF file and script/access its internal functionality.
 

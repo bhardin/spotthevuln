@@ -34,7 +34,7 @@ This patch was full of interesting tidbits.  First, the change log for this patc
 **1.9.1** 
 + fix a flaw allowing a remote cross-site scripting attack
 </blockquote>
-Keep the change list description in mind as we go over the patch submitted by the developers.  The submitted patch is pretty simple.  There is an additional qualifier set for an if statement that checks to see if $_GET["where$i"] is contained within array $f.  It's difficult to determine whether this is true… but it doesn't really matter.  The second change is an addslashes  to $_GET["what$i"] before using the tainted query string parameter to build a dynamic SQL statement.  This is to prevent an obvious SQL injection bug in the LIKE operator of the SQL statement.
+Keep the change list description in mind as we go over the patch submitted by the developers.  The submitted patch is pretty simple.  There is an additional qualifier set for an if statement that checks to see if $_GET["where$i"] is contained within array $f.  It's difficult to determine whether this is true... but it doesn't really matter.  The second change is an addslashes  to $_GET["what$i"] before using the tainted query string parameter to build a dynamic SQL statement.  This is to prevent an obvious SQL injection bug in the LIKE operator of the SQL statement.
 
 What's surprising is the developer missed the $_GET["where$i"] query string parameter used to build the SQL statement on the same line.  This bug is equally devastating and results in SQL injection against the application.  So despite the change log description, this patch is to address a SQL injection bug, NOT an XSS.
 

@@ -45,7 +45,7 @@ __Issue Type:__ Cross Site Scripting (XSS)
 
 Original Code: <a title="Everything" href="http://spotthevuln.com/2010/06/everything/" target="_blank">Found Here</a>
 ## Description
-This was a bug reported by the <a title="Gotham" href="http://www.gdssecurity.com/" target="_blank">Gotham Digital Science </a>against the Dojo toolkit SDK.  The Dojo toolkit is a popular toolkit used by numerous websites… so in essence this bug provided attackers an opportunity to XSS a large number of websites across the Internet.
+This was a bug reported by the <a title="Gotham" href="http://www.gdssecurity.com/" target="_blank">Gotham Digital Science </a>against the Dojo toolkit SDK.  The Dojo toolkit is a popular toolkit used by numerous websites... so in essence this bug provided attackers an opportunity to XSS a large number of websites across the Internet.
 
 The bug begins by the capturing of untrusted parameter values from the querystring.  This is done by the following JavaScript:
 <blockquote><code>var qstr = window.location.search.substr(1);</code></blockquote>
@@ -57,7 +57,7 @@ the attacker supplied values are then used in a document.write() statement, givi
 document.write("&lt;scr"+"ipt type='text/javascript' src='"+<span style="color: #ff0000;">testUrl</span>+".js'&gt;&lt;/scr"+"ipt&gt;");</blockquote>
 The Dojo developers addressed this vulnerability by replacing characters from the attacker controlled input.  The specific regular expression used is provided below:
 <blockquote>value=tp[1].replace(/[&lt;&gt;"']/g, "");</blockquote>
-I see a major issue with this code fix… can you spot it as well?
+I see a major issue with this code fix... can you spot it as well?
 <h2>Developers Solution</h2>
 [cce lang="diff"]
 

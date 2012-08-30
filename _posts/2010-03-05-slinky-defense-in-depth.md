@@ -39,7 +39,7 @@ Original Code: <a title="Slinky" href="http://spotthevuln.com/2010/03/slinky/" t
 This is a defense in depth fix checked into the Apache SVN under web services.  This particular issue prevented a username enumeration/disclosure bug that would occur if a null password was sent with a value username.  The developers fixed this particular issue by logging the failure in the debug log and displaying a generic authentication failure message back to the user.
 <blockquote>throw new WSSecurityException(WSSecurityException.FAILURE,
 "noPassword", <span style="color: #ff0000;">new Object[]{user}</span>)</blockquote>
-The defense in depth fix is pretty straightforward… what's interesting however, is the code surrounding the fix.  A quick examination shows that there is a real possibility that clear text passwords are being logged in the debug log file.  Take the following code for example:
+The defense in depth fix is pretty straightforward... what's interesting however, is the code surrounding the fix.  A quick examination shows that there is a real possibility that clear text passwords are being logged in the debug log file.  Take the following code for example:
 <blockquote>log.debug("UsernameToken callback password " + <span style="color: #ff0000;">origPassword</span>);</blockquote>
 I hope origPassword doesn't actually represent a user's password!
 

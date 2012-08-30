@@ -35,7 +35,7 @@ The WordPress developers fixed a persistent Cross Site Scripting vulnerability w
 
 The WordPress team implemented the PHP strip_tags() function to strip HTML tags from the post title before assigning to the $comment_post_title variable.  More information related to the PHP strip_tags() API can be found <a title="PHP strip_tags" href="http://us2.php.net/manual/en/function.strip-tags.php" target="_blank">here</a>.  It should be noted that the documentation for strip_tags() provides the following warning:
 <blockquote>Because <strong>strip_tags()</strong> does not actually validate the HTML, partial, or broken tags can result in the removal of more text/data than expected.</blockquote>
-Interesting indeed…
+Interesting indeed...
 <h2>Developers Solution</h2>
 [cce lang="diff"]
 

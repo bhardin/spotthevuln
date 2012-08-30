@@ -35,7 +35,7 @@ This change was a defense in depth fix for WordPress.  The code for this page co
 
 The WordPress developers strengthened the security mechanisms around password handling by hashing the password before storing it in the database. 
 
-Although not fixed in this particular patch… if you look closely, there are other vulnerabilities in the user registration code :)
+Although not fixed in this particular patch... if you look closely, there are other vulnerabilities in the user registration code :)
 <h2>Developers Solution</h2>
 [cce lang="diff"]
 
