@@ -1,7 +1,12 @@
 ---
 layout: default
 ---
+<div class="well">
+Is this page broken or not rendering properly? You can checkout our <a href="https://github.com/bhardin/spotthevuln/tree/master/_posts">repo</a>, <a href="https://github.com/bhardin/spotthevuln/blob/master/_posts/{{ page.date | date: "%Y-%m-%d" }}-{{ page.title | remove: " -" | replace: " ", "-" | downcase }}.md">fix it yourself</a>, or <a href="http://twitter.com/miscsecurity">let us know</a>.
+</div>
+
 <h2>{{ page.title }}</h2>
+<!-- Tags: {{ page.tags | array_to_sentence_string }} -->
 
 {% if page.quote %}
 <blockquote>
