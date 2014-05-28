@@ -1,24 +1,8 @@
 ---
 layout: post
-title: Spot The Vuln
-tags:
-- Information
-status: publish
-type: post
-published: true
-meta:
-  _aktt_hash_meta: ''
-  _edit_last: '1'
-  aktt_tweeted: '1'
-  aktt_notify_twitter: 'yes'
-  _headspace_description: Finding vulnerabilities in code is a skill that can be obtained
-    by practice. Use spot the vuln to hone your skills to find security vulnerabilities.
-  _headspace_page_title: How to spot vulnerabilities in source Code
-  _sexybookmarks_shortUrl: http://bit.ly/3Cmeh4
-  _sexybookmarks_permaHash: 9e42876374235e62ab8a1a118c67c2c1
 ---
 
-![wtfm](/assets/img/wtfm.jpg)
+# Spot The Vuln
 
 ## Purpose
 spotthevuln.com was created by [two security professionals](/about) who wanted to give something back to the community. The intent of this blog is to provide examples of real world vulnerabilities affecting real world software. The examples provided are from open source software packages with the focus being on web applications.
@@ -47,10 +31,10 @@ Once the solution sets are posted the reader can broaden their perspective by as
 * How would you test a code base consisting of 100,000 dynamic pages for similar vulnerabilities?
 * How would one test to ensure the fix is robust and comprehensive?
 * What testing criteria would make a good quality gate?
-* What engineering/administrative/automated gates can be created to ensure similar a vulnerably doesn’t make its way into future code check-ins?
+* What engineering/administrative/automated gates can be created to ensure similar a vulnerably doesn't make its way into future code check-ins?
 
 ## Final Thoughts
-We hope you find spotthevuln.com to be a fun way to spend a few minutes each week. If you have any suggestions or would like to submit a vulnerability to the site, please contact us at: <a href="mailto:spotthevuln (shift 2) gmail.com">spotthevuln (shift 2) gmail.com</a> Happy Hunting!
+We hope you find spotthevuln.com to be a fun way to spend a few minutes each week. If you have any suggestions or would like to submit a vulnerability to the site, please contact us at: spotthevuln (shift 2) gmail.com. Happy Hunting!
 
 -- Respectfully,
 

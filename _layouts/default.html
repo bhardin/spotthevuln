@@ -2,12 +2,12 @@
   <head>
     <title>{{ page.title }}</title>
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/css/syntax.css" rel="stylesheet">
+    <link href="http://blog.leonardfactory.com/assets/css/solarized.css" rel="stylesheet">
     <link href="/assets/css/custom.css" rel="stylesheet">
     {% include google_analytics.html %}
   </head>
   <body>
-  
+
   <div class="navbar">
     <div class="navbar-inner">
     <ul class="nav">
@@ -20,15 +20,14 @@
     </div>
   </div>
 
+  <div class="header container">
+    <h1>SpotTheVuln.com</h1>
+    <h2>Helping Developers Understand Security</h2>
+  </div>
 
-    <div class="header container">
-      <h1>SpotTheVuln.com</h1>
-      <h2>Helping Developers Understand Security</h2>
-    </div>
+	<div class="container">
+  	{{ content }}
+	</div>
 
-  	<div class="container">
-    	{{ content }}
-  	</div>
-  
   </body>
 </html>

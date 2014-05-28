@@ -5,19 +5,6 @@ layout: default
 Is this page broken or not rendering properly? You can checkout our <a href="https://github.com/bhardin/spotthevuln/tree/gh-pages/_posts">repo</a>, <a href="https://github.com/bhardin/spotthevuln/blob/gh-pages/_posts/{{ page.date | date: "%Y-%m-%d" }}-{{ page.title | remove: " -" | replace: " ", "-" | downcase }}.md">fix it yourself</a>, or <a href="http://twitter.com/miscsecurity">let us know</a>.
 </div>
 
-<h2>{{ page.title }}</h2>
-<!-- Tags: {{ page.tags | array_to_sentence_string }} -->
-
-{% if page.quote %}
-<blockquote>
-	<p>{{ page.quote }}</p>
-
-	{% if page.quote_author %}
-		<p>{{ page.quote_author }}</p>
-	{% endif %}
-</blockquote>
-{% endif %}
-
 <div id="post">
 {{ content }}
 </div>

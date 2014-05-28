@@ -1,27 +1,20 @@
 ---
 layout: post
-title: Boundaries
-tags:
-- Code Snippet
+tags: PHP, Code Snippet
 status: publish
-type: post
 quote: I like pushing boundaries.
 quote_author: Lady Gaga
 published: true
-meta:
-  aktt_notify_twitter: 'yes'
-  _aktt_hash_meta: ! '#secure #code #dev'
-  _edit_last: '2'
-  aktt_tweeted: '1'
 ---
 
-{% highlight html+php linenos %}
-</style>
+# Boundaries
+
+```php
 <?php
   // We do some checking to see what we're doing
   if (isset($_POST['mode']) && $_POST['mode'] == 'add')
     {
-      // Proceed with the save  
+      // Proceed with the save
       $sql = "INSERT INTO " . WP_CALENDAR_CATEGORIES_TABLE . " SET category_name='".mysql_escape_string($_POST['category_name'])."', category_colour='".mysql_escape_string($_POST['category_colour'])."'";
       $wpdb->get_results($sql);
       echo "<div class=\"updated\"><p><strong>".__('Category added successfully','calendar')."</strong></p></div>";
@@ -112,4 +105,4 @@ meta:
     </form>
     <h2><?php _e('Manage Categories','calendar'); ?></h2>
 ...snip...
-{% endhighlight %}
+```
