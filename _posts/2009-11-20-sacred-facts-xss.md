@@ -37,7 +37,7 @@ The WordPress team implemented the PHP strip_tags() function to strip HTML tags 
 <blockquote>Because <strong>strip_tags()</strong> does not actually validate the HTML, partial, or broken tags can result in the removal of more text/data than expected.</blockquote>
 Interesting indeed...
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 function _wp_dashboard_recent_comments_row( &amp;$comment, $show_date = true ) {
 $GLOBALS['comment'] =&amp; $comment;
@@ -68,4 +68,4 @@ $actions['delete'] = "&lt;a href='$delete_url' class='delete:the-comment-list:co
 $actions = apply_filters( 'comment_row_actions', $actions, $comment );
 
 $i = 0;
-[/cce]
+```

@@ -61,7 +61,7 @@ The aa_pp_mess() function actually logged the clear text username and password b
 
 The vulnerability was fixed by removing references to user password (and even references to the user that called the function). Now I just have to figure out why the AskApache devs are passing a default value for $pass :)
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 // aa_pp_hashit
 //-------------------------------------------------------------------------------------------
@@ -157,4 +157,4 @@ function aa_pp_mess($message=''){
 }//=========================================================================================================================
 
 
-[/cce]
+```

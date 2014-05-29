@@ -37,7 +37,7 @@ The WordPress developers strengthened the security mechanisms around password ha
 
 Although not fixed in this particular patch... if you look closely, there are other vulnerabilities in the user registration code :)
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 $user_login = $HTTP_POST_VARS['user_login'];
 
@@ -139,4 +139,4 @@ $message .= "Login: $user_login\r\n\r\nE-mail: $user_email";
 
 @mail($admin_email, "[$blogname] New User Registration", $message);
 
-[/cce]
+```

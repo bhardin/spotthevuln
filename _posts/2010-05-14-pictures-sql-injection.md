@@ -42,7 +42,7 @@ Another interesting piece of the code fix is the logic for the following conditi
 <blockquote>if($action == "delete"){</blockquote>
 looks like the devs may have forgotten something :)
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 &lt;?php
 require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
@@ -116,4 +116,4 @@ will reset the count for each entry. Visit the &lt;a href="<a href="http://www.h
    &lt;tbody id="the-list"&gt;
 ?&gt;
 
-[/cce]
+```

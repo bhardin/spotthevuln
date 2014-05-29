@@ -36,7 +36,7 @@ In addition to the whitelist, the Joomla developers also escaped the variables b
 
 'ORDER BY'  =&gt; $forum_db-&gt;escape($order_by).' '.$forum_db-&gt;escape($direction)</blockquote>
 ## Developers Solution
-[cce lang="diff"]
+```diff
 $form['username'] = $_POST['username'];
 
 +//Check up for order_by and direction values
@@ -77,4 +77,4 @@ array(
 );
 
 
-[/cce]
+```

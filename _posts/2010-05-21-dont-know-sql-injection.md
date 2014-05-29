@@ -33,7 +33,7 @@ This example covers a SQL injection in the YAK for Wordpress plugin. YAK is a sh
 
 Looking at the code in this example, we see a classic SQL Injection through SQL statement string building. There are several places where the YAK plugin developer takes user controlled values and uses those values as part of a dynamic SQL query. The bright spot in this code fix is once the vulnerabilities were discovered, the developer made use of prepared statements (they utilized the wordpress prepared statement functions) to address the vulnerabilities. An advantage to using prepared statements (as opposed to input validation before using a value in a dynamic SQL statement) is the developer doesn't have to worry about missing some malicious character sequence or being too restrictive with legitimate data.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 &lt;?php
 if (!function_exists('yak_calc_discount_price')) {
@@ -179,4 +179,4 @@ return $promos;
 }
 ?&gt;
 
-[/cce]
+```

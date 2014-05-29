@@ -35,7 +35,7 @@ The core of the issue stems from the fact that a developer was allowed to check-
 
 The vulnerable code was discovered over two years ago by the WordPress team. Hopefully, the check-in process has improved and all new check-in's undergo a baseline security check, either through automation or manual review.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 function convert_all() {
 global $wpdb;
@@ -76,4 +76,4 @@ break;
 case 3 :
 $this-&gt;convert_all_confirm();
 
-[/cce]
+```

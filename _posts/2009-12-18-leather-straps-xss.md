@@ -35,7 +35,7 @@ This was a cross site scripting bug affecting the Press This component for WordP
 <blockquote>&lt;?php if ($selection) echo wp_richedit_pre(htmlspecialchars_decode($selection)); ?&gt;</blockquote>
 Here we see that the develop explicitly used the htmlspecialchars_decode() function before echoing the contents of $selection to the user. This could be an indication that this particular developer doesn't understand the code symptoms that introduce XSS as it takes an otherwise safe code segment and makes it more vulnerable to XSS conditions. Conditions like this are good justification to provide some targeted training to this particular group or even individual developer.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 &lt;?php
 
@@ -68,4 +68,4 @@ $selection = preg_replace('/(\r?\n|\r)/', '&lt;/p&gt;&lt;p&gt;', $selection);
 &lt;/textarea&gt;
 &lt;/div&gt;
 
-[/cce]
+```

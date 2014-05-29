@@ -37,7 +37,7 @@ Auditing template languages can be tricky. Many times the tools and automation f
 
 In this specific example, we see that the developer has removed two lines that echoed the user's firstname and lastname to the HTML markup. The removed lines were replaced with what appears to be encoded firstname and lastname values. What's interesting is the birthdate and userid appear to be displayed without any encoding. It would be interesting to see if the user/attacker could control these in a manner that could result in XSS.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 &lt;title&gt;${rc.getMessage("userList.title")}&lt;/title&gt;
 
@@ -93,4 +93,4 @@ In this specific example, we see that the developer has removed two lines that e
 
 &lt;script type="text/javascript"&gt;highlightTableRows("userList");&lt;/script
 
-[/cce]
+```

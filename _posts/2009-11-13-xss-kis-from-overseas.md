@@ -38,7 +38,7 @@ Sanitizing at the point of consumption offers advantages as the developer has a 
 
 It's also interesting seeing the vulnerable code sample has comments related to Edit.jsp and Comment.jsp. It seems the conditionals for these two JSP files may not be very robust and could be an interesting avenue for attack. I'm also curious as to whether this particular FORM has a robust CSRF token...
 ## Developers Solution
-[cce lang="diff"]
+```diff
 &lt;% if( usertext == null ) usertext = ""; %&gt;
 &lt;%
 String action = "comment".equals(request.getParameter("action")) ?
@@ -64,4 +64,4 @@ PageContext.REQUEST_SCOPE )%&gt;" /&gt;
 -        &lt;input name="addr" type="hidden" value="&lt;%=request.getRemoteAddr()%&gt;" /&gt;
 +    &lt;input name="&lt;%=SpamFilter.getHashFieldName(request)%&gt;" type="hidden" value="&lt;c:out value='${lastchange}' /&gt;" /&gt;
 
-[/cce]
+```

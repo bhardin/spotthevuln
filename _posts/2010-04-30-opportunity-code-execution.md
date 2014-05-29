@@ -33,7 +33,7 @@ Original Code: <a title="Opportunity" href="http://spotthevuln.com/2010/04/oppor
 <p class="MsoNormal" style="margin: 0in 0in 10pt;"><span style="font-family: Calibri; font-size: small;">The iBegin Share developers addressed the issue by forcing the URL provided to have the "HTTP/HTTPS" prefix...<span style="mso-spacerun: yes;">  </span>I wonder if this strategy is robust against the code execution attack</span>.</p>
 
 ## Developers Solution
-[cce lang="diff"]
+```diff
 <div id="_mcePaste">
 
 switch($db['type'])
@@ -46,44 +46,44 @@ switch($db['type'])
     break;
 }
 unset($db);
- 
+
 // Set Header and cache expiration
 $offset = 60 * 60 * 24 * 2; // 2 days to expiry date.
 @ob_start("ob_gzhandler");
-header("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");                                                                 
+header("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");
 header('Cache-Control: ');
 header('Pragma: ');
- 
+
 foreach ($_GET as $key=&gt;$value)
 {
     $_GET[$key] = urldecode($value);
 }
- 
+
 $raw_content = '(No content available)';
 if (!empty($_GET['content']))
 {
--   $fp = @fopen(urldecode($_GET['content']),'r'); 
--   if (is_resource($fp)) 
-+   $content = urldecode($_GET['content']); 
-+   if (preg_match('/^https?\:/', $content)) 
+-   $fp = @fopen(urldecode($_GET['content']),'r');
+-   if (is_resource($fp))
++   $content = urldecode($_GET['content']);
++   if (preg_match('/^https?\:/', $content))
 
     {
         $fp = @fopen($content,'r');
         if (is_resource($fp))
         {
 -           $raw_content = '';
--           while(!feof($fp)) $raw_content .= fread($fp,4096); 
-+           $fp = @fopen($content,'r'); 
-+           if (is_resource($fp)) 
-+           { 
-+             $raw_content = ''; 
-+             while(!feof($fp)) $raw_content .= fread($fp,4096);  
-+           } 
+-           while(!feof($fp)) $raw_content .= fread($fp,4096);
++           $fp = @fopen($content,'r');
++           if (is_resource($fp))
++           {
++             $raw_content = '';
++             while(!feof($fp)) $raw_content .= fread($fp,4096);
++           }
 
         }
     }
 }
- 
+
 // just a namespace
 class iBeginShare
 {
@@ -108,4 +108,4 @@ class iBeginShare
     }
 
 </div>
-[/cce] 
+```

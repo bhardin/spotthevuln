@@ -37,7 +37,7 @@ In a SpotTheVuln first, today's example actually contains two different vulnerab
 
 The other vulnerabilities are XSS vulnerabilities. The beginning of the code sample contains several "isset" statements which eventually assign the values from various POST parameters to php variables. These variables are then used to build the HTML markup later in the PHP code. The Login Lockdown developers corrected this vulnerability by using the "esc_attr" before using the user controlled data in the HTML markup.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 <div id="_mcePaste">
 
 &lt;?php
@@ -149,4 +149,4 @@ $dalist = listLockedDown();
 +&lt;input type="text" name="ll_lockout_length" size="8" value="&lt;?php echo esc_attr($loginlockdownAdminOptions['lockout_length']); ?&gt;"&gt;
 
 </div>
-[/cce]
+```

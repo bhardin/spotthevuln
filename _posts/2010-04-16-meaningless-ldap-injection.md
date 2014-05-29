@@ -37,7 +37,7 @@ This patch fixes a LDAP injection vulnerability in the Apache Shiro Project. A q
 
 Just as the symptoms are very similar to SQL injection, the fix also looks very similar to code that would be used to fix a SQL injection vulnerability. The developers helped the application make a distinction between code and data by removing the string built LDAP query
 ## Developers Solution
-[cce lang="diff"]
+```diff
 <div id="_mcePaste">
 
 protected AuthorizationInfo buildAuthorizationInfo(Set&lt;String&gt; roleNames) {
@@ -173,4 +173,4 @@ return roleNames;
 }
 
 </div>
-[/cce]
+```

@@ -43,7 +43,7 @@ Although the Joomla developers checked in a code change which changed the requir
 It is also interesting that we see a call to the include() function, which remained unchanged:
 <blockquote>include ($mosConfig_absolute_path .'/offline.php');</blockquote>
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 // Set flag that this is a parent file
 define( '_VALID_MOS', 1 );
@@ -75,4 +75,4 @@ exit();
 
 $option = strtolower( strval( mosGetParam( $_REQUEST, 'option', NULL ) ) );
 
-[/cce]
+```

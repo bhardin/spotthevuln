@@ -66,7 +66,7 @@ document.write('&lt;link rel="stylesheet" type="text/css" href="'+<span style="c
 document.write('&lt;link rel="stylesheet" type="text/css" href="'+<span style="color: #ff0000;">themeCssRtl</span>+'"&gt;');</blockquote>
 The patch checked in by the DojoToolkit team sanitizes the "value" JavaScript variable by allowing only word characters (^\w).
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 if(window.location.href.indexOf("?") &gt; -1){
 var str =  window.location.href.substr(window.location.href.indexOf("?")+1).split(/#/);
@@ -132,4 +132,4 @@ setTimeout(dojo.hitch(d.parser, "parse", b), 120);
 
 })();
 
-[/cce]
+```

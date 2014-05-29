@@ -45,7 +45,7 @@ The <a title="PHP Doc" href="http://php.net/manual/en/reserved.variables.server.
 No escaping is done before returning the predefined value. Also, ['REQUEST_URI'] actually returns the file requested as well as any query string parameters in the URI. For example, a request for <a href="http://server/index.php?blah=foo">http://server/index.php?blah=foo</a> will return 'index.php?blah=foo'. With this in mind, the attacker is free to set up arbitrary query string parameters which contain the XSS payload
 <blockquote>http://server/qtranslate_widget.php?xss="&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;</blockquote>
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 &lt;?php
 function qtrans_convertURL($url='', $lang='', $forceadmin = false) {
@@ -220,4 +220,4 @@ function qtrans_use($lang, $text, $show_available=false) {
 
 ?&gt;
 
-[/cce]
+```

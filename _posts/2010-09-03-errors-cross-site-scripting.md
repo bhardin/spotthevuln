@@ -37,7 +37,7 @@ This weeks' example was a XSS bug that affected PunBB. The vulnerable code took 
 <blockquote>$prune_sticky = isset($_POST['prune_sticky']) ? '1' : '0';</blockquote>
 In addition to the changes made to PHP echo there were other changes checked in the by the PunBB developers, most notably the sanitizing of values passed to the prune() function. Using the code snippet provided here, it's difficult to understand exactly what is accomplished by the prune() function. Further variable tracing will be needed in order to determine the danger associated with passing a tainted value to prune(). The developers however felt it was necessary to sanitize the $prune_sticky value before passing it to prune().
 ## Developers Solution
-[cce lang="diff"]
+```diff
 if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comply']))
 {
 if (isset($_POST['prune_comply']))
@@ -108,4 +108,4 @@ redirect('admin_prune.php', 'Posts pruned. Redirecting &amp;hellip;');
 &lt;/fieldset&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;input type="submit" name="prune_comply" value="Prune" /&gt;&lt;a href="javascript:history.go(-1)"&gt;Go back&lt;/a&gt;&lt;/p&gt;
-[/cce]
+```

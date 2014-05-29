@@ -70,7 +70,7 @@ ENT_QUOTES  - Will convert both double and single quotes.
 ENT_NOQUOTES - Will leave both double and single quotes unconverted</blockquote>
 If the $quote_style is not specified, PHP will default to ENT_COMPAT. Do you think this patch will hold up to the test of time?
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 // log all requests to register on our blog
 function ttc_add_to_log( $user, $error)
@@ -134,4 +134,4 @@ $sql = "INSERT INTO " . $ip_table_name . " ( ip ) VALUES ( '$ip' )";
 $result = $wpdb-&gt;query( $sql );
 }
 
-[/cce]
+```

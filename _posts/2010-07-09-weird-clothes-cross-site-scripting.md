@@ -43,7 +43,7 @@ This bug was actually part of a number of security bugs reported by Core Securit
 
 The patch simply HTML encodes the tainted search parameter...
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 &lt;%  // Get parameters
 int start = ParamUtils.getIntParameter(request,"start",0);
@@ -146,4 +146,4 @@ class="&lt;%= ((isCurrent) ? "jive-current" : "") %&gt;"
 ]
 &lt;/p&gt;
 
-[/cce]
+```

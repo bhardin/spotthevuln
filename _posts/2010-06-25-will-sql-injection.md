@@ -52,7 +52,9 @@ This syntax creates a condition in which the typical addslashes() used to protec
 <blockquote>Sqli.php?categoryId=-1 union select 1,2,3,4,5--</blockquote>
 As you can see, the injection string above contains no special characters that would be escaped by addslashes(). Fortunately, the Category Manager plugin developers chose to utilze $wpdb-&gt;prepare() instead of addslashes().
 ## Developers Solution
-[cce lang="diff"]&lt;?php
+
+```diff
+<?php
 /*
 * This function removes the category identified by $categoryId from the post identified by $postId
 */
@@ -205,4 +207,4 @@ endif;
 
 ?&gt;
 
-[/cce]
+```

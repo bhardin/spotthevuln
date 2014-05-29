@@ -40,7 +40,7 @@ This particular bug was a remote file inclusion vulnerability in a WordPress plu
 
 The developers fixed this particular vulnerability by removing the $GLOBALS from the source.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 &lt;?php
 
@@ -90,4 +90,4 @@ class File_Archive_Predicate_MIME extends File_Archive_Predicate
 
 ?&gt;
 
-[/cce] 
+```

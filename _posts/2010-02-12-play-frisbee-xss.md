@@ -31,7 +31,7 @@ Simple XSS on Durpal 5.x and 6.x platforms. What's interesting about this partic
 
 The specific issue fixed here was the use of $item['description'] while building HTML markup. The Durpal fixed this issue by passing $item['description'] to the filter_xss_admin(), near the point of consumption. Filter_xss_admin() is a fairly descriptive function name and gives the reviewer a better understanding of what the code is doing. Also, because filter_xss_admin() is used at the point of consumption, the code reviewer can rest assured that the value is encoded before being used, regardless of the previous input sanitization that may/may not have taken place.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 <div id="_mcePaste">
 
 function theme_admin_block($variables) {
@@ -225,4 +225,4 @@ $output = '&lt;div&gt;';
 $output .= theme('system_compact_link');
 
 </div>
-[/cce]
+```

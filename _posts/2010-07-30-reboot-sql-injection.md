@@ -61,7 +61,7 @@ $end_date = $_GET["end_date"];
 $goal = $_GET["goal"];
 $maint_mode = $_GET["maint_mode"];</blockquote>
 ## Developers Solution
-[cce lang="diff"]
+```diff
 &lt;?php
 include (dirname(__FILE__)."/jpgraph/jpgraph.php");
 include (dirname(__FILE__)."/jpgraph/jpgraph_line.php");
@@ -167,4 +167,4 @@ break;
 $count++;
 }
 }
-[/cce]
+```

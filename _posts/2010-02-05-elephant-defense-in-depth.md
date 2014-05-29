@@ -51,7 +51,7 @@ Using this logic, it was possible for a user to select a 4 character password th
 
 The safer way to go about this might be to assign a password strength of zero and build up the strength value as conditions are met.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 /**
 * Evaluate the strength of a user's password.
@@ -119,4 +119,4 @@ indicatorText = translate.strong;
 msg = translate.hasWeaknesses + '&lt;ul&gt;&lt;li&gt;' + msg.join('&lt;/li&gt;&lt;li&gt;') + '&lt;/li&gt;&lt;/ul&gt;';
 return { strength: strength, message: msg, indicatorText: indicatorText }
 
-[/cce]
+```

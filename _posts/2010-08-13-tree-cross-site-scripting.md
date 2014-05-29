@@ -35,7 +35,7 @@ This week's vulnerability is an XSS bug in a Salesforce plugin for Wordpress. Th
 <blockquote>return '&lt;label for="'.$id.'"&gt;'.$label.':&lt;/label&gt;&lt;br/&gt;&lt;input size="45" name="'.$id.'" value="'.stripslashes($options[$id]).'"/&gt;&lt;br/&gt;&lt;br/&gt;';</blockquote>
 In the line above, we see that $options[$id] is placed into the rendered HTML. $options[$id] appears to be attacker controlled and the developers used the stripslashes() API to sanitize $options[$id] before displaying the value in HTML. Unfortunately, stripslashes() doesn't help prevent XSS vulnerabilities and created an opportunity for XSS. The developer fixed this vulnerability by using the correct API to sanitize against XSS vulnerability (htmlentities).
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 &lt;?php
 if (!class_exists('OV_Plugin_Admin')) {
@@ -126,4 +126,4 @@ $options = get_option($this-&gt;optionname);
 +                       return '&lt;label for="'.$id.'"&gt;'.$label.':&lt;/label&gt;&lt;br/&gt;&lt;input size="45" type="text" id="'.$id.'" name="'.$id.'" value="'.htmlentities(stripslashes($options[$id])).'"/&gt;&lt;br/&gt;&lt;br/&gt;';
 }
 
-[/cce]
+```

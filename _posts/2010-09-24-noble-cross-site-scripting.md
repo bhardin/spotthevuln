@@ -45,7 +45,7 @@ Name, type, and size are all controlled by the user/attacker, so the WordPress d
 class="uploadform" value="&lt;?php echo $imgdesc;?&gt;" /&gt;</blockquote>
 What's surprising is although the WordPress developers prevented this single XSS vulnerability, there is a large number of XSS vulnerabilities in this file. The most obvious symptom is "&lt;?php echo $_REQUEST[] ?&gt;. Additionally, the loose validation of the user uploaded file is concerning, especially with the number of problems that can be encountered when dealing with user controlled files. Maybe the varsity team was on vacation when this patch went in.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 &lt;?php //Makes sure they choose a file
 
 //print_r($HTTP_POST_FILES);
@@ -132,4 +132,4 @@ chmod($pathtofile2, 0666);
 &lt;input type="submit" name="submit" value="&lt;?php _e('Rename') ?&gt;" /&gt;
 &lt;/form&gt;
 &lt;/div&gt;
-[/cce]
+```

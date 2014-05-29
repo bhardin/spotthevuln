@@ -39,7 +39,7 @@ The second set of changes we see URL encode user/attacker controlled items place
 
 The remainder of the code fixes simply encodes HTML output before redisplaying it back to the user, defeating the classic XSS attack.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 -&lt;%@ page import="org.jivesoftware.smack.util.StringUtils"%&gt;
 -&lt;%@ page import="org.jivesoftware.webchat.util.ParamUtils, java.util.*"%&gt;
@@ -168,4 +168,4 @@ document.f.submit();
 &lt;%}%&gt;
 &lt;/html&gt;
 
-[/cce]
+```

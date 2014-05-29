@@ -60,7 +60,7 @@ The bugs that should have been spotted by the spotthevuln reader are the SQL inj
 
 Finally, the last line of the code snippet actually contained an XSS vulnerability, echoing a $_SERVER variable without any sanitization.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 function print_loginlockdownAdminPage() {
         global $wpdb;
@@ -116,4 +116,4 @@ function print_loginlockdownAdminPage() {
 -&lt;form method="post" action="&lt;?php echo $_SERVER["REQUEST_URI"]; ?&gt;"&gt;
 +&lt;form method="post" action="&lt;?php echo esc_attr($_SERVER["REQUEST_URI"]); ?&gt;"&gt;
 
-[/cce]
+```

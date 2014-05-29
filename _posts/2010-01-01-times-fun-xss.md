@@ -45,7 +45,7 @@ Original Code: <a title="Time's Fun" href="http://spotthevuln.com/2009/12/times-
 
 </div>
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 var $xssAuto; // default = 1
 var $tagBlacklist = array ('applet', 'body', 'bgsound', 'base', 'basefont', 'embed', 'frame', 'frameset', 'head', 'html', 'id', 'iframe', 'ilayer', 'layer', 'link', 'meta', 'name', 'object', 'script', 'style', 'title', 'xml');
@@ -157,4 +157,4 @@ $newSet[] = $attrSubSet[0].'="'.$attrSubSet[0].'"';
 return $newSet;
 }
 
-[/cce]
+```

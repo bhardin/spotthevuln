@@ -59,7 +59,7 @@ The Dojo developers addressed this vulnerability by replacing characters from th
 <blockquote>value=tp[1].replace(/[&lt;&gt;"']/g, "");</blockquote>
 I see a major issue with this code fix... can you spot it as well?
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
                 &lt;script type="text/javascript"&gt;
                         // workaround for bug in Safari 3. See #7189
@@ -163,4 +163,4 @@ I see a major issue with this code fix... can you spot it as well?
                                 line-height: 1.25em;
                         }
 
-[/cce]
+```

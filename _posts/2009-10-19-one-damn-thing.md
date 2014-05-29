@@ -1,12 +1,14 @@
 ---
 layout: post
-title: One Damn Thing
 tags:
 - Code Snippet
 - PHP
 ---
-<blockquote>It's not true that life is one damn thing after another; it is one damn thing over and over.
-- Edna St. Vincent Millay (1892 - 1950)</blockquote>
+
+# One Damn Thing
+
+> It's not true that life is one damn thing after another; it is one damn thing over and over.
+> - Edna St. Vincent Millay (1892 - 1950)
 
 ## Vulnerable Code
 

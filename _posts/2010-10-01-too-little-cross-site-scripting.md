@@ -43,7 +43,7 @@ The code sample presented this week have a few XSS vulnerabilities. The first XS
 
 Although the XSS bugs are fairly straight forward, what I find interesting in this example is why this page is here in the first place. The code don't seem to provide any useful functionality (other than to provide a place for attackers to abuse XSS). If you were a security engineer assigned to audit this page, it might be a good idea to ask WHY this page exists in the first place. It turns out that this page is indeed a test/debugging page that is included with dojox, offering no functionality intended for production users. Think long and hard before exposing test and debug functionality in your production environment. Check production systems for example/testing/debugging functionality and disable/remove this functionality if possible. Code developed for testing and debugging rarely undergoes the scrutiny of production code and will like contain security issues.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 &lt;?php
 // this just bounces a message as a response, and optionally emulates network latency.
 
@@ -105,4 +105,4 @@ usleep($delay);
 
 ?&gt;
 
-[/cce]
+```

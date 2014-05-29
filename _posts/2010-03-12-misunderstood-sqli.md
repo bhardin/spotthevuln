@@ -36,7 +36,7 @@ Implementation bug here, leading to SQL injection. The primary change involves t
 
 The Regular Expression is tightened up and some of the SQL statement was changed. It's interesting that the developers chose to implement better regular expression checking instead of trying to move this particular SQL statement to a prepared statement.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 // show the products of a specified manufacturer
 
@@ -132,4 +132,4 @@ break;
 
 case 'PRODUCT_LIST_IMAGE':
 
-[/cce]
+```

@@ -44,7 +44,7 @@ Once the value is sanitized, it is used to build various SQL statements. Now thi
 
 The WordPress prevented the information leak by checking to see if $q['cat'] is an integer value. The patch here is a single line fix.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 // Category stuff
 
@@ -110,4 +110,4 @@ global $cache_categories;
 
 if ('' != $q['category_name']) {
 
-[/cce] 
+```

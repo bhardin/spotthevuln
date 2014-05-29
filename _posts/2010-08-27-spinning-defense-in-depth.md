@@ -46,7 +46,7 @@ The Dojo toolkit devs fixed this particular issue by removing the allowDomain ca
 
 <a href="http://www.slideshare.net/guestb0af15/owasp-wasc-app-sec2007-san-jose-finding-vulnsin-flash-apps">http://www.slideshare.net/guestb0af15/owasp-wasc-app-sec2007-san-jose-finding-vulnsin-flash-apps</a>
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 public class FLVideo extends Sprite {
 private var videoUrl:String;
@@ -127,4 +127,4 @@ return this.playlist.current;
 return preview;
 }
 }
-[/cce]
+```

@@ -42,7 +42,7 @@ The members-only developers assigned a value for the $feedkey variable directly 
 
 There are a few other fixes here, but the SQL injection was the most important security fix.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 -if (empty($userdata-&gt;ID) &amp;&amp; $members_only_opt['feed_access'] != 'feednone')  //Check if user is logged in or Feed Keys is required
 +if (empty($userdata-&gt;ID) || $members_only_opt['feed_access'] != 'feednone')  //Check if user is logged in or Feed Keys is required
 {
@@ -84,4 +84,4 @@ $feed = members_only_create_feed('No Feed Key Found', $errormsg['feedkey_missing
 echo $feed;
 exit;
 }
-[/cce]
+```

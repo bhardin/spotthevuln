@@ -29,7 +29,7 @@ This one was a little tricky. This was a SQL injection vulnerability affecting W
 
 The WordPress developers addressed this vulnerability by casting $args[4] ($max_results) into an int, so although the attacker has control over this value, it cannot contain anything other than in integer value.
 ## Developers Solution
-[cce lang="diff"]
+```diff
 
 /**
 * WordPress XML-RPC API
@@ -67,4 +67,4 @@ WHERE cat_name LIKE '{$category}%'
 
 return($category_suggestions);
 }
-[/cce]
+```
