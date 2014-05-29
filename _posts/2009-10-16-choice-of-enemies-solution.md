@@ -1,33 +1,23 @@
 ---
 layout: post
-title: Choice of Enemies - SQL Injection through Truncation
 tags:
 - Solution
 - SQL Injection
 - Wordpress
-status: publish
-type: post
-published: true
-meta:
-  aktt_notify_twitter: 'yes'
-  _aktt_hash_meta: ! '#sqlinjection #mysqltruncation'
-  _edit_last: '1'
-  _headspace_page_title: SQL injection throught MySQL Truncation Vulnerability Code
-    Example
-  _headspace_description: SQL Injection Vulnerability Code Example
-  aktt_tweeted: '1'
-  _sexybookmarks_permaHash: 14e6f77d7e4383eeef0bb19decd0a724
-  _sexybookmarks_shortUrl: http://bit.ly/1hBPTL
 ---
+
+# Solution: Choice of Enemies
+
 ## Details
-__Affected Software:__ Wordpress
-__Fixed in Version:__ 2.6.2
-<strong>__Issue Type:__</strong> <a href="http://spotthevuln.com/category/vulnerability/sql-injection/">SQL Injection</a> through MySQL Column Truncation
-<strong>Original Code:</strong> <a href="http://spotthevuln.com/2009/10/vulnerable-code-choice-of-enemies/">Found Here</a>
+
+* __Affected Software:__ Wordpress
+* __Fixed in Version:__ 2.6.2
+* __Issue Type:__ SQL Injection through MySQL Column Truncation
+
 ## Description
 This was a tricky SQL Injection through truncation issue which affected WordPress installations using MySQL back ends (which seem to be the majority of WordPress installations).
 
-When a user is registered inside WordPress, the username value undergoes some sanitization/validation before being inserted into the WordPress database.  One of the routines that validates usernames is named sanitize_user().  Inside of the sanitize_user() function, WordPress attempts to sanitize the username by stripping certain characters (entities and octets).
+When a user is registered inside WordPress, the username value undergoes some sanitizing/validating before being inserted into the WordPress database. One of the routines that validates usernames is named sanitize_user(). Inside of the sanitize_user() function, WordPress attempts to sanitize the username by stripping certain characters (entities and octets).
 
 The sanitization routine failed to properly validate the length of the username or whether whitespace characters were included in the username. Before the application allowed the newly created username to be inserted into the database, it first checked to see if that username already existed in the WordPress database.  The default comparison operation done by MySQL ignored whitespace so when WordPress issues a query for a username of "admin   " (admin followed by four spaces), it would match a query for "admin" (admin followed by no spaces). The default data type for the WordPress username column also limited the column length to 16 characters.
 
@@ -66,4 +56,4 @@ $username = preg_replace('|[^a-z0-9 _.\-@]|i', '', $username);
 
 return apply_filters('sanitize_user', $username, $raw_username, $strict);
 }
-[/cc] 
+[/cc]

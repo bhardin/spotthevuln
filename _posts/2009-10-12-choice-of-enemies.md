@@ -1,30 +1,18 @@
 ---
 layout: post
-title: Choice of Enemies
-tags:
-- Code Snippet
-- PHP
-status: publish
-type: post
-published: true
-meta:
-  aktt_notify_twitter: 'yes'
-  _aktt_hash_meta: ''
-  _edit_last: '1'
-  _headspace_page_title: Vulnerable Source Code
-  aktt_tweeted: '1'
-  _headspace_description: Can you identify the security vulnerability in this code
-    snippet?
-  _sexybookmarks_shortUrl: http://bit.ly/cPOUFY
-  _sexybookmarks_permaHash: 63f093582dfe0d4d4eda9d3f88044ed1
+tags: PHP
 ---
-<blockquote>I choose my friends for their good looks, my acquaintances for their good characters, and my enemies for their good intellects. A man cannot be too careful in the choice of his enemies.
-- Oscar Wilde (1854 - 1900), The Picture of Dorian Gray, 1891</blockquote>
+
+# Choice of Enemies
+
+> I choose my friends for their good looks, my acquaintances for their good characters, and my enemies for their good intellects. A man cannot be too careful in the choice of his enemies.
+>
+> - Oscar Wilde, The Picture of Dorian Gray, 1891
 
 ## Vulnerable Code
 
-[ccnLe_php]
-
+```php
+<?php
 
 /**
 * Removes characters from the username
@@ -50,4 +38,4 @@ function sanitize_user( $username, $strict = false ) {
 
    return apply_filters('sanitize_user', $username, $raw_username, $strict);
 }
-[/ccnLe_php]
+```
