@@ -23,12 +23,12 @@ __Affected Software:__ JSPWiki
 
 __Fixed in Version:__  2.60
 
-__Issue Type:__ Cross Site Scripting
+__Issue Type:__ Cross-Site Scripting
 
 __Original Code:__ [Found Here](/2009/11/vulnerable-code-keys-from-oversea/)
 
 ## Description
-The vulnerable code from JSPWiki contained persistent Cross Site Scripting vulnerabilities. Although we cannot see the call to session.setAttribute(), we can see that the author, link, and remember values were not sanitized before being used in FORM input fields. The exposure was fixed by using "c:out". c:out is part of the JSP Standard Tag Library (JSTL) and is used to output to the current JspWriter. If the "escapeXML" attribute is set to "true" (which is the default value), c:out will escape some HTML characters, helping to reduce the possibility of XSS. By default, c:out encodes the following characters: <, >, &, ", and '.
+The vulnerable code from JSPWiki contained persistent Cross-Site Scripting vulnerabilities. Although we cannot see the call to session.setAttribute(), we can see that the author, link, and remember values were not sanitized before being used in FORM input fields. The exposure was fixed by using "c:out". c:out is part of the JSP Standard Tag Library (JSTL) and is used to output to the current JspWriter. If the "escapeXML" attribute is set to "true" (which is the default value), c:out will escape some HTML characters, helping to reduce the possibility of XSS. By default, c:out encodes the following characters: <, >, &, ", and '.
 
 This week's code sample brings up the old application security argument as to whether it's better to sanitize input as it arrives or to escape data at the point of consumption (or as near to the point of consumption as possible). There are pros and cons for both methods. In this case, the JSPWiki developers chose to encode at the point of consumption. If the author, link, and remember values were instead sanitized when being assigned to the session store, the developers would have also prevented the XSS exposure... so which is better?
 

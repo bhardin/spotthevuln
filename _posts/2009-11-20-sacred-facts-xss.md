@@ -25,11 +25,11 @@ meta:
 
 <strong>__Fixed in Version:__  2.8</strong>
 
-<strong>__Issue Type:__ Cross Site Scripting</strong>
+<strong>__Issue Type:__ Cross-Site Scripting</strong>
 
 <strong>Original Code: </strong><a href="http://spotthevuln.com/2009/11/vulnerable-code-sacred-facts/">Found Here</a>
 ## Description
-The WordPress developers fixed a persistent Cross Site Scripting vulnerability with this code fix. Examining the vulnerable code, we see that the $comment_post_title variable is assigned an un-sanitized value from get_the_title( $comment-&gt;comment_post_ID ). $comment_post_title is then immediately used in to build HTML markup (used as the text for a HREF tag) and assigned to the $comment_post_link variable. The $comment_post_link variable with the tainted value is eventually used in the HTML markup in a WordPress page. By placing script into a blog post title, a contributor could use the persistent cross site scripting vulnerability to elevate to WordPress Administrator.
+The WordPress developers fixed a persistent Cross-Site Scripting vulnerability with this code fix. Examining the vulnerable code, we see that the $comment_post_title variable is assigned an un-sanitized value from get_the_title( $comment-&gt;comment_post_ID ). $comment_post_title is then immediately used in to build HTML markup (used as the text for a HREF tag) and assigned to the $comment_post_link variable. The $comment_post_link variable with the tainted value is eventually used in the HTML markup in a WordPress page. By placing script into a blog post title, a contributor could use the persistent Cross-Site Scripting vulnerability to elevate to WordPress Administrator.
 
 
 

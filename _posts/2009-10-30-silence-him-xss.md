@@ -1,29 +1,18 @@
 ---
 layout: post
-title: Silence Him! - XSS
 tags:
 - Cross-Site Scripting (XSS)
 - Solution
 - Wordpress
-status: publish
-type: post
-published: true
-meta:
-  aktt_notify_twitter: 'yes'
-  _aktt_hash_meta: ! '#xss #vulnerability #owasp'
-  _edit_last: '1'
-  _headspace_page_title: Cross-Site Scripting (XSS) Vulnerability Code Example
-  _headspace_description: Cross-Site Scripting (XSS) Vulnerability Code Example
-  aktt_tweeted: '1'
-  _sexybookmarks_shortUrl: http://bit.ly/c3AB9
-  _sexybookmarks_permaHash: 484b6e54a9c37307373ac7b8d559c2ac
 ---
+
+# Solution: Silence Him!
+
 ## Details
-__Affected Software:__ <strong><a title="WordPress bugs" href="http://spotthevuln.com/category/software/wordpress/" target="_blank">WordPress</a></strong>
 
-<strong>__Fixed in Version:__  2.6</strong>
-
-__Issue Type:__ <strong><a title="Cross Site Scripting" href="http://spotthevuln.com/category/vulnerability/xss/" target="_blank">Cross Site Scripting</a></strong>
+* __Affected Software:__ WordPress
+* __Fixed in Version:__  2.6
+* __Issue Type:__ Cross-Site Scripting
 
 <strong>Original Code: <a href="http://spotthevuln.com/2009/10/vulnerable-code-silence-him/">Found Here</a></strong>
 ## Description

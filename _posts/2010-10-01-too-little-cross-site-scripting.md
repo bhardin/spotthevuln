@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Too Little - Cross Site Scripting
+title: Too Little - Cross-Site Scripting
 tags:
 - All
 - attacker

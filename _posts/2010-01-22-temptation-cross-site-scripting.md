@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Temptation - Cross Site Scripting
+title: Temptation - Cross-Site Scripting
 tags:
 - Cross-Site Scripting (XSS)
 - Solution
@@ -21,7 +21,7 @@ __Affected Software:__ Joomla
 
 __Fixed in Version:__  1.x
 
-__Issue Type:__ Cross Site Scripting
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Temptation" href="http://spotthevuln.com/2010/01/temptation/" target="_blank">Found Here</a>
 ## Description

@@ -1,10 +1,10 @@
 ---
 layout: post
-title: Last - Cross Site Scripting
+title: Last - Cross-Site Scripting
 tags:
 - All
 - apache status
-- cross site scripting
+- Cross-Site Scripting
 - Cross-Site Scripting (XSS)
 - echoes
 - Encode
@@ -30,7 +30,7 @@ __Affected Software:__ AskApache Password Protector
 
 __Fixed in Version:__  4.0.1
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Last" href="http://spotthevuln.com/2010/12/last/" target="_blank">Found    Here</a>
 <h3>Description</h3>

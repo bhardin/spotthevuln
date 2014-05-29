@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Expands - Cross Site Scripting
+title: Expands - Cross-Site Scripting
 tags:
 - All
 - attribute
@@ -30,7 +30,7 @@ __Affected Software:__ Boinc
 
 __Fixed in Version:__  N/A
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Expect" href="http://spotthevuln.com/2010/11/expands/" target="_blank">Found    Here</a>
 ## Description

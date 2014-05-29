@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fall - Cross Site Scripting (XSS)
+title: Fall - Cross-Site Scripting
 tags:
 - Cross-Site Scripting (XSS)
 - Cubed
@@ -23,7 +23,7 @@ __Affected Software:__ Cubed
 
 __Fixed in Version:__  1.0 RC2
 
-__Issue Type:__ Cross Site Scripting
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a href="http://spotthevuln.com/2011/04/Fall/">Found Here</a>
 ## Details

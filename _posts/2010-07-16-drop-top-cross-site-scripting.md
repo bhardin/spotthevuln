@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Drop Top - Cross Site Scripting
+title: Drop Top - Cross-Site Scripting
 tags:
 - All Vulnerabilities
 - attacker
@@ -32,9 +32,9 @@ meta:
   aktt_notify_twitter: 'yes'
   _aktt_hash_meta: ''
   _edit_last: '1'
-  bfa_ata_body_title: Drop Top - Cross Site Scripting
+  bfa_ata_body_title: Drop Top - Cross-Site Scripting
   bfa_ata_display_body_title: ''
-  bfa_ata_body_title_multi: Drop Top - Cross Site Scripting
+  bfa_ata_body_title_multi: Drop Top - Cross-Site Scripting
   bfa_ata_meta_title: ''
   bfa_ata_meta_keywords: ''
   bfa_ata_meta_description: ''

@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Percentage - Cross Site Scripting
+title: Percentage - Cross-Site Scripting
 tags:
-- cross site scripting
+- Cross-Site Scripting
 - Cross-Site Scripting (XSS)
 - parameterized queries
 - PHP
@@ -23,7 +23,7 @@ __Affected Software:__ Sermon Browser Wordpress Plugin
 
 __Fixed in Version:__  .44
 
-__Issue Type:__ Cross Site Scripting
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a href="http://spotthevuln.com/2011/05/percentage/">Found Here</a>
 ## Details

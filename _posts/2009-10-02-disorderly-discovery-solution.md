@@ -7,7 +7,7 @@ tags: Cross-Site Scripting (XSS)
 
 ## Details
 
-* __Vulnerability Type__: Cross Site Scripting (XSS)
+* __Vulnerability Type__: Cross-Site Scripting
 * __Affected Software:__ JSPWiki
 * __Fixed in Version:__ 2.5.164
 

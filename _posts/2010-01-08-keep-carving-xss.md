@@ -23,11 +23,11 @@ __Affected Software:__ Joomla
 
 __Fixed in Version:__  1.x
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Keep Carving" href="http://spotthevuln.com/2010/01/keepcarving/" target="_blank">Found Here</a>
 ## Description
-This was an XSS bug which affected 1.x versions of Joomla. Looking at the provided code sample, we see two different functions (function display and function conclusion). Both functions take various parameters including a parameter named $searchword. Looking at the function display(), we see a hint that exposes the cross site scripting vulnerability. Function display() takes the $searchword value, urldecodes the value, then passes the urldecoded value to htmlspecialchars(). This sanitization is conducted in the following lines of code:
+This was an XSS bug which affected 1.x versions of Joomla. Looking at the provided code sample, we see two different functions (function display and function conclusion). Both functions take various parameters including a parameter named $searchword. Looking at the function display(), we see a hint that exposes the Cross-Site Scripting vulnerability. Function display() takes the $searchword value, urldecodes the value, then passes the urldecoded value to htmlspecialchars(). This sanitization is conducted in the following lines of code:
 <blockquote>$searchword = <a href="http://www.php.net/urldecode">urldecode</a>( <span style="color: #ff0000;">$searchword</span> );
 $searchword    = <a href="http://www.php.net/htmlspecialchars">htmlspecialchars</a>(<span style="color: #ff0000;">$searchword</span>, ENT_QUOTES);</blockquote>
 Once the $searchword variable has been sanitized, it is ultimately used in creating a link (href) to a Google search query.

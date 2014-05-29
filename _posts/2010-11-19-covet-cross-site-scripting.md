@@ -1,11 +1,11 @@
 ---
 layout: post
-title: Covet - Cross Site Scripting
+title: Covet - Cross-Site Scripting
 tags:
 - All
 - All Vulnerabilities
 - attacker
-- cross site scripting
+- Cross-Site Scripting
 - Cross-Site Scripting (XSS)
 - Encode
 - PHP
@@ -36,7 +36,7 @@ __Affected Software:__ Subscribe to Comments Plugin
 
 __Fixed in Version:__  2.1
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Covet" href="http://spotthevuln.com/2010/11/covet/" target="_blank">Found    Here</a>
 ## Description

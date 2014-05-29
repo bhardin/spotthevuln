@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Grammys - Cross Site Scripting
+title: Grammys - Cross-Site Scripting
 tags:
 - Cross-Site Scripting (XSS)
 - PHP

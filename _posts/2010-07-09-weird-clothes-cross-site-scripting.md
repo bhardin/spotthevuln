@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Weird Clothes - Cross Site Scripting
+title: Weird Clothes - Cross-Site Scripting
 tags:
 - attacker
 - bugs

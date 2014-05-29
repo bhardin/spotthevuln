@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Price - Cross Site Scripting
+title: Price - Cross-Site Scripting
 tags:
 - All
-- cross site scripting
+- Cross-Site Scripting
 - Cross-Site Scripting (XSS)
 - html markup
 - input field
@@ -30,7 +30,7 @@ __Affected Software:__ PunBB
 
 __Fixed in Version:__  2.1
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Price" href="http://spotthevuln.com/2010/12/price/" target="_blank">Found    Here</a>
 <h3>Description</h3>

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Expands - Cross Site Scripting
+title: Expands - Cross-Site Scripting
 tags:
 - Cross-Site Scripting (XSS)
 - PHP
@@ -22,7 +22,7 @@ __Affected Software:__ Wordpress Core
 
 __Fixed in Version:__  2.8
 
-__Issue Type:__ Cross Site Scripting
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a href="http://spotthevuln.com/2011/05/expands-2/">Found Here</a>
 ## Details

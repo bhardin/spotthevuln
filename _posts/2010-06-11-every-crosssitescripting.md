@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Everything - Cross Site Scripting
+title: Everything - Cross-Site Scripting
 tags:
 - All Vulnerabilities
 - arbitrary values
 - attacker
 - client side script
-- cross site scripting
+- Cross-Site Scripting
 - Cross-Site Scripting (XSS)
 - document write
 - DoJo
@@ -41,7 +41,7 @@ __Affected Software:__ Dojo Toolkit SDK
 
 __Fixed in Version:__  1.4.2
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Everything" href="http://spotthevuln.com/2010/06/everything/" target="_blank">Found Here</a>
 ## Description

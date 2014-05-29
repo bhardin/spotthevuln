@@ -1,11 +1,11 @@
 ---
 layout: post
-title: Noble - Cross Site Scripting
+title: Noble - Cross-Site Scripting
 tags:
 - All
 - attacker
 - bugs
-- cross site scripting
+- Cross-Site Scripting
 - Cross-Site Scripting (XSS)
 - Encode
 - PHP

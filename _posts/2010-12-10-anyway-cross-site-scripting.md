@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Anyway - Cross Site Scripting
+title: Anyway - Cross-Site Scripting
 tags:
 - All
 - arbitrary values
@@ -30,7 +30,7 @@ __Affected Software:__ The Hackers Diet
 
 __Fixed in Version:__  9.7b
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Anyway" href="http://spotthevuln.com/2010/12/anyway/" target="_blank">Found    Here</a>
 <h3>Description</h3>

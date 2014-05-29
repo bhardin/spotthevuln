@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Banks - Cross Site Scripting
+title: Banks - Cross-Site Scripting
 tags:
 - All
 - Cross-Site Scripting (XSS)
@@ -29,7 +29,7 @@ __Affected Software:__ PunBB
 
 __Fixed in Version:__  1.3
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Banks" href="http://spotthevuln.com/2011/01/banks/" target="_blank">Found    Here</a>
 <h3>Description</h3>

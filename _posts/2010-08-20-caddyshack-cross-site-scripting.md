@@ -1,10 +1,10 @@
 ---
 layout: post
-title: CaddyShack - Cross Site Scripting
+title: CaddyShack - Cross-Site Scripting
 tags:
 - All Vulnerabilities
 - attacker
-- cross site scripting
+- Cross-Site Scripting
 - Cross-Site Scripting (XSS)
 - Java
 - jsp code
@@ -29,7 +29,7 @@ __Affected Software:__ WebChat Module for Jive
 
 __Fixed in Version:__  August of 2008
 
-__Issue Type:__ Cross Site Scripting
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Caddyshack" href="http://spotthevuln.com/2010/08/caddyshack/" target="_blank">Found    Here</a>
 ## Description

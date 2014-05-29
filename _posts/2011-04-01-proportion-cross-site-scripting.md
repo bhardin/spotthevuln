@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Proportion - Cross Site Scripting
+title: Proportion - Cross-Site Scripting
 tags:
-- cross site scripting
+- Cross-Site Scripting
 - Cross-Site Scripting (XSS)
 - PHP
 - plugins
@@ -25,7 +25,7 @@ __Affected Software:__ Lazyest-Gallery
 
 __Fixed in Version:__  0.9
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a href="http://spotthevuln.com/2011/03/proportion/">Found Here</a>
 ## Details

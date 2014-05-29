@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Renting - Cross Site Scripting
+title: Renting - Cross-Site Scripting
 tags:
 - Cross-Site Scripting (XSS)
 - Openfire
@@ -15,9 +15,9 @@ meta:
   aktt_notify_twitter: 'yes'
   _aktt_hash_meta: ''
   _edit_last: '1'
-  bfa_ata_body_title: Renting - Cross Site Scripting
+  bfa_ata_body_title: Renting - Cross-Site Scripting
   bfa_ata_display_body_title: ''
-  bfa_ata_body_title_multi: Renting - Cross Site Scripting
+  bfa_ata_body_title_multi: Renting - Cross-Site Scripting
   bfa_ata_meta_title: ''
   bfa_ata_meta_keywords: ''
   bfa_ata_meta_description: ''
@@ -29,7 +29,7 @@ __Affected Software:__ FastPath Plugin for OpenFire
 
 __Fixed in Version:__  3.5.3
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Renting" href="http://spotthevuln.com/2010/06/renting/" target="_blank">Found Here</a>
 ## Description

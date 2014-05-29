@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Expect - Cross Site Scripting
+title: Expect - Cross-Site Scripting
 tags:
 - All
 - bugs
@@ -30,7 +30,7 @@ __Affected Software:__ DojoX
 
 __Fixed in Version:__  1.4.1
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Expect" href="http://spotthevuln.com/2010/10/expect/" target="_blank">Found    Here</a>
 ## Description

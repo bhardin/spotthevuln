@@ -29,7 +29,7 @@ __Affected Software:__ Appfuse
 
 __Fixed in Version:__  1.8.1
 
-__Issue Type:__ Cross Site Scripting
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Karate" href="http://spotthevuln.com/2010/03/karate/" target="_blank">Found  Here</a>
 ## Description

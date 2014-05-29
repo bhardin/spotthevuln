@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Nails - Cross Site Scripting
+title: Nails - Cross-Site Scripting
 tags:
 - All Vulnerabilities
 - attacker

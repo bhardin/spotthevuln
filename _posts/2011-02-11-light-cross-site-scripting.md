@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Light - Cross Site Scripting
+title: Light - Cross-Site Scripting
 tags:
 - All
 - Cross-Site Scripting (XSS)
@@ -27,7 +27,7 @@ __Affected Software:__ FreeNAS
 
 __Fixed in Version:__  0.69.3
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Light" href="http://spotthevuln.com/2011/02/light/" target="_blank">Found    Here</a>
 <h3>Description</h3>

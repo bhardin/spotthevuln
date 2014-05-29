@@ -3,7 +3,7 @@ layout: post
 title: Charming - XSS (uhhh wait, actually - SQL Injection)
 tags:
 - addslashes
-- cross site scripting
+- Cross-Site Scripting
 - Cross-Site Scripting (XSS)
 - injection bug
 - PHP

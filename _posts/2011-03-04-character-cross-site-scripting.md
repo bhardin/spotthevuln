@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Character - Cross Site Scripting
+title: Character - Cross-Site Scripting
 tags:
-- cross site scripting
+- Cross-Site Scripting
 - Cross-Site Scripting (XSS)
 - html markup
 - javascript eval
@@ -24,7 +24,7 @@ __Affected Software:__ PhotoSmash
 
 __Fixed in Version:__  1.0.5
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Character" href="http://spotthevuln.com/2011/02/character/" target="_blank">Found    Here</a>
 <h3>Description</h3>

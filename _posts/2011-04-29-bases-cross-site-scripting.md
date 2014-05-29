@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Bases - Cross Site Scripting
+title: Bases - Cross-Site Scripting
 tags:
 - Cross-Site Scripting (XSS)
 - PHP
@@ -21,7 +21,7 @@ __Affected Software:__ Ask Apache Password Protect
 
 __Fixed in Version:__  4.6
 
-__Issue Type:__ Cross Site Scripting
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a href="http://spotthevuln.com/2011/04/bases/">Found Here</a>
 

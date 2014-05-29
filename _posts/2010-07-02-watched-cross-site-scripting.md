@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Watched - Cross Site Scripting
+title: Watched - Cross-Site Scripting
 tags:
 - arbitrary values
 - attacker

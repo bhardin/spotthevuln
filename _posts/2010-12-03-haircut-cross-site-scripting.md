@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Haircut - Cross Site Scripting
+title: Haircut - Cross-Site Scripting
 tags:
 - All
-- cross site scripting
+- Cross-Site Scripting
 - Cross-Site Scripting (XSS)
 - markup
 - PHP
@@ -27,7 +27,7 @@ __Affected Software:__ WP-Slimbox 2
 
 __Fixed in Version:__  1.0.1
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Haircut" href="http://spotthevuln.com/2010/11/haircut/" target="_blank">Found    Here</a>
 ## Description

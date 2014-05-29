@@ -1,11 +1,11 @@
 ---
 layout: post
-title: Errors - Cross Site Scripting
+title: Errors - Cross-Site Scripting
 tags:
 - All
 - attacker
 - classic symptom
-- cross site scripting
+- Cross-Site Scripting
 - Cross-Site Scripting (XSS)
 - html markup
 - markup
@@ -29,7 +29,7 @@ __Affected Software:__ PunBB
 
 __Fixed in Version:__  1.2
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Errors" href="http://spotthevuln.com/2010/08/errors/" target="_blank">Found    Here</a>
 ## Description

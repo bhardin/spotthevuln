@@ -1,10 +1,10 @@
 ---
 layout: post
-title: Australia - Cross Site Scripting
+title: Australia - Cross-Site Scripting
 tags:
 - All
 - code execution
-- cross site scripting
+- Cross-Site Scripting
 - Cross-Site Scripting (XSS)
 - echo system
 - FreePBX
@@ -31,7 +31,7 @@ __Affected Software:__ FreePBX
 
 __Fixed in Version:__  2.5
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Australia" href="http://spotthevuln.com/2010/11/australia/" target="_blank">Found    Here</a>
 ## Description

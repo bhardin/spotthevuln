@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Reasoning - Cross Site Scripting
+title: Reasoning - Cross-Site Scripting
 tags:
 - Consumption
 - Cross-Site Scripting (XSS)
@@ -25,7 +25,7 @@ __Affected Software:__ FreePBX
 
 __Fixed in Version:__  2.9
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Radical" href="http://spotthevuln.com/2011/02/reasoning/" target="_blank">Found    Here</a>
 <h3>Description</h3>

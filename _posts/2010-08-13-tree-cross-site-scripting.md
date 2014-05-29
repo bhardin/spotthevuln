@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Tree - Cross Site Scripting
+title: Tree - Cross-Site Scripting
 tags:
 - All Vulnerabilities
-- cross site scripting
+- Cross-Site Scripting
 - Cross-Site Scripting (XSS)
 - Encode
 - html markup
@@ -27,7 +27,7 @@ __Affected Software:__ Wordpress-to-lead for Salesforce CRM
 
 __Fixed in Version:__  1.0.5
 
-__Issue Type:__ Cross Site Scripting
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Tree" href="http://spotthevuln.com/2010/08/tree/" target="_blank">Found    Here</a>
 ## Description

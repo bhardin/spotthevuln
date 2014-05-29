@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Radical - Cross Site Scripting
+title: Radical - Cross-Site Scripting
 tags:
 - Cross-Site Scripting (XSS)
 - Encode
@@ -24,7 +24,7 @@ __Affected Software:__ BezahlCode-Generator
 
 __Fixed in Version:__  1.1
 
-__Issue Type:__ Cross Site Scripting (XSS)
+__Issue Type:__ Cross-Site Scripting
 
 Original Code: <a title="Radical" href="http://spotthevuln.com/2011/02/radical/" target="_blank">Found    Here</a>
 <h3>Description</h3>
