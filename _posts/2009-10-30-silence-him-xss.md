@@ -14,18 +14,19 @@ tags:
 * __Fixed in Version:__  2.6
 * __Issue Type:__ Cross-Site Scripting
 
-<strong>Original Code: <a href="http://spotthevuln.com/2009/10/vulnerable-code-silence-him/">Found Here</a></strong>
 ## Description
-This is a classic Cross-Site Scripting (XSS) vulnerability. The $_POST and the $_GET parameters passed to the vulnerable file are printed to the WordPress markup without being sanitized, exposing the vulnerability and making exploitation of this issue extremely simple. The XSS Vulnerability was fixed by the WordPress team by simply removing the vulnerable code.
 
-This particular issue is interesting because it contains valuable lessons for the software project manager. The vulnerable code serves no purpose to enhance WordPress functionality. In fact, the vulnerable code was actually checked in as "debugging" code used by the developer to debug a separate issue. While most XSS vulnerabilities are simply a matter of implementation or coding mistakes, this particular issue (IMHO) is an indication of weaknesses in the software project management of the WordPress project.
+This is a classic Cross-Site Scripting (XSS) vulnerability. The `$_POST` and the `$_GET` parameters passed to the vulnerable file are printed to the WordPress markup without being sanitized, exposing the vulnerability and making exploitation of this issue extremely simple. The vulnerability was fixed by the WordPress team by simply removing the vulnerable code.
 
-The core of the issue stems from the fact that a developer was allowed to check-in debugging code into a production build. Checking in this vulnerable code was most likely accidental. Problems with code check-in can be solved though the use of an informal buddy code review requirement, formal code review for check-ins to production, or even automation which scans the code quality for certain indicators. <a href="http://msdn.microsoft.com/en-us/library/bb429476(VS.80).aspx" target="_blank">FxCop</a> and <a href="http://msdn.microsoft.com/en-us/library/ms933794.aspx" target="_blank">PreFast</a> are great examples of free, customizable automation that can provide a baseline indicator of code quality for check-ins, although neither of these can be used against a PHP code base. The WordPress team should also consider purchasing a commercial source code scanner to provide a baseline analysis of code checked into production. At minimum, when WordPress developers check-in to production should include "hotspotter" checks which highlight dangerous APIs/common coding errors (e.g. echo, print APIs, exec(), system() ...etc.). This would greatly reduce the amount of vulnerable code that is checked-in to the production builds.
+This particular issue is interesting because it contains valuable lessons for the software project manager. The vulnerable code serves no purpose to enhance WordPress functionality. In fact, the vulnerable code was actually committed as "debugging" code used by the developer to debug a separate issue. While most XSS vulnerabilities are simply a matter of implementation or coding mistakes, this particular issue (IMHO) is an indication of weaknesses in the software project management of the WordPress project.
 
-The vulnerable code was discovered over two years ago by the WordPress team. Hopefully, the check-in process has improved and all new check-in's undergo a baseline security check, either through automation or manual review.
+The core of the issue stems from the fact that a developer was allowed to commit debugging code into a production build. Committing this vulnerable code was most likely accidental. Problems with code committing can be solved though the use of an informal buddy code review requirement, formal code review for commits to production, or even automation which scans the code quality for certain indicators. [FxCop](http://msdn.microsoft.com/en-us/library/bb429476(VS.80\).aspx) and [PreFast](http://msdn.microsoft.com/en-us/library/ms933794.aspx) are great examples of free, customizable automation that can provide a baseline indicator of code quality for commits, although neither of these can be used against a PHP code base. The WordPress team should also consider purchasing a commercial source code scanner to provide a baseline analysis of code committed into production. At minimum, when WordPress developers commits to production should include "hotspotter" checks which highlight dangerous APIs and common coding errors (e.g. echo, print APIs, `exec()`, `system()`, etc.). This small change would reduce the amount of vulnerable code that is committed to production builds.
+
+The vulnerable code was discovered over two years ago by the WordPress team. Hopefully, the commit process has improved and all new commits undergo a baseline security check, either through automation or manual review.
+
 ## Developers Solution
-```diff
 
+```diff
 function convert_all() {
 global $wpdb;
 
