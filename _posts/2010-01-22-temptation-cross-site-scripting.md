@@ -25,11 +25,11 @@ __Issue Type:__ Cross Site Scripting
 
 Original Code: <a title="Temptation" href="http://spotthevuln.com/2010/01/temptation/" target="_blank">Found Here</a>
 ## Description
-Classic XSS on Joomla.  This particular XSS isn't anything really special, but all the references to SQL and databases surrounding the vulnerable code could have thrown some people off during code review.  In this code $this_page is tainted with attacker controlled data in the two lines below:
+Classic XSS on Joomla. This particular XSS isn't anything really special, but all the references to SQL and databases surrounding the vulnerable code could have thrown some people off during code review. In this code $this_page is tainted with attacker controlled data in the two lines below:
 <blockquote>$this_page = (!empty($_SERVER['PHP_SELF'])) ? $_SERVER['PHP_SELF'] : $_ENV['PHP_SELF'];
 
 $this_page .= '&amp;' . ((!empty($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : $_ENV['QUERY_STRING']);</blockquote>
-$this_page is then used to build an HTML string.  The Joomla developers fixed this vulnerability by simply calling htmlspecialchars() before echoing $this_page to the user.
+$this_page is then used to build an HTML string. The Joomla developers fixed this vulnerability by simply calling htmlspecialchars() before echoing $this_page to the user.
 ## Developers Solution
 [cce lang="diff"]
 
@@ -98,4 +98,4 @@ return $result;
 
 ?&gt;
 
-[/cce] 
+[/cce]

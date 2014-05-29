@@ -34,11 +34,11 @@ __Issue Type:__ Cross Site Scripting (XSS)
 
 Original Code: <a title="Anyway" href="http://spotthevuln.com/2010/12/anyway/" target="_blank">Found    Here</a>
 <h3>Description</h3>
-First, some logistics... the code we're looking at belongs to the "Weight_save.php" file which is part of the "Hackers Diet" WordPress plugin.  This plugin was created to "Help you track and predict weight loss using your Wordpress blog".  A single change was made to the Weight_save.php for this changelist.  The single change simply removes an obvious XSS bug in which POST parameters are printed to HTML markup.  This line was likely being used for debugging purposes and was forgotten during release to production.  A more robust testing and release process would have caught this.
+First, some logistics... the code we're looking at belongs to the "Weight_save.php" file which is part of the "Hackers Diet" WordPress plugin. This plugin was created to "Help you track and predict weight loss using your Wordpress blog". A single change was made to the Weight_save.php for this changelist. The single change simply removes an obvious XSS bug in which POST parameters are printed to HTML markup. This line was likely being used for debugging purposes and was forgotten during release to production. A more robust testing and release process would have caught this.
 
-Although the developers prevented an XSS vulnerability, they completely overlooked several other issues.  IndigoMann (via blog comments) noticed XSS and SQL Injection in this code...  The one issue that jumps out at me is this line:
+Although the developers prevented an XSS vulnerability, they completely overlooked several other issues. IndigoMann (via blog comments) noticed XSS and SQL Injection in this code... The one issue that jumps out at me is this line:
 <blockquote>$user_id = $_POST["user"];</blockquote>
-I always become very suspicious when an application passes user_id's back and forth.  Ideally, this data should be stored via session state, otherwise an attacker could pass an arbitrary value and access (and possibly update) another user's data.  Looking at the code, it appears this may be the case with the Hacker Diet plugin.
+I always become very suspicious when an application passes user_id's back and forth. Ideally, this data should be stored via session state, otherwise an attacker could pass an arbitrary value and access (and possibly update) another user's data. Looking at the code, it appears this may be the case with the Hacker Diet plugin.
 <h3>Developers Solution</h3>
 [sourcecode language="diff" highlight="14,15"]
 &lt;?
@@ -85,7 +85,7 @@ if (mysql_num_rows($result) == 1) {
 	$trend = mysql_result($result, 0);
 	$use_first_weight_as_trend = false;
 } else {
-	// no trends exist below this entry, we must be first.  so in next query, we need to grab today's weight to be trend 1
+	// no trends exist below this entry, we must be first. so in next query, we need to grab today's weight to be trend 1
 	$use_first_weight_as_trend = true;
 }
 
@@ -113,4 +113,4 @@ $dif = round($weights[0][&quot;weight&quot;] - $weights[0][&quot;trend&quot;], 1
 
 echo &quot;&lt;span class=\&quot;trend_dif &quot;.(($dif &lt; 0)?&quot;good_trend&quot;:&quot;bad_trend&quot;).&quot;\&quot;&gt;$dif&lt;/span&gt;&quot;;
 ?&gt;
-[/sourcecode] 
+[/sourcecode]

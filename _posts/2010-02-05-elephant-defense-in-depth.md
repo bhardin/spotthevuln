@@ -25,7 +25,7 @@ __Issue Type:__ Defense in Depth
 
 Original Code: <a title="Elephant" href="http://spotthevuln.com/2010/02/elephants/" target="_blank">Found Here</a>
 ## Description
-This was a simple change to a security message shown to a user.  Although not a critical security fix, this can help users make better decisions with regards to choosing an appropriate password.  The code sample provided below shows that Durpal checks for lowercase, uppercase, numbers, and punctuation in the user's password.
+This was a simple change to a security message shown to a user. Although not a critical security fix, this can help users make better decisions with regards to choosing an appropriate password. The code sample provided below shows that Durpal checks for lowercase, uppercase, numbers, and punctuation in the user's password.
 <blockquote>var weaknesses = 0, strength = 100, msg = [];
 
 var hasLowercase = password.match(/[a-z]+/);
@@ -35,7 +35,7 @@ var hasUppercase = password.match(/[A-Z]+/);
 var hasNumbers = password.match(/[0-9]+/);
 
 var hasPunctuation = password.match(/[^a-zA-Z0-9]+/);</blockquote>
-In addition to the checks above, the passwords length is also checked.  Durpal assigns the password a "score" of 100 and subtracts from this score if weaknesses are detected.  In this case, the Durpal decided that if the password was less than six characters, they would subtract 10 points from the password strength for every character short of 6.
+In addition to the checks above, the passwords length is also checked. Durpal assigns the password a "score" of 100 and subtracts from this score if weaknesses are detected. In this case, the Durpal decided that if the password was less than six characters, they would subtract 10 points from the password strength for every character short of 6.
 <blockquote>strength -= (6 - password.length) * 10;</blockquote>
 Later, the password is put through a "strength scale" where every password that has a score above "80" gets a rating of "strong".
 <blockquote>
@@ -47,7 +47,7 @@ indicatorText = translate.good;
 } else if (strength &lt; 100) {
 
 indicatorText = translate.strong;</blockquote>
-Using this logic, it was possible for a user to select a 4 character password that was rated as strong.  To combat this, the Durpal developers penalized the user 30 points if they selected a password with less than 6 characters, guaranteeing that a password with less than 6 characters would never be rated "strong".
+Using this logic, it was possible for a user to select a 4 character password that was rated as strong. To combat this, the Durpal developers penalized the user 30 points if they selected a password with less than 6 characters, guaranteeing that a password with less than 6 characters would never be rated "strong".
 
 The safer way to go about this might be to assign a password strength of zero and build up the strength value as conditions are met.
 ## Developers Solution
@@ -119,4 +119,4 @@ indicatorText = translate.strong;
 msg = translate.hasWeaknesses + '&lt;ul&gt;&lt;li&gt;' + msg.join('&lt;/li&gt;&lt;li&gt;') + '&lt;/li&gt;&lt;/ul&gt;';
 return { strength: strength, message: msg, indicatorText: indicatorText }
 
-[/cce] 
+[/cce]

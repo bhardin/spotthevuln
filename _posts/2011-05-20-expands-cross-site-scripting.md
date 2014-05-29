@@ -26,7 +26,7 @@ __Issue Type:__ Cross Site Scripting
 
 Original Code: <a href="http://spotthevuln.com/2011/05/expands-2/">Found Here</a>
 ## Details
-This week's bug was subtle.  The patch submitted by the developer addresses an XSS bug.  Looking at the diff, we see that $title and $selection come from the query string.  These values are fixed up before being assigned to a variable.  The developers changed the way $title is assigned in the diff.  It's difficult to see why $title needs to be changed, so we'll ignore that change for now.   $selection gives some hints towards XSS.  $selection is assigned from the query string value $_GET['s'] which is sent through the trim() and aposfix() functions.  Immediately following the $selection variable assignment we see the $selection being manipulated with some HTML tags.  This is a good indication that $selection will eventually be used to build HTML markup.  I usually recommend developers encode/sanitize values as close to the point of consumption as possible, but this case is different.  $selection contains HTML tags (the &lt;p&gt; and &lt;/p&gt; tags), so encoding the whole value at the point of consumption will also encode those tags.  The &lt;p&gt; tags are probably designed to be rendered by the browser.  Due to the mixing of HTML tags and regular data, the developer will have to encode the user controlled values during variable assignment.  This is exactly what the Wordpress developers did in the patch.
+This week's bug was subtle. The patch submitted by the developer addresses an XSS bug. Looking at the diff, we see that $title and $selection come from the query string. These values are fixed up before being assigned to a variable. The developers changed the way $title is assigned in the diff. It's difficult to see why $title needs to be changed, so we'll ignore that change for now. $selection gives some hints towards XSS. $selection is assigned from the query string value $_GET['s'] which is sent through the trim() and aposfix() functions. Immediately following the $selection variable assignment we see the $selection being manipulated with some HTML tags. This is a good indication that $selection will eventually be used to build HTML markup. I usually recommend developers encode/sanitize values as close to the point of consumption as possible, but this case is different. $selection contains HTML tags (the &lt;p&gt; and &lt;/p&gt; tags), so encoding the whole value at the point of consumption will also encode those tags. The &lt;p&gt; tags are probably designed to be rendered by the browser. Due to the mixing of HTML tags and regular data, the developer will have to encode the user controlled values during variable assignment. This is exactly what the Wordpress developers did in the patch.
 
 
 ## Developers Solution
@@ -101,8 +101,8 @@ if ( isset($_REQUEST['action']) &amp;&amp; 'post' == $_REQUEST['action'] ) {
 // Set Variables
 -$title = isset($_GET['t']) ? esc_html(aposfix(stripslashes($_GET['t']))) : '';
 -$selection = isset($_GET['s']) ? trim( aposfix( stripslashes($_GET['s']) ) ) : '';
-+$title = isset( $_GET['t'] ) ? trim( strip_tags( aposfix( stripslashes( $_GET['t'] ) ) ) ) : ''; 
-+$selection = isset( $_GET['s'] ) ? trim( htmlspecialchars( html_entity_decode( aposfix( stripslashes( $_GET['s'] ) ) ) ) ) : ''; 
++$title = isset( $_GET['t'] ) ? trim( strip_tags( aposfix( stripslashes( $_GET['t'] ) ) ) ) : '';
++$selection = isset( $_GET['s'] ) ? trim( htmlspecialchars( html_entity_decode( aposfix( stripslashes( $_GET['s'] ) ) ) ) ) : '';
 if ( ! empty($selection) ) {
 	$selection = preg_replace('/(\r?\n|\r)/', '&lt;/p&gt;&lt;p&gt;', $selection);
 	$selection = '&lt;p&gt;'.str_replace('&lt;p&gt;&lt;/p&gt;', '', $selection).'&lt;/p&gt;';
@@ -110,4 +110,4 @@ if ( ! empty($selection) ) {
 $url = isset($_GET['u']) ? esc_url($_GET['u']) : '';
 $image = isset($_GET['i']) ? $_GET['i'] : '';
 ...snip...
-[/sourcecode] 
+[/sourcecode]

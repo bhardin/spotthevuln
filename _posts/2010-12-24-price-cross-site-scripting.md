@@ -34,9 +34,9 @@ __Issue Type:__ Cross Site Scripting (XSS)
 
 Original Code: <a title="Price" href="http://spotthevuln.com/2010/12/price/" target="_blank">Found    Here</a>
 <h3>Description</h3>
-This week's vulnerability was a XSS bug in PunBB.  PunBB was taking an un-trusted value directly from the POST parameter ($_POST['prune_sticky']) and echoing the un-trusted value directly into a value attribute for a hidden form input field.  You can see the XSS bug in line 98.  This echoing of un-trusted input results in XSS.
+This week's vulnerability was a XSS bug in PunBB. PunBB was taking an un-trusted value directly from the POST parameter ($_POST['prune_sticky']) and echoing the un-trusted value directly into a value attribute for a hidden form input field. You can see the XSS bug in line 98. This echoing of un-trusted input results in XSS.
 
-The PunBB developers did something I really like here.  Instead of fixing the single instance of XSS and moving on, the PunBB developers went a step further and hardened the use of $_POST['prune_sticky'].  Instead of allowing users/attacker to provide arbitrary values for $_POST['prune_sticky'] they restricted the acceptable values to 1 or 0.  You can see this fix in line 11.  This is a perfect example of root cause analysis in action.  The PunBB developers took a few minutes to understand how the application uses $_POST[' prune_sticky'] and adjusted the application behavior to protect against other attacks while being transparent to the user.  This patch submitted by the PunBB developers goes a long way in protecting their customers and is a great example of being smart about security fixes.  
+The PunBB developers did something I really like here. Instead of fixing the single instance of XSS and moving on, the PunBB developers went a step further and hardened the use of $_POST['prune_sticky']. Instead of allowing users/attacker to provide arbitrary values for $_POST['prune_sticky'] they restricted the acceptable values to 1 or 0. You can see this fix in line 11. This is a perfect example of root cause analysis in action. The PunBB developers took a few minutes to understand how the application uses $_POST[' prune_sticky'] and adjusted the application behavior to protect against other attacks while being transparent to the user. This patch submitted by the PunBB developers goes a long way in protecting their customers and is a great example of being smart about security fixes.
 <h3>Developers Solution</h3>
 [sourcecode language="diff" highlight="11,26,27,34,35,64,65,98,99"]
 &lt;?php
@@ -49,7 +49,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
 		confirm_referrer('admin_prune.php');
 
 		$prune_from = $_POST['prune_from'];
-+		$prune_sticky = isset($_POST['prune_sticky']) ? '1' : '0'; 		
++		$prune_sticky = isset($_POST['prune_sticky']) ? '1' : '0';
 		$prune_days = intval($_POST['prune_days']);
 		$prune_date = ($prune_days) ? time() - ($prune_days*86400) : -1;
 
@@ -104,7 +104,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
 	$sql = 'SELECT COUNT(id) FROM '.$db-&gt;prefix.'topics WHERE last_post&lt;'.$prune_date.' AND moved_to IS NULL';
 
 -	if ($_POST['prune_sticky'] == '0')
-+	if (!$prune_sticky) 
++	if (!$prune_sticky)
 		$sql .= ' AND sticky=\'0\'';
 
 	if ($prune_from != 'all')
@@ -139,7 +139,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
 				&lt;div class=&quot;inform&quot;&gt;
 					&lt;input type=&quot;hidden&quot; name=&quot;prune_days&quot; value=&quot;&lt;?php echo $prune_days ?&gt;&quot; /&gt;
 -					&lt;input type=&quot;hidden&quot; name=&quot;prune_sticky&quot; value=&quot;&lt;?php echo $_POST['prune_sticky'] ?&gt;&quot; /&gt;
-+					&lt;input type=&quot;hidden&quot; name=&quot;prune_sticky&quot; value=&quot;&lt;?php echo $prune_sticky ?&gt;&quot; /&gt; 
++					&lt;input type=&quot;hidden&quot; name=&quot;prune_sticky&quot; value=&quot;&lt;?php echo $prune_sticky ?&gt;&quot; /&gt;
 					&lt;input type=&quot;hidden&quot; name=&quot;prune_from&quot; value=&quot;&lt;?php echo $prune_from ?&gt;&quot; /&gt;
 					&lt;fieldset&gt;
 						&lt;legend&gt;Confirm prune posts&lt;/legend&gt;
@@ -156,4 +156,4 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
 	&lt;div class=&quot;clearer&quot;&gt;&lt;/div&gt;
 &lt;/div&gt;
 ... &lt;snip&gt; ...
-[/sourcecode] 
+[/sourcecode]

@@ -45,24 +45,24 @@ __Issue Type:__ Cross Site Scripting (XSS)
 
 Original Code: <a title="Everything" href="http://spotthevuln.com/2010/06/everything/" target="_blank">Found Here</a>
 ## Description
-This was a bug reported by the <a title="Gotham" href="http://www.gdssecurity.com/" target="_blank">Gotham Digital Science </a>against the Dojo toolkit SDK.  The Dojo toolkit is a popular toolkit used by numerous websites... so in essence this bug provided attackers an opportunity to XSS a large number of websites across the Internet.
+This was a bug reported by the <a title="Gotham" href="http://www.gdssecurity.com/" target="_blank">Gotham Digital Science </a>against the Dojo toolkit SDK. The Dojo toolkit is a popular toolkit used by numerous websites... so in essence this bug provided attackers an opportunity to XSS a large number of websites across the Internet.
 
-The bug begins by the capturing of untrusted parameter values from the querystring.  This is done by the following JavaScript:
+The bug begins by the capturing of untrusted parameter values from the querystring. This is done by the following JavaScript:
 <blockquote><code>var qstr = window.location.search.substr(1);</code></blockquote>
-qstr is then split based on the "&amp;" character, proving values for various JavaScript variables including DoJoURL and TestURL.   The attacker is free to provide arbitrary values for DoJoURL and TestURL by simply providing the proper querystring values.  For example:
+qstr is then split based on the "&amp;" character, proving values for various JavaScript variables including DoJoURL and TestURL. The attacker is free to provide arbitrary values for DoJoURL and TestURL by simply providing the proper querystring values. For example:
 <blockquote>runner.html?dojoUrl=attacker-controlled&amp;testUrl=attackercontrolled</blockquote>
-the attacker supplied values are then used in a document.write() statement, giving the attacker the opprotuntiy to inject arbitrary client side script into any website that happens to include the Dojo library.  The vulnerable document.write() statements are provided below:
+the attacker supplied values are then used in a document.write() statement, giving the attacker the opprotuntiy to inject arbitrary client side script into any website that happens to include the Dojo library. The vulnerable document.write() statements are provided below:
 <blockquote>document.write("&lt;scr"+"ipt type='text/javascript' djConfig='isDebug: true' src='"+<span style="color: #ff0000;">dojoUrl</span>+"'&gt;&lt;/scr"+"ipt&gt;");
 
 document.write("&lt;scr"+"ipt type='text/javascript' src='"+<span style="color: #ff0000;">testUrl</span>+".js'&gt;&lt;/scr"+"ipt&gt;");</blockquote>
-The Dojo developers addressed this vulnerability by replacing characters from the attacker controlled input.  The specific regular expression used is provided below:
+The Dojo developers addressed this vulnerability by replacing characters from the attacker controlled input. The specific regular expression used is provided below:
 <blockquote>value=tp[1].replace(/[&lt;&gt;"']/g, "");</blockquote>
 I see a major issue with this code fix... can you spot it as well?
 ## Developers Solution
 [cce lang="diff"]
 
                 &lt;script type="text/javascript"&gt;
-                        // workaround for bug in Safari 3.  See #7189
+                        // workaround for bug in Safari 3. See #7189
                         if (/3[\.0-9]+ Safari/.test(navigator.appVersion))
                         {
                                 window.console = {
@@ -82,12 +82,12 @@ I see a major issue with this code fix... can you spot it as well?
                                };
                         }
                 &lt;/script&gt;
- 
+
                 &lt;script type="text/javascript"&gt;
                         window.dojoUrl = "../../dojo/dojo.js";
                         window.testUrl = "";
                         window.testModule = "";
- 
+
                         // parse out our test URL and our Dojo URL from the query string
                         var qstr = window.location.search.substr(1);
                         if(qstr.length){
@@ -110,23 +110,23 @@ I see a major issue with this code fix... can you spot it as well?
 -                                                        window.registerModulePath.push(modules[i].split(","));
 -                                               }
 -                                       }
-+                                       var tp = qparts[x].split("="), name=tp[0], value=tp[1].replace(/[&lt;&gt;"']/g, "");  // replace() to avoid XSS attack 
-+                                       switch(name){ 
-+                                               case "dojoUrl": 
-+                                               case "testUrl": 
-+                                               case "testModule": 
-+                                                       window[name] = value; 
-+                                                       break; 
-+                                               case "registerModulePath": 
-+                                                       var modules = value.split(";"); 
-+                                                       window.registerModulePath=[]; 
-+                                                       for (var i=0; i&lt;modules.length;i++){ 
-+                                                               window.registerModulePath.push(modules[i].split(",")); 
-+                                                       } 
-+                                               break; 
++                                       var tp = qparts[x].split("="), name=tp[0], value=tp[1].replace(/[&lt;&gt;"']/g, "");  // replace() to avoid XSS attack
++                                       switch(name){
++                                               case "dojoUrl":
++                                               case "testUrl":
++                                               case "testModule":
++                                                       window[name] = value;
++                                                       break;
++                                               case "registerModulePath":
++                                                       var modules = value.split(";");
++                                                       window.registerModulePath=[];
++                                                       for (var i=0; i&lt;modules.length;i++){
++                                                               window.registerModulePath.push(modules[i].split(","));
++                                                       }
++                                               break;
                                 }
                         }
- 
+
                         document.write("&lt;scr"+"ipt type='text/javascript' djConfig='isDebug: true' src='"+dojoUrl+"'&gt;&lt;/scr"+"ipt&gt;");
                 &lt;/script&gt;
                 &lt;script type="text/javascript"&gt;
@@ -151,16 +151,16 @@ I see a major issue with this code fix... can you spot it as well?
                                 *font-size: small;
                                 *font: x-small;
                         }
- 
+
                         th, td {
                                 font-size: 13px;
                                 color: #292929;
                                 font-family: Myriad, Lucida Grande, Bitstream Vera Sans, Arial, Helvetica, sans-serif;
                                 font-weight: normal;
                         }
- 
+
                         * body {
                                 line-height: 1.25em;
                         }
 
-[/cce] 
+[/cce]

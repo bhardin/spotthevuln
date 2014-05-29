@@ -38,11 +38,11 @@ __Issue Type:__ XSS
 
 Original Code: <a title="Watched" href="http://spotthevuln.com/2010/06/watched/" target="_blank">Found Here</a>
 ## Description
-Whew!  This is a lot of code for a simple change!  This bug affected the qTranslate plugin for WordPress.  The bug used the $_SERVER['REQUEST_URI'] variable without realizing it could contain arbitrary values supplied by an attacker.  The $_SERVER['REQUEST_URI'] variable is used directly in an HREF in the HTML markup, resulting in a classic XSS vulnerability.
+Whew!  This is a lot of code for a simple change!  This bug affected the qTranslate plugin for WordPress. The bug used the $_SERVER['REQUEST_URI'] variable without realizing it could contain arbitrary values supplied by an attacker. The $_SERVER['REQUEST_URI'] variable is used directly in an HREF in the HTML markup, resulting in a classic XSS vulnerability.
 
 The <a title="PHP Doc" href="http://php.net/manual/en/reserved.variables.server.php" target="_blank">PHP documentation </a>states that ['REQUEST_URI'] represents:
 <blockquote>The URI which was given in order to access this page; for instance, '/index.html'.</blockquote>
-No escaping is done before returning the predefined value.  Also, ['REQUEST_URI'] actually returns the file requested as well as any query string parameters in the URI.  For example, a request for <a href="http://server/index.php?blah=foo">http://server/index.php?blah=foo</a> will return 'index.php?blah=foo'.  With this in mind, the attacker is free to set up arbitrary query string parameters which contain the XSS payload
+No escaping is done before returning the predefined value. Also, ['REQUEST_URI'] actually returns the file requested as well as any query string parameters in the URI. For example, a request for <a href="http://server/index.php?blah=foo">http://server/index.php?blah=foo</a> will return 'index.php?blah=foo'. With this in mind, the attacker is free to set up arbitrary query string parameters which contain the XSS payload
 <blockquote>http://server/qtranslate_widget.php?xss="&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;</blockquote>
 ## Developers Solution
 [cce lang="diff"]
@@ -50,17 +50,17 @@ No escaping is done before returning the predefined value.  Also, ['REQUEST_URI'
 &lt;?php
 function qtrans_convertURL($url='', $lang='', $forceadmin = false) {
  global $q_config;
- 
+
  // invalid language
  if($url=='') $url = clean_url($q_config['url_info']['url']);
  if($lang=='') $lang = $q_config['language'];
  if(defined('WP_ADMIN')&amp;&amp;!$forceadmin) return $url;
  if(!qtrans_isEnabled($lang)) return "";
- 
+
  // &amp; workaround
  $url = str_replace('&amp;amp;','&amp;',$url);
  $url = str_replace('&amp;#038;','&amp;',$url);
- 
+
  // check if it's an external link
  $urlinfo = qtrans_parseURL($url);
  $home = rtrim(get_option('home'),"/");
@@ -86,28 +86,28 @@ function qtrans_convertURL($url='', $lang='', $forceadmin = false) {
    $url = substr($url,strlen($homeinfo['path']));
   }
  }
- 
+
  // check for query language information and remove if found
  if(preg_match("#(&amp;|\?)lang=([^&amp;\#]+)#i",$url,$match) &amp;&amp; qtrans_isEnabled($match[2])) {
   $url = preg_replace("#(&amp;|\?)lang=".$match[2]."&amp;?#i","$1",$url);
  }
- 
+
  // remove any slashes out front
  $url = ltrim($url,"/");
- 
+
  // remove any useless trailing characters
  $url = rtrim($url,"?&amp;");
- 
+
  // reparse url without home path
  $urlinfo = qtrans_parseURL($url);
- 
+
  // check if its a link to an ignored file type
  $ignore_file_types = preg_split('/\s*,\s*/',strtolower($q_config['ignore_file_types']));
  $pathinfo = pathinfo($urlinfo['path']);
  if(isset($pathinfo['extension']) &amp;&amp; in_array(strtolower($pathinfo['extension']), $ignore_file_types)) {
   return $home."/".$url;
  }
- 
+
  switch($q_config['url_mode']) {
   case QT_URL_PATH: // pre url
    // might already have language information
@@ -132,7 +132,7 @@ function qtrans_convertURL($url='', $lang='', $forceadmin = false) {
     $url .= "lang=".$lang;
    }
  }
- 
+
  // see if cookies are activated
  if(!$q_config['cookie_enabled'] &amp;&amp; !$q_config['url_info']['internal_referer'] &amp;&amp; $urlinfo['path'] == '' &amp;&amp; $lang == $q_config['default_language'] &amp;&amp; $q_config['language'] != $q_config['default_language']) {
   // :( now we have to make unpretty URLs
@@ -144,7 +144,7 @@ function qtrans_convertURL($url='', $lang='', $forceadmin = false) {
   }
   $url .= "lang=".$lang;
  }
- 
+
  // &amp;amp; workaround
  $complete = str_replace('&amp;','&amp;amp;',$home."/".$url);
  return $complete;
@@ -163,14 +163,14 @@ function qtrans_use($lang, $text, $show_available=false) {
                 }
                 return $text;
         }
-        
+
         if(is_object($text)) {
                 foreach(get_object_vars($text) as $key =&gt; $t) {
                         $text-&gt;$key = qtrans_use($lang,$text-&gt;$key,$show_available);
                 }
                 return $text;
         }
-        
+
         // get content
         $content = qtrans_split($text);
         // find available languages
@@ -179,7 +179,7 @@ function qtrans_use($lang, $text, $show_available=false) {
                 $lang_text = trim($lang_text);
                 if(!empty($lang_text)) $available_languages[] = $language;
         }
-        
+
         // if no languages available show full text
         if(sizeof($available_languages)==0) return $text;
         // if content is available show the content in the requested language
@@ -217,7 +217,7 @@ function qtrans_use($lang, $text, $show_available=false) {
         }
         return "&lt;p&gt;".preg_replace('/%LANG:([^:]*):([^%]*)%/', $language_list, $q_config['not_available'][$lang])."&lt;/p&gt;";
 }
- 
+
 ?&gt;
 
-[/cce] 
+[/cce]

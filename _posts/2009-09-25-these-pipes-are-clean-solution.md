@@ -20,7 +20,7 @@ When appended together the `%0d` (Carriage Return) and `%0a` (Line Feed) charact
 
 The vulnerable WordPress code snippet actually contained logic to detect carriage return and line feed characters. The logic was attempting to strip CRLFs from data being assigned to the `$url` variable.
 
-However, The CRLF detection logic wasn't robust enough. The CRLF detection logic simply checked for the presence of `%0d` and `%0a` in `$url` and failed to consider uppercase versions of these control characters: `%0D` or `%0A`.  The `$url` variable is assigned the CRLF tainted string and eventually passed to a HTTP `Location` header, giving the attacker an opportunity for URL Redirection, CRLF injection, HTTP header injection, and even Cross-Site Scripting.
+However, The CRLF detection logic wasn't robust enough. The CRLF detection logic simply checked for the presence of `%0d` and `%0a` in `$url` and failed to consider uppercase versions of these control characters: `%0D` or `%0A`. The `$url` variable is assigned the CRLF tainted string and eventually passed to a HTTP `Location` header, giving the attacker an opportunity for URL Redirection, CRLF injection, HTTP header injection, and even Cross-Site Scripting.
 
 In addition to adding uppercase variants of `%0D` and `%0A` to the detection logic, a function to recursively detect the presence of CRLF was also added.
 

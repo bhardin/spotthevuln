@@ -25,7 +25,7 @@ meta:
   _sexybookmarks_permaHash: ff5d64e46f2dc80235ac4913fa821b1c
 ---
 <h3>Details</h3>
-__Affected Software:__ Short URL Plugin 
+__Affected Software:__ Short URL Plugin
 
 __Fixed in Version:__  Changeset 55280
 
@@ -33,9 +33,9 @@ __Issue Type:__ SQL Injection
 
 Original Code: <a title="Vegetables" href="https://spotthevuln.com/2011/01/vegetables/" target="_blank">Found    Here</a>
 <h3>Description</h3>
-This weeks' vulnerabilities were a couple of SQL injection bugs in the Short URL Plugin for Wordpress.  The symptoms for the issues indicate classic SQL injection, let's have a quick look at the code.  First, looking over the code sample, we see a couple of dynamically built SQL statements.  It would probably make sense to spend a bit of time and convert these dynamic SQL statements into prepared statements, that way you won't have to worry about a code change inadvertently re-introducing a SQL injection flaw or an escaping filter bypass.  With dynamically built SQL statements we'll also have to trace each variable until we can determine whether the value can be controlled by an attacker.  Lucky for us, the variable assignments are very close to the SQL statements.  In the vulnerable sample, we see that the author is taking values directly from a POST request and using those tainted values to build SQL statements.  Looking at the check-in, we see that the developer chose to use Wordpress' built-in escaping function for escaping user/attacker controlled data before passing it to a SQL statement.
+This weeks' vulnerabilities were a couple of SQL injection bugs in the Short URL Plugin for Wordpress. The symptoms for the issues indicate classic SQL injection, let's have a quick look at the code. First, looking over the code sample, we see a couple of dynamically built SQL statements. It would probably make sense to spend a bit of time and convert these dynamic SQL statements into prepared statements, that way you won't have to worry about a code change inadvertently re-introducing a SQL injection flaw or an escaping filter bypass. With dynamically built SQL statements we'll also have to trace each variable until we can determine whether the value can be controlled by an attacker. Lucky for us, the variable assignments are very close to the SQL statements. In the vulnerable sample, we see that the author is taking values directly from a POST request and using those tainted values to build SQL statements. Looking at the check-in, we see that the developer chose to use Wordpress' built-in escaping function for escaping user/attacker controlled data before passing it to a SQL statement.
 
-Although the checked-in fixes were straightforward, I was surprised to see that the developers missed an obvious SQL injection on line 56.  Same classic SQL injection symptoms, the only difference is the dynamic SQL being built is a DELETE SQL statement as opposed to an INSERT or UPDATE.  For those that are wondering... YES, this SQL injection is still present in the latest version of the plug-in!  If you happen to be using this plug-in on your website, I would recommend you escape $delete_id before passing it to a SQL statement!  I notified the plug-in author, hopefully they'll be a patch soon.  
+Although the checked-in fixes were straightforward, I was surprised to see that the developers missed an obvious SQL injection on line 56. Same classic SQL injection symptoms, the only difference is the dynamic SQL being built is a DELETE SQL statement as opposed to an INSERT or UPDATE. For those that are wondering... YES, this SQL injection is still present in the latest version of the plug-in!  If you happen to be using this plug-in on your website, I would recommend you escape $delete_id before passing it to a SQL statement!  I notified the plug-in author, hopefully they'll be a patch soon.
 
 Is this the first Spot-The-Vuln.com 0day?
 
@@ -44,13 +44,13 @@ Is this the first Spot-The-Vuln.com 0day?
 [sourcecode language="diff" highlight="27-30,41-46,56"]
 &lt;?php
 ...snip...
-function kd_admin_options_su(){ 
+function kd_admin_options_su(){
    global $table_prefix, $wpdb, $user_ID;
-   
+
    $table_name = $table_prefix . &quot;short_url&quot;;
-   
+
    if($wpdb-&gt;get_var(&quot;show tables like '$table_name'&quot;) != $table_name){
-   
+
    $sql = &quot;CREATE TABLE &quot;.$table_name.&quot; (
    link_id int(11) NOT NULL auto_increment,
    link_url text NOT NULL,
@@ -58,10 +58,10 @@ function kd_admin_options_su(){
    link_count int(11) NOT NULL default '0',
    PRIMARY KEY  (`link_id`)
    );&quot;;
-   
+
    require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
    dbDelta($sql);
-   
+
    }
 
 
@@ -71,8 +71,8 @@ function kd_admin_options_su(){
 if($action == &quot;create&quot;){
 -  $add_url = $_POST['form_url'];
 -  $add_desc = $_POST['form_desc'];
-+  $add_url = $wpdb-&gt;escape($_POST['form_url']);  
-+  $add_desc = $wpdb-&gt;escape($_POST['form_desc']);  
++  $add_url = $wpdb-&gt;escape($_POST['form_url']);
++  $add_desc = $wpdb-&gt;escape($_POST['form_desc']);
 
    if($add_url == &quot;http://&quot; || (!$add_url)){ $ERR = $ERR . &quot;&lt;br&gt;You must enter a URL to redirect to!&quot;; }
    if(!$ERR){
@@ -86,9 +86,9 @@ if($action == &quot;edit&quot;){
 -  $edit_id = $_POST['id'];
 -  $edit_url = $_POST['form_url'];
 -  $edit_desc = $_POST['form_desc'];
-+  $edit_id = $wpdb-&gt;escape($_POST['id']);  
-+  $edit_url = $wpdb-&gt;escape($_POST['form_url']);  
-+  $edit_desc = $wpdb-&gt;escape($_POST['form_desc']); 
++  $edit_id = $wpdb-&gt;escape($_POST['id']);
++  $edit_url = $wpdb-&gt;escape($_POST['form_url']);
++  $edit_desc = $wpdb-&gt;escape($_POST['form_desc']);
 
    if($edit_url == &quot;http://&quot; || (!$edit_url)){ $ERR = $ERR . &quot;&lt;br&gt;You must enter a URL to redirect to!&quot;; }
    if(!$ERR){
@@ -97,13 +97,13 @@ if($action == &quot;edit&quot;){
          }
       }
 
-   
+
 if($action == &quot;delete&quot;){
-   $delete_id = $_POST['id']; 
+   $delete_id = $_POST['id'];
    $wpdb-&gt;query(&quot;DELETE FROM $table_name WHERE link_id = '$delete_id'&quot;);
    $MES = $MES . &quot;&lt;br&gt;Redirect deleted!&quot;;
-   }  
-   
+   }
+
 if($action == &quot;clearall&quot;){
         $wpdb-&gt;query(&quot;UPDATE $table_name SET link_count='0' WHERE link_count &gt; 0&quot;);
    $MES = $MES . &quot;&lt;br&gt;Counts have been reset!&quot;;
@@ -115,7 +115,7 @@ if($action == &quot;clearall&quot;){
       &lt;h2&gt;Short URL Admin&lt;/h2&gt;
 &lt;?php if($ERR){ echo &quot;&lt;p&gt;&quot; . $ERR . &quot;&lt;/p&gt;&quot;; }
 if($MES){ echo &quot;&lt;p&gt;&quot; . $MES . &quot;&lt;/p&gt;&quot;; } ?&gt;
-      &lt;p&gt;Short URL allows you to create shorter URL's and keeps track of how many 
+      &lt;p&gt;Short URL allows you to create shorter URL's and keeps track of how many
 times a link has been clicked. It's useful for managing downloads, keeping track
 of outbound links and for masking URL's. Clicking the Clear All Clicks button
 will reset the count for each entry. Visit the &lt;a href=&quot;http://www.harleyquine.com/php-scripts/short-url-plugin/&quot;&gt;plugin page&lt;/a&gt; for more information about this plugin.&lt;/p&gt;
@@ -132,7 +132,7 @@ will reset the count for each entry. Visit the &lt;a href=&quot;http://www.harle
    &lt;/tr&gt;
       &lt;/thead&gt;
    &lt;tbody id=&quot;the-list&quot;&gt;
-&lt;?php 
+&lt;?php
    $rowdata = $wpdb-&gt;get_results(&quot;SELECT * FROM $table_name&quot;);
 
    foreach ($rowdata as $row) {
@@ -148,4 +148,4 @@ will reset the count for each entry. Visit the &lt;a href=&quot;http://www.harle
    &lt;td&gt;&lt;? echo $row-&gt;link_desc; ?&gt;&lt;/td&gt;
    &lt;td&gt;&lt;? echo $row-&gt;link_count; ?&gt;&lt;/td&gt;
    &lt;td&gt;&lt;form method=&quot;post&quot; name=&quot;delete&quot;&gt;&lt;input type=&quot;hidden&quot; name=&quot;action&quot; value=&quot;delete&quot;&gt;&lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;&lt;? echo $row-&gt;link_id; ?&gt;&quot;&gt;&lt;input type=&quot;submit&quot; value=&quot;Delete&quot;&gt;&lt;/form&gt;&lt;form method=&quot;post&quot; name=&quot;edit&quot;&gt;&lt;input type=&quot;hidden&quot; name=&quot;edit_id&quot; value=&quot;&lt;? echo $row-&gt;link_id; ?&gt;&quot;&gt;&lt;input type=&quot;submit&quot; value=&quot;Edit&quot;&gt;&lt;/form&gt;&lt;/td&gt;
-...snip...[/sourcecode] 
+...snip...[/sourcecode]

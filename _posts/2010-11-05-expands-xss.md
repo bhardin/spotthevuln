@@ -36,18 +36,18 @@ Original Code: <a title="Expect" href="http://spotthevuln.com/2010/11/expands/" 
 ## Description
 The hint pretty much gave this one away.
 
-This week's bug was an XSS exposure in Boinc.  Boinc is an open source project which uses idle time on a computer to perform various scientific tasks.  According to the website, its "safe, secure, and easy". Boinc doesn't seem to have version numbers and is updated on a constant basis.  This bug was checked into the Boinc source about four weeks ago.
+This week's bug was an XSS exposure in Boinc. Boinc is an open source project which uses idle time on a computer to perform various scientific tasks. According to the website, its "safe, secure, and easy". Boinc doesn't seem to have version numbers and is updated on a constant basis. This bug was checked into the Boinc source about four weeks ago.
 
-The bug can be found in the else statement in the pm_form() function.  The else statement takes a tainted value from the POST request body and uses it to populate a variable.  The variable assignment is here:
+The bug can be found in the else statement in the pm_form() function. The else statement takes a tainted value from the POST request body and uses it to populate a variable. The variable assignment is here:
 <blockquote>$writeto = post_str("to", true);
 $subject = post_str("subject", true);
 $content = post_str("content", true);</blockquote>
-The hint lets us know that post_str takes values from the POST request body.  Even if a hint wasn't provided, you could have guessed that values coming from post_str() were tainted by looking at the first two lines of code outside of the if/else statement:
+The hint lets us know that post_str takes values from the POST request body. Even if a hint wasn't provided, you could have guessed that values coming from post_str() were tainted by looking at the first two lines of code outside of the if/else statement:
 <blockquote>$content = htmlspecialchars($content);
 $subject = htmlspecialchars($subject);</blockquote>
-The two lines above show that the author was careful to encode the $subject and $content variables before using them in markup.  Although the $writeto variable was assigned in a similar manner and even in the same code block, it doesn't undergo any encoding.  $writeto is then used in the markup in the code provided below, resulting in XSS:
+The two lines above show that the author was careful to encode the $subject and $content variables before using them in markup. Although the $writeto variable was assigned in a similar manner and even in the same code block, it doesn't undergo any encoding. $writeto is then used in the markup in the code provided below, resulting in XSS:
 <blockquote>"&lt;input type=\"text\" name=\"to\" value=\"$writeto\" size=\"60\"&gt;"</blockquote>
-Some other interesting items.  This page is using the .inc extension for includes.  Hopefully, the correct extension mappings are done to avoid source code disclosure of includes.  While the application logic is open source, I'm sure there are configuration settings like database connection strings which could be exposed.  Also, instead of using htmlspecialchars() to encode $writeto, the developers chose to use a function named sanitize_tags().  I hope sanitize tags defends against attribute injection which doesn't require any HTML tags!
+Some other interesting items. This page is using the .inc extension for includes. Hopefully, the correct extension mappings are done to avoid source code disclosure of includes. While the application logic is open source, I'm sure there are configuration settings like database connection strings which could be exposed. Also, instead of using htmlspecialchars() to encode $writeto, the developers chose to use a function named sanitize_tags(). I hope sanitize tags defends against attribute injection which doesn't require any HTML tags!
 ## Developers Solution
 [sourcecode language="diff"]
 &lt;?php
@@ -157,4 +157,4 @@ Do not reply to this message.
 
 ?&gt;
 
-[/sourcecode] 
+[/sourcecode]

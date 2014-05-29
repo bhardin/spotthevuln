@@ -52,11 +52,11 @@ __Issue Type:__ SQL Injection
 
 Original Code: <a title="Widths" href="http://spotthevuln.com/2010/05/widths/" target="_blank">Found Here</a>
 ## Description
-This week's code sample comes from the "Login Lockdown" plug-in for WordPress.  It's always interesting when "security" software ends up having serious security flaws....
+This week's code sample comes from the "Login Lockdown" plug-in for WordPress. It's always interesting when "security" software ends up having serious security flaws....
 
-This patch contained several bug fixes.  The first bug fix we see in the patch is the inclusion of nonce checking to prevent CSRF.  It's difficult to detect CSRF vulnerabilities by looking at individual function logic and it's ok if the reader missed these bugs.  CSRF token validation should be done at the framework level and including CSRF nonce validation in the logic of every function can quickly become unwieldy.  If an application wide CSRF solution cannot be implemented at the framework level, then auditing for CSRF must be done at a function by function level.  Personally, I prefer to check for CSRF vulnerabilities by identifying any function that performs a Create, Update, or Delete operation, mapping those functions back to the HTML markup and checking the markup to see if a nonce is passed as part of the POST or GET request.  This is of course is done after an extensive audit of the nonce validation code.
+This patch contained several bug fixes. The first bug fix we see in the patch is the inclusion of nonce checking to prevent CSRF. It's difficult to detect CSRF vulnerabilities by looking at individual function logic and it's ok if the reader missed these bugs. CSRF token validation should be done at the framework level and including CSRF nonce validation in the logic of every function can quickly become unwieldy. If an application wide CSRF solution cannot be implemented at the framework level, then auditing for CSRF must be done at a function by function level. Personally, I prefer to check for CSRF vulnerabilities by identifying any function that performs a Create, Update, or Delete operation, mapping those functions back to the HTML markup and checking the markup to see if a nonce is passed as part of the POST or GET request. This is of course is done after an extensive audit of the nonce validation code.
 
-The bugs that should have been spotted by the spotthevuln reader are the SQL injection and the XSS vulnerabilities in the code.  The SQL Injection is pretty straight forward.  The "releaseme" POST parameter is taken and is eventually passed directly to a dynamically built SQL statement without any sanitization.  The developers fixed the vulnerability by utilizing the WordPress escape logic.
+The bugs that should have been spotted by the spotthevuln reader are the SQL injection and the XSS vulnerabilities in the code. The SQL Injection is pretty straight forward. The "releaseme" POST parameter is taken and is eventually passed directly to a dynamically built SQL statement without any sanitization. The developers fixed the vulnerability by utilizing the WordPress escape logic.
 
 Finally, the last line of the code snippet actually contained an XSS vulnerability, echoing a $_SERVER variable without any sanitization.
 ## Developers Solution
@@ -96,7 +96,7 @@ function print_loginlockdownAdminPage() {
 
 +  //wp_nonce check
 +  check_admin_referer('login-lockdown_release-lockdowns');
-               
+
   if (isset($_POST['releaseme'])) {
                         $released = $_POST['releaseme'];
                         foreach ( $released as $release_id ) {
@@ -116,4 +116,4 @@ function print_loginlockdownAdminPage() {
 -&lt;form method="post" action="&lt;?php echo $_SERVER["REQUEST_URI"]; ?&gt;"&gt;
 +&lt;form method="post" action="&lt;?php echo esc_attr($_SERVER["REQUEST_URI"]); ?&gt;"&gt;
 
-[/cce] 
+[/cce]

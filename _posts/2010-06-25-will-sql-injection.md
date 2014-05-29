@@ -44,13 +44,13 @@ __Issue Type:__ Sql Injection
 
 Original Code: <a title="Will" href="http://spotthevuln.com/2010/06/will/" target="_blank">Found  Here</a>
 ## Description
-This week's vulnerability affected the WP Category Manager plugin.  There were two interesting characteristics I noticed with this code fix.  First, while there were a number of SQL injection vulnerabilities fixed with this change list, there were also a large number of non security fixes included in this change list as well.  It's generally a good idea to keep security change lists separate from other change lists.  The number of non security fixes included in this particular list was so distracting, I removed them from the post.  The SQL injection fixes are pretty straight forward, changing dynamically built SQL statements into WordPress' built-in $wpdb-&gt;prepare() function.
+This week's vulnerability affected the WP Category Manager plugin. There were two interesting characteristics I noticed with this code fix. First, while there were a number of SQL injection vulnerabilities fixed with this change list, there were also a large number of non security fixes included in this change list as well. It's generally a good idea to keep security change lists separate from other change lists. The number of non security fixes included in this particular list was so distracting, I removed them from the post. The SQL injection fixes are pretty straight forward, changing dynamically built SQL statements into WordPress' built-in $wpdb-&gt;prepare() function.
 
-The second characteristic that caught my attention was usage of numeric IDs at the end of SQL statements.  For example:
+The second characteristic that caught my attention was usage of numeric IDs at the end of SQL statements. For example:
 <blockquote>where object_id = $postId and<span style="color: #ff0000;"> term_taxonomy_id= $categoryId";</span></blockquote>
-This syntax creates a condition in which the typical addslashes() used to protect against SQL injection can be bypassed.  For example, an attacker could craft a SQL injection string like:
+This syntax creates a condition in which the typical addslashes() used to protect against SQL injection can be bypassed. For example, an attacker could craft a SQL injection string like:
 <blockquote>Sqli.php?categoryId=-1 union select 1,2,3,4,5--</blockquote>
-As you can see, the injection string above contains no special characters that would be escaped by addslashes().  Fortunately, the Category Manager plugin developers chose to utilze $wpdb-&gt;prepare() instead of addslashes().
+As you can see, the injection string above contains no special characters that would be escaped by addslashes(). Fortunately, the Category Manager plugin developers chose to utilze $wpdb-&gt;prepare() instead of addslashes().
 ## Developers Solution
 [cce lang="diff"]&lt;?php
 /*
@@ -205,4 +205,4 @@ endif;
 
 ?&gt;
 
-[/cce] 
+[/cce]

@@ -36,7 +36,7 @@ __Issue Type:__ SQL Injection
 
 Original Code: <a title="Pictures" href="http://spotthevuln.com/2010/05/pictures/" target="_blank">Found Here</a>
 ## Description
-This was a vulnerability that affected the Short URL Wordpress plugin.  The vulnerability is very straightforward and should have been easily detected by a security code reviewer.  The vulnerable code section takes attacker controlled data directly from $_POST['form_url'], $_POST['form_desc'], and $_POST['id'] and uses the tainted value immediately in dynamically built SQL statements.  One interesting piece of this particular code fix is that the developers chose to implement the code fixes near the assignment of the variable (as opposed to near consumption, in the SQL statement).
+This was a vulnerability that affected the Short URL Wordpress plugin. The vulnerability is very straightforward and should have been easily detected by a security code reviewer. The vulnerable code section takes attacker controlled data directly from $_POST['form_url'], $_POST['form_desc'], and $_POST['id'] and uses the tainted value immediately in dynamically built SQL statements. One interesting piece of this particular code fix is that the developers chose to implement the code fixes near the assignment of the variable (as opposed to near consumption, in the SQL statement).
 
 Another interesting piece of the code fix is the logic for the following conditional:
 <blockquote>if($action == "delete"){</blockquote>
@@ -47,7 +47,7 @@ looks like the devs may have forgotten something :)
 &lt;?php
 require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
    dbDelta($sql);
-  
+
    }
    if(isset($_POST['action'])) {
       $action = $_POST['action'];
@@ -79,13 +79,13 @@ if($action == "edit"){
          }
       }
 
-  
+
 if($action == "delete"){
    $delete_id = $_POST['id'];
    $wpdb-&gt;query("DELETE FROM $table_name WHERE link_id = '$delete_id'");
    $MES = $MES . "&lt;br&gt;Redirect deleted!";
    }
-  
+
 if($action == "clearall"){
         $wpdb-&gt;query("UPDATE $table_name SET link_count='0' WHERE link_count &gt; 0");
    $MES = $MES . "&lt;br&gt;Counts have been reset!";
@@ -116,4 +116,4 @@ will reset the count for each entry. Visit the &lt;a href="<a href="http://www.h
    &lt;tbody id="the-list"&gt;
 ?&gt;
 
-[/cce] 
+[/cce]

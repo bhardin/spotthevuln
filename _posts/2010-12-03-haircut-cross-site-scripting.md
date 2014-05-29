@@ -31,7 +31,7 @@ __Issue Type:__ Cross Site Scripting (XSS)
 
 Original Code: <a title="Haircut" href="http://spotthevuln.com/2010/11/haircut/" target="_blank">Found    Here</a>
 ## Description
-A bit of a head fake here.  There are a lot of variable assignments in this code.  Lots of variable assignments results in a lot of tracing during security code audits.  As a variable is set with an untrusted value, it becomes tainted.  Following that variable until you find exactly where its being used is crucial in understanding whether a security bug exists or not.  Any one of those variable assignments could easily result in a major security vulnerability.  In this week's example, the vulnerable line came before the massive set of variable assignments.  Once again, we see PHP_SELF being used to create a URL.  Instead of trying to encode the value before using it in markup, the developer chose to remove the reference to PHP_SELF.
+A bit of a head fake here. There are a lot of variable assignments in this code. Lots of variable assignments results in a lot of tracing during security code audits. As a variable is set with an untrusted value, it becomes tainted. Following that variable until you find exactly where its being used is crucial in understanding whether a security bug exists or not. Any one of those variable assignments could easily result in a major security vulnerability. In this week's example, the vulnerable line came before the massive set of variable assignments. Once again, we see PHP_SELF being used to create a URL. Instead of trying to encode the value before using it in markup, the developer chose to remove the reference to PHP_SELF.
 
 ## Developers Solution
 [sourcecode language="diff" highlight="8,9"]
@@ -43,7 +43,7 @@ A bit of a head fake here.  There are a lot of variable assignments in this code
 ?&gt;
 &lt;div class=&quot;wrap&quot;&gt;
 -	&lt;form method=&quot;post&quot; action=&quot;&lt;?php echo $_SERVER['PHP_SELF']?&gt;?page=slimbox2options&quot; id=&quot;options&quot;&gt;&lt;?php	echo wp_nonce_field('update-options','wp_slimbox_wpnonce'); ?&gt;&lt;h2&gt;&lt;?php _e('WP Slimbox2 Plugin', 'wp-slimbox2'); ?&gt;&lt;/h2&gt;
-+ 	&lt;form method=&quot;post&quot; action=&quot;&quot; id=&quot;options&quot;&gt;&lt;?php      echo wp_nonce_field('update-options','wp_slimbox_wpnonce'); ?&gt;&lt;h2&gt;&lt;?php _e('WP Slimbox2 Plugin', 'wp-slimbox2'); ?&gt;&lt;/h2&gt; 
++ 	&lt;form method=&quot;post&quot; action=&quot;&quot; id=&quot;options&quot;&gt;&lt;?php      echo wp_nonce_field('update-options','wp_slimbox_wpnonce'); ?&gt;&lt;h2&gt;&lt;?php _e('WP Slimbox2 Plugin', 'wp-slimbox2'); ?&gt;&lt;/h2&gt;
 &lt;?php
 	if(isset($_POST['action']) &amp;&amp; wp_verify_nonce($_POST['wp_slimbox_wpnonce'], 'update-options')) {
 		$options-&gt;update_option(
@@ -76,7 +76,7 @@ A bit of a head fake here.  There are a lot of variable assignments in this code
 		echo '&lt;div id=&quot;message&quot; class=&quot;updated fade&quot;&gt;&lt;p&gt;&lt;strong&gt;'.__('Settings Saved', 'wp-slimbox2').'.&lt;/strong&gt;&lt;/p&gt;&lt;/div&gt;';
 	}
 	$caption = $options-&gt;get_option('caption');
-	
+
 	function selectionGen(&amp;$option,&amp;$array) {
 		foreach($array as $key=&gt; $ms) {
 			$selected = ($option != $ms)? '' : ' selected';
@@ -189,4 +189,4 @@ A bit of a head fake here.  There are a lot of variable assignments in this code
 					&lt;/p&gt;
 				&lt;/td&gt;
 			&lt;/tr&gt;
-[/sourcecode] 
+[/sourcecode]

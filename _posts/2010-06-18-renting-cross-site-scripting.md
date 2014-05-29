@@ -33,9 +33,9 @@ __Issue Type:__ Cross Site Scripting (XSS)
 
 Original Code: <a title="Renting" href="http://spotthevuln.com/2010/06/renting/" target="_blank">Found Here</a>
 ## Description
-This weeks' bug consisted of vulnerabilities in the FastPath plugin for OpenFire.  The FastPath plugin adds support for queued chat requests, much like those chat queues found on support websites across the internet.  Several code changes were made with this change list.  The first set of changes simply cleans up the imports used by the page and has no significant security impact.
+This weeks' bug consisted of vulnerabilities in the FastPath plugin for OpenFire. The FastPath plugin adds support for queued chat requests, much like those chat queues found on support websites across the internet. Several code changes were made with this change list. The first set of changes simply cleans up the imports used by the page and has no significant security impact.
 
-The second set of changes we see URL encode user/attacker controlled items placed in a HTTP Redirect.  Although the security fix was labeled as "XSS fixes", this particular change was likely to prevent CRLF injection into the location header for the JSP redirect (which could ultimately lead to XSS... ).
+The second set of changes we see URL encode user/attacker controlled items placed in a HTTP Redirect. Although the security fix was labeled as "XSS fixes", this particular change was likely to prevent CRLF injection into the location header for the JSP redirect (which could ultimately lead to XSS... ).
 
 The remainder of the code fixes simply encodes HTML output before redisplaying it back to the user, defeating the classic XSS attack.
 ## Developers Solution
@@ -168,4 +168,4 @@ document.f.submit();
 &lt;%}%&gt;
 &lt;/html&gt;
 
-[/cce] 
+[/cce]

@@ -34,7 +34,7 @@ __Issue Type:__ Cross Site Scripting (XSS)
 
 Original Code: <a title="Last" href="http://spotthevuln.com/2010/12/last/" target="_blank">Found    Here</a>
 <h3>Description</h3>
-Upon first glance, we see that the vulnerable code sample comes from an error page of some sort.  Error pages are often overlooked when it comes to security (or even general QA).  Make sure you put your error pages through the same rigorous security process as you would any other page.  The Same Origin Policy won't distinguish between a forgotten error page and the highly trafficked portal page of your web application.  A vulnerability on an error page can have the same devastating effect as a vulnerability on the main portal page.  Looking at this bug, we see that the error page is a bit too helpful and echoes back all the information contained in the $_SERVER superglobal.  Unfortunately, this superglobal contains all sorts of user/attacker controlled information, resulting in XSS.  In this fix, the developers wisely removed the vulnerable line entirely.   
+Upon first glance, we see that the vulnerable code sample comes from an error page of some sort. Error pages are often overlooked when it comes to security (or even general QA). Make sure you put your error pages through the same rigorous security process as you would any other page. The Same Origin Policy won't distinguish between a forgotten error page and the highly trafficked portal page of your web application. A vulnerability on an error page can have the same devastating effect as a vulnerability on the main portal page. Looking at this bug, we see that the error page is a bit too helpful and echoes back all the information contained in the $_SERVER superglobal. Unfortunately, this superglobal contains all sorts of user/attacker controlled information, resulting in XSS. In this fix, the developers wisely removed the vulnerable line entirely.
 <h3>Developers Solution</h3>
 [sourcecode language="diff" highlight="44"]
 &lt;?php
@@ -85,4 +85,4 @@ if ( $err_code=='400'||$err_code=='403'||$err_code=='405'||$err_code[0]=='5'){
   &lt;/body&gt;
 &lt;/html&gt;';
 ?&gt;
-[/sourcecode] 
+[/sourcecode]

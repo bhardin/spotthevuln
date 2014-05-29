@@ -21,7 +21,7 @@ __Issue Type:__ XSS and XSRF
 
 Original Code: <a href="http://spotthevuln.com/2011/07/writing/">Found Here</a>
 ## Details
-This week, we had a couple of bugs here affecting EOF-0x01 Command and Control.  A red herring is the use of echo($_POST['pw']); to build HTML markup.  Upon first glance, this seems like a straight forward XSS bug.   This issue is mitigated by the fact that $_POST['pw'] is only displayed if it is equal to $botpw (whose default value happens to be 'bla') .  So unless the botmaster has an XSS payload for their password, this one is going to be really difficult to exploit.    The other interesting part is the if statements that look at $_POST['action'].  If the user has provided the correct $_POST['pw'] and also provides a $_POST['action'] of 2 or 3, DeleteCommandsFromQueue() and EditCommandForBot() will be executed respectively.  Developers (even malware developers) should be wary of allowing Create, Update, or Delete operations without defending against cross site request forgery.  These functions are not protected. 
+This week, we had a couple of bugs here affecting EOF-0x01 Command and Control. A red herring is the use of echo($_POST['pw']); to build HTML markup. Upon first glance, this seems like a straight forward XSS bug. This issue is mitigated by the fact that $_POST['pw'] is only displayed if it is equal to $botpw (whose default value happens to be 'bla') . So unless the botmaster has an XSS payload for their password, this one is going to be really difficult to exploit. The other interesting part is the if statements that look at $_POST['action']. If the user has provided the correct $_POST['pw'] and also provides a $_POST['action'] of 2 or 3, DeleteCommandsFromQueue() and EditCommandForBot() will be executed respectively. Developers (even malware developers) should be wary of allowing Create, Update, or Delete operations without defending against cross site request forgery. These functions are not protected.
 
 ## Vulnerable Code
 <code lang="PHP" highlight="63,67,71,83,88">
@@ -60,7 +60,7 @@ function setfocus()
 </head>
 
 <body onload="setfocus()">
-<?php 
+<?php
 if($_POST['pw']!=$botpw)
 {
 ?>
@@ -78,7 +78,7 @@ if($_POST['pw']!=$botpw)
 }
 else
 {
-?> 
+?>
 <table width="516" border="0" cellpadding="0" cellspacing="0" bgcolor="#D5E1F0" class="tableborder">
         <!--DWLayoutTable-->
         <tr>
@@ -107,12 +107,12 @@ if(isset($_POST['action']))
 {
 	if($_POST['action']==2)
 	{
-		DeleteCommandsFromQueue();		
+		DeleteCommandsFromQueue();
 	}
-	
+
 	if($_POST['action']==4)
 	{
-		EditCommandForBot();		
+		EditCommandForBot();
 	}
 }
 

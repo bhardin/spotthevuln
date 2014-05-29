@@ -29,9 +29,9 @@ __Issue Type:__ Cross Site Scripting (XSS)
 
 Original Code: <a href="http://spotthevuln.com/2011/03/invincible/">Found Here</a>
 ## Details
-This bug is a straightforward XSS bug.  Once again, we see the familiar $_SERVER['PHP_SELF'] variable being echoed back to the user without any encoding.  The fix is simple, remove the value for the ACTION form attribute completely.  This removes the need for any type of sanitization and ensures the form is POSTed to the URL that is hosting the form.
+This bug is a straightforward XSS bug. Once again, we see the familiar $_SERVER['PHP_SELF'] variable being echoed back to the user without any encoding. The fix is simple, remove the value for the ACTION form attribute completely. This removes the need for any type of sanitization and ensures the form is POSTed to the URL that is hosting the form.
 
-On a side note, many developers reduce the testing/defenses implemented in web pages designed for mobile clients.  For some reason, it's tempting to assume web pages designed for mobile applications have less exposure.  Less exposure is obviously not the case; web pages designed for mobile clients have just as much exposure as web pages designed for normal web browsers.  Please ensure your security diligence and security test cases cover your mobile attack surface.  Just because the devices are smaller, that doesn't make your attack surface is smaller too!
+On a side note, many developers reduce the testing/defenses implemented in web pages designed for mobile clients. For some reason, it's tempting to assume web pages designed for mobile applications have less exposure. Less exposure is obviously not the case; web pages designed for mobile clients have just as much exposure as web pages designed for normal web browsers. Please ensure your security diligence and security test cases cover your mobile attack surface. Just because the devices are smaller, that doesn't make your attack surface is smaller too!
 
 ## Developers Solution
 [sourcecode language="diff" highlight="49,50"]
@@ -84,7 +84,7 @@ else $choice = $devices['iphone_p'];
 &lt;/head&gt;
 &lt;body&gt;
 -	&lt;form action=&quot;&lt;?php echo $_SERVER['PHP_SELF']; ?&gt;&quot; method=&quot;get&quot;&gt;
-+   &lt;form action=&quot;&quot; method=&quot;get&quot;&gt; 
++   &lt;form action=&quot;&quot; method=&quot;get&quot;&gt;
 		&lt;label for=&quot;h&quot;&gt;CHOOSE&lt;/label&gt;
 		&lt;select name=&quot;d&quot; id=&quot;d&quot;&gt;
 			&lt;option&gt;&lt;/option&gt;
@@ -94,7 +94,7 @@ else $choice = $devices['iphone_p'];
 				echo '&lt;option value=&quot;' . $this_d_key . '&quot; ' . $selected . '&gt;' . $this_d['type'] . '&lt;/option&gt;' . &quot;\n\t\t\t&quot;;
 			}
 			echo &quot;\n&quot;;
-?&gt;		
+?&gt;
 		&lt;/select&gt;
 		&lt;br /&gt;OR INPUT
 		&lt;label for=&quot;w&quot;&gt;Width&lt;/label&gt;
@@ -109,4 +109,4 @@ else $choice = $devices['iphone_p'];
 	&lt;iframe src=&quot;../../../wp-login.php&quot; width=&quot;&lt;?php echo $choice['width']; ?&gt;&quot; height=&quot;&lt;?php echo $choice['height']; ?&gt;&quot;&gt;your browser does not support iframes.&lt;/iframe&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-[/sourcecode] 
+[/sourcecode]

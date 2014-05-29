@@ -29,27 +29,27 @@ __Issue Type:__ Cross Site Scripting (XSS)
 
 Original Code: <a title="Radical" href="http://spotthevuln.com/2011/02/reasoning/" target="_blank">Found    Here</a>
 <h3>Description</h3>
-To be honest, I was a little confused by this week's patch.  There are several XSS bugs in this code.  Originally, the vulnerable code would take a tainted $_REQUEST value (a value from a GET, POST, or cookie) and assign the tainted value to a couple of different PHP variables ($description and $notes in particular).  The application then uses of these tainted values on lines 136 and 140, resulting in XSS.  The developer addressed these XSS issues by html encoding the $_REQUEST values before assigning them to PHP variables.  In the code mentioned above, the developer decided to encode/sanitize at the point of assignment (as opposed to the point of consumption).  There are differing perspectives as to whether one should encode/sanitize upon assignment or consumption, but the truth is both methods work.  
+To be honest, I was a little confused by this week's patch. There are several XSS bugs in this code. Originally, the vulnerable code would take a tainted $_REQUEST value (a value from a GET, POST, or cookie) and assign the tainted value to a couple of different PHP variables ($description and $notes in particular). The application then uses of these tainted values on lines 136 and 140, resulting in XSS. The developer addressed these XSS issues by html encoding the $_REQUEST values before assigning them to PHP variables. In the code mentioned above, the developer decided to encode/sanitize at the point of assignment (as opposed to the point of consumption). There are differing perspectives as to whether one should encode/sanitize upon assignment or consumption, but the truth is both methods work.
 
-What's confusing is the code sample contains many symptoms that are exactly like the vulnerable code patched by this security patch.  $type, $action, $old_custom_dest, and $custom_dest are all set in exactly the same way the patched assignments were.  For some reason, the developer chose to ignore these assignments even though they are only a few lines away. Also, instead of encoding at the point of assignment (like they did for $description and $notes), the developer chose to change styles and encode at the point of consumption for one of the tainted variables (see line 96 and 97).  What's even more confusing is only 4 lines later, we see the developer missed the same tainted variable used in an echo and failed to encode the tainted $custom_dest variable resulting in XSS.  Lines 77 - 79 also contain XSS vulnerabilities that were missed in this patch.
+What's confusing is the code sample contains many symptoms that are exactly like the vulnerable code patched by this security patch. $type, $action, $old_custom_dest, and $custom_dest are all set in exactly the same way the patched assignments were. For some reason, the developer chose to ignore these assignments even though they are only a few lines away. Also, instead of encoding at the point of assignment (like they did for $description and $notes), the developer chose to change styles and encode at the point of consumption for one of the tainted variables (see line 96 and 97). What's even more confusing is only 4 lines later, we see the developer missed the same tainted variable used in an echo and failed to encode the tainted $custom_dest variable resulting in XSS. Lines 77 - 79 also contain XSS vulnerabilities that were missed in this patch.
 
 <h3>Developers Solution</h3>
 [sourcecode language="diff" highlight="11-14,77,78,79,96,97,136,140"]
-&lt;?php 
+&lt;?php
 $tabindex = 0;
 $display = 'customdests';
 
 $type   = isset($_REQUEST['type']) ? $_REQUEST['type'] : 'tool';
 $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
-if (isset($_REQUEST['delete'])) $action = 'delete'; 
+if (isset($_REQUEST['delete'])) $action = 'delete';
 
 $old_custom_dest = isset($_REQUEST['old_custom_dest']) ? $_REQUEST['old_custom_dest'] :  '';
 $custom_dest     = isset($_REQUEST['extdisplay']) ? $_REQUEST['extdisplay'] :  '';
 -$description     = isset($_REQUEST['description']) ? $_REQUEST['description'] :  '';
 -$notes           = isset($_REQUEST['notes']) ? $_REQUEST['notes'] :  '';
-+$description     = isset($_REQUEST['description']) ? htmlentities($_REQUEST['description']) :  ''; 
-+$notes           = isset($_REQUEST['notes']) ? htmlentities($_REQUEST['notes']) :  ''; 
-	
++$description     = isset($_REQUEST['description']) ? htmlentities($_REQUEST['description']) :  '';
++$notes           = isset($_REQUEST['notes']) ? htmlentities($_REQUEST['notes']) :  '';
+
 switch ($action) {
 	case 'add':
 		if (customappsreg_customdests_add($custom_dest, $description, $notes)) {
@@ -72,11 +72,11 @@ switch ($action) {
 	break;
 }
 
-?&gt; 
+?&gt;
 &lt;/div&gt;
 
 &lt;div class=&quot;rnav&quot;&gt;&lt;ul&gt;
-&lt;?php 
+&lt;?php
 
 echo '&lt;li&gt;&lt;a href=&quot;config.php?display='.$display.'&amp;amp;type='.$type.'&quot;&gt;'._('Add Custom Destination').'&lt;/a&gt;&lt;/li&gt;';
 
@@ -97,7 +97,7 @@ if ($custom_dest != '') {
 	$usage_list = framework_display_destination_usage(customappsreg_customdests_getdest($custom_dest));
 
 	$row = customappsreg_customdests_get($custom_dest);
-	
+
 	$description = $row['description'];
 	$notes       = $row['notes'];
 
@@ -120,7 +120,7 @@ echo $helptext;
 	&lt;tr&gt;
 		&lt;td&gt;&lt;a href=&quot;#&quot; class=&quot;info&quot;&gt;&lt;?php echo _(&quot;Custom Destination&quot;)?&gt;:
 			&lt;span&gt;
-				&lt;?php 
+				&lt;?php
 				echo _(&quot;This is the Custom Destination to be published. It should be formatted exactly as you would put it in a goto statement, with context, exten, priority all included. An example might look like:&lt;br /&gt;mycustom-app,s,1&quot;);
 				if (!empty($usage_list)) {
 					echo &quot;&lt;br /&gt;&quot;._(&quot;READONLY WARNING: Because this destination is being used by other module objects it can not be edited. You must remove those dependencies in order to edit this destination, or create a new destination to use&quot;);
@@ -131,7 +131,7 @@ echo $helptext;
 	if (!empty($usage_list)) {
 	?&gt;
 -		&lt;td&gt;&lt;b&gt;&lt;?php echo $custom_dest; ?&gt;&lt;/b&gt;&lt;/td&gt;
-+	    &lt;td&gt;&lt;b&gt;&lt;?php echo htmlentities($custom_dest); ?&gt;&lt;/b&gt;&lt;/td&gt; 
++	    &lt;td&gt;&lt;b&gt;&lt;?php echo htmlentities($custom_dest); ?&gt;&lt;/b&gt;&lt;/td&gt;
 	&lt;?php
 	} else {
 	?&gt;
@@ -174,13 +174,13 @@ echo $helptext;
 	&lt;/tr&gt;
 	&lt;tr&gt;
 		&lt;td valign=&quot;top&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;info&quot;&gt;&lt;?php echo _(&quot;Notes&quot;)?&gt;:&lt;span&gt;&lt;?php echo _(&quot;More detailed notes about this destination to help document it. This field is not used elsewhere.&quot;)?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/td&gt;
-		&lt;td&gt;&lt;textarea name=&quot;notes&quot; cols=&quot;23&quot; rows=&quot;6&quot; tabindex=&quot;&lt;?php echo ++$tabindex;?&gt;&quot;&gt;&lt;?php echo $notes; ?&gt;&lt;/textarea&gt;&lt;/td&gt; 
+		&lt;td&gt;&lt;textarea name=&quot;notes&quot; cols=&quot;23&quot; rows=&quot;6&quot; tabindex=&quot;&lt;?php echo ++$tabindex;?&gt;&quot;&gt;&lt;?php echo $notes; ?&gt;&lt;/textarea&gt;&lt;/td&gt;
 	&lt;/tr&gt;
 
 	&lt;tr&gt;
 		&lt;td colspan=&quot;2&quot;&gt;&lt;br&gt;&lt;input name=&quot;Submit&quot; type=&quot;submit&quot; value=&quot;&lt;?php echo _(&quot;Submit Changes&quot;)?&gt;&quot; tabindex=&quot;&lt;?php echo ++$tabindex;?&gt;&quot;&gt;
 		&lt;?php if ($custom_dest != '') { echo '&amp;nbsp;&lt;input name=&quot;delete&quot; type=&quot;submit&quot; value=&quot;'._(&quot;Delete&quot;).'&quot;&gt;'; } ?&gt;
-		&lt;/td&gt;		
+		&lt;/td&gt;
 
 		&lt;?php
 		if ($custom_dest != '') {
@@ -198,4 +198,4 @@ echo $helptext;
 	&lt;/form&gt;
 ...snip...
 &lt;/script&gt;
-[/sourcecode] 
+[/sourcecode]

@@ -31,15 +31,15 @@ __Issue Type:__ Cross Site Scripting (XSS)
 
 Original Code: <a title="Light" href="http://spotthevuln.com/2011/02/light/" target="_blank">Found    Here</a>
 <h3>Description</h3>
-The code sample for this week contained a couple XSS vulnerabilities.  Although not essential for exploitation, its also interesting to note that this response is within an SVG image.  You can see this by examining the header() api specifying the content-type: header("Content-type: image/svg+xml");
+The code sample for this week contained a couple XSS vulnerabilities. Although not essential for exploitation, its also interesting to note that this response is within an SVG image. You can see this by examining the header() api specifying the content-type: header("Content-type: image/svg+xml");
 
-The first issue is pretty easy to follow, so we'll begin there.  On line 11, $ifname is assigned a tainted value from $_GET["ifname"].  After the variable assignment, the authors use the tainted variable to build HTML markup on line 66.
+The first issue is pretty easy to follow, so we'll begin there. On line 11, $ifname is assigned a tainted value from $_GET["ifname"]. After the variable assignment, the authors use the tainted variable to build HTML markup on line 66.
 
-The second issue requires a little bit of tracing.  First, the $ifnum variable is assigned a tainted value from $_GET["ifnum"] on line 10.  $ifnum is then used to build the $fetch_link variable on line 18.  If $fetch_link is ever used to build HTML markup, it will result in XSS.  
+The second issue requires a little bit of tracing. First, the $ifnum variable is assigned a tainted value from $_GET["ifnum"] on line 10. $ifnum is then used to build the $fetch_link variable on line 18. If $fetch_link is ever used to build HTML markup, it will result in XSS.
 
-The third issue also requires a bit of tracing as well.  Once again, we start with the assignment of a tainted variable to $ifnum on line 10.  $ifnum is then used to build an error message on line 37 ($error_text).  $error_text is then used to build HTML markup on line 72 resulting in XSS.
+The third issue also requires a bit of tracing as well. Once again, we start with the assignment of a tainted variable to $ifnum on line 10. $ifnum is then used to build an error message on line 37 ($error_text). $error_text is then used to build HTML markup on line 72 resulting in XSS.
 
-The developers addressed this issue by using htmlspecialchars() during the inital variable assignments.  This takes care of all three of the XSS issues described above.
+The developers addressed this issue by using htmlspecialchars() during the inital variable assignments. This takes care of all three of the XSS issues described above.
 <h3>Developers Solution</h3>
 [sourcecode language="diff" highlight="8-11,18,37,66,72"]
 &lt;?php
@@ -49,8 +49,8 @@ require(&quot;guiconfig.inc&quot;);
 header(&quot;Content-type: image/svg+xml&quot;);
 
 /********** HTTP GET Based Conf ***********/
-+$ifnum=@htmlspecialchars($_GET[&quot;ifnum&quot;]);  // BSD / SNMP interface name / number 
-+$ifname=@htmlspecialchars($_GET[&quot;ifname&quot;]) ? htmlspecialchars($_GET[&quot;ifname&quot;]) : &quot;Interface $ifnum&quot;;  //Interface name that will be showed on top right of graph 
++$ifnum=@htmlspecialchars($_GET[&quot;ifnum&quot;]);  // BSD / SNMP interface name / number
++$ifname=@htmlspecialchars($_GET[&quot;ifname&quot;]) ? htmlspecialchars($_GET[&quot;ifname&quot;]) : &quot;Interface $ifnum&quot;;  //Interface name that will be showed on top right of graph
 -$ifnum=@$_GET[&quot;ifnum&quot;];  // BSD / SNMP interface name / number
 -$ifname=@$_GET[&quot;ifname&quot;]?$_GET[&quot;ifname&quot;]:&quot;Interface $ifnum&quot;;  //Interface name that will be showed on top right of graph
 
@@ -162,4 +162,4 @@ if (typeof getURL == 'undefined') {
     http_request.send(null);
   }
 }
-[/sourcecode] 
+[/sourcecode]

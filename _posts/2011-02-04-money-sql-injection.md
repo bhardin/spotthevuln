@@ -33,7 +33,7 @@ __Issue Type:__ SQL Injection
 
 Original Code: <a title="Money" href="http://spotthevuln.com/2011/01/money/" target="_blank">Found    Here</a>
 <h3>Description</h3>
-There were a couple of SQL injection bugs here.  Beginning at line 35, we see that the Surfnet IDS developers have accepted three POST parameters and have assigned tainted values to three different variables: $keyname, $vlanid, $action.  $keyname is eventually passed to three different dynamic SQL queries, all of which result in SQL injection. Those queries can be seen on lines 52, 59, and 69.  $vlanid is passed to a dynamic SQL query, resulting in SQL injection.  This dynamic query can be seen on line 59.  Finally, $action is passed to a dynamic SQL statement, resulting in yet another SQL injection bug.  This dynamic query can be found on line 69.  All of the bugs were straightforward SQL injection bugs and should have been caught early in the dev cycle.
+There were a couple of SQL injection bugs here. Beginning at line 35, we see that the Surfnet IDS developers have accepted three POST parameters and have assigned tainted values to three different variables: $keyname, $vlanid, $action. $keyname is eventually passed to three different dynamic SQL queries, all of which result in SQL injection. Those queries can be seen on lines 52, 59, and 69. $vlanid is passed to a dynamic SQL query, resulting in SQL injection. This dynamic query can be seen on line 59. Finally, $action is passed to a dynamic SQL statement, resulting in yet another SQL injection bug. This dynamic query can be found on line 69. All of the bugs were straightforward SQL injection bugs and should have been caught early in the dev cycle.
 
 The developers addressed the issue by and/or validating all of the POST parameters before using those values in SQL statements.
 
@@ -71,23 +71,23 @@ if ($s_access_sensor == 0) {
 if (isset($_GET['selview'])) {
   $selview = intval($_GET['selview']);
 }
-      
+
 $error = 0;
 -$keyname = $_POST['keyname'];
 -$vlanid = $_POST['vlanid'];
 -$action = $_POST['action'];
 -if (isset($_POST[tapip])) {
-+$keyname = pg_escape_string($_POST['keyname']); 
-+	$vlanid = intval($_POST['vlanid']); 
-+	$action = pg_escape_string($_POST['action']); 
-+	$action_pattern = '/^(NONE|REBOOT|SSHOFF|SSHON|CLIENT|RESTART|BLOCK)$/'; 
-+	if (preg_match($action_pattern, $action) != 1) { 
-+	  $m = 44; 
-+	  $error = 1; 
-+	} 
-+	 
++$keyname = pg_escape_string($_POST['keyname']);
++	$vlanid = intval($_POST['vlanid']);
++	$action = pg_escape_string($_POST['action']);
++	$action_pattern = '/^(NONE|REBOOT|SSHOFF|SSHON|CLIENT|RESTART|BLOCK)$/';
++	if (preg_match($action_pattern, $action) != 1) {
++	  $m = 44;
++	  $error = 1;
++	}
++
 +if (isset($_POST[tapip]) &amp;&amp; $error != 1) {
-	
+
   $tapip = pg_escape_string(stripinput($_POST[tapip]));
   if (preg_match($ipregexp, $tapip)) {
     $sql_checkip = &quot;SELECT tapip FROM sensors WHERE tapip = '$tapip' AND NOT keyname = '$keyname'&quot;;
@@ -105,7 +105,7 @@ $error = 0;
     $m = 102;
     $error = 1;
   }
-} 
+}
 if ($error == 0) {
   $sql_updatestatus = &quot;UPDATE sensors SET action = '&quot; .$action. &quot;' WHERE keyname = '$keyname'&quot;;
   $result_updatestatus = pg_query($pgconn, $sql_updatestatus);
@@ -119,4 +119,4 @@ if ($m != 1) {
   header(&quot;location: sensorstatus.php?selview=$selview&amp;m=$m&quot;);
 }
 ?&gt;
-[/sourcecode] 
+[/sourcecode]

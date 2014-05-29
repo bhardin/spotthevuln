@@ -28,7 +28,7 @@ __Issue Type:__ Cross Site Scripting (XSS)
 
 Original Code: <a title="Radical" href="http://spotthevuln.com/2011/02/radical/" target="_blank">Found    Here</a>
 <h3>Description</h3>
-A couple straightforward XSS bugs.  $_REQUEST will create an associative array which contains the contents of $_GET, $_POST, and $_COOKIE which are all user/attacker controllable.   These variables are then used to create HTML markup.  Security bugs are caused by many different reasons.  When auditing code for security issues, if you come across issues like the ones shown below its highly likely that the developer simply doesn't understand the security risk they created.  It might be a good idea to review other change lists associated with this developer as they will likely contain similar code symptoms.  This type of issue is also indicative of lack of security awareness.  The developer here could use some security education about various security issues along with some tips on preventing these types of security issues in the future. 
+A couple straightforward XSS bugs. $_REQUEST will create an associative array which contains the contents of $_GET, $_POST, and $_COOKIE which are all user/attacker controllable. These variables are then used to create HTML markup. Security bugs are caused by many different reasons. When auditing code for security issues, if you come across issues like the ones shown below its highly likely that the developer simply doesn't understand the security risk they created. It might be a good idea to review other change lists associated with this developer as they will likely contain similar code symptoms. This type of issue is also indicative of lack of security awareness. The developer here could use some security education about various security issues along with some tips on preventing these types of security issues in the future.
 <h3>Developers Solution</h3>
 [sourcecode language="diff" highlight="16,17,19,20,25,26,28,29"]
 &lt;?php
@@ -47,10 +47,10 @@ A couple straightforward XSS bugs.  $_REQUEST will create an associative array w
 &lt;label for=&quot;singledirectdebit&quot;&gt;&lt;input type=&quot;radio&quot; id=&quot;singledirectdebit&quot; name=&quot;gen_type&quot; value=&quot;singledirectdebit&quot; &lt;?php if($_REQUEST['gen_type']==&quot;singledirectdebit&quot;) echo 'checked=&quot;checked&quot;'?&gt;/&gt; Lastschrift&lt;/label&gt;&lt;br /&gt;
 
 -Name:&lt;br /&gt;&lt;input type=&quot;text&quot; tooltipText=&quot;Format: DTAUS Text&quot; id=&quot;gen_name&quot; onblur=&quot;checkInput(this, 'dtaus')&quot; name=&quot;gen_name&quot; maxlength=&quot;27&quot; value=&quot;&lt;?= isset($_REQUEST['gen_name'])?$_REQUEST['gen_name']:&quot;&quot;?&gt;&quot;&gt;
-+Name:&lt;br /&gt;&lt;input type=&quot;text&quot; tooltipText=&quot;Format: DTAUS Text&quot; id=&quot;gen_name&quot; onblur=&quot;checkInput(this, 'dtaus')&quot; name=&quot;gen_name&quot; maxlength=&quot;27&quot; value=&quot;&lt;?= isset($_REQUEST['gen_name'])?htmlspecialchars($_REQUEST['gen_name']):&quot;&quot;?&gt;&quot;&gt; 
++Name:&lt;br /&gt;&lt;input type=&quot;text&quot; tooltipText=&quot;Format: DTAUS Text&quot; id=&quot;gen_name&quot; onblur=&quot;checkInput(this, 'dtaus')&quot; name=&quot;gen_name&quot; maxlength=&quot;27&quot; value=&quot;&lt;?= isset($_REQUEST['gen_name'])?htmlspecialchars($_REQUEST['gen_name']):&quot;&quot;?&gt;&quot;&gt;
 &lt;br /&gt;
 -Kontonummer:&lt;br /&gt;&lt;input type=&quot;text&quot; tooltipText=&quot;Format: Ganzzahl z.B. 1234&quot; id=&quot;gen_account&quot; onblur=&quot;checkInput(this, 'ganzzahl')&quot; name=&quot;gen_account&quot; value=&quot;&lt;?= isset($_REQUEST['gen_account'])?$_REQUEST['gen_account']:&quot;&quot;?&gt;&quot; &gt;
-+Kontonummer:&lt;br /&gt;&lt;input type=&quot;text&quot; tooltipText=&quot;Format: Ganzzahl z.B. 1234&quot; id=&quot;gen_account&quot; onblur=&quot;checkInput(this, 'ganzzahl')&quot; name=&quot;gen_account&quot; value=&quot;&lt;?= isset($_REQUEST['gen_account'])?htmlspecialchars($_REQUEST['gen_account']):&quot;&quot;?&gt;&quot; &gt; 
++Kontonummer:&lt;br /&gt;&lt;input type=&quot;text&quot; tooltipText=&quot;Format: Ganzzahl z.B. 1234&quot; id=&quot;gen_account&quot; onblur=&quot;checkInput(this, 'ganzzahl')&quot; name=&quot;gen_account&quot; value=&quot;&lt;?= isset($_REQUEST['gen_account'])?htmlspecialchars($_REQUEST['gen_account']):&quot;&quot;?&gt;&quot; &gt;
 &lt;br /&gt;
 -BLZ:&lt;br /&gt;&lt;input type=&quot;text&quot; tooltipText=&quot;Format: Ganzzahl z.B. 1234&quot; id=&quot;gen_BNC&quot; onblur=&quot;checkInput(this, 'ganzzahl')&quot; name=&quot;gen_BNC&quot; value=&quot;&lt;?= isset($_REQUEST['gen_BNC'])?$_REQUEST['gen_BNC']:&quot;&quot;?&gt;&quot; &gt;
 +BLZ:&lt;br /&gt;&lt;input type=&quot;text&quot; tooltipText=&quot;Format: Ganzzahl z.B. 1234&quot; id=&quot;gen_BNC&quot; onblur=&quot;checkInput(this, 'ganzzahl')&quot; name=&quot;gen_BNC&quot; value=&quot;&lt;?= isset($_REQUEST['gen_BNC'])?htmlspecialchars($_REQUEST['gen_BNC']):&quot;&quot;?&gt;&quot; &gt;
@@ -73,4 +73,4 @@ A couple straightforward XSS bugs.  $_REQUEST will create an associative array w
 var tooltipObj = new DHTMLgoodies_formTooltip();
 tooltipObj.initFormFieldTooltip();
 &lt;/script&gt;
-[/sourcecode] 
+[/sourcecode]

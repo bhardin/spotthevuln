@@ -51,15 +51,15 @@ __Issue Type:__ Insecure Logging (Defense in Depth)
 
 Original Code: <a title="Learning" href="http://spotthevuln.com/2010/05/learning/" target="_blank">Found Here</a>
 ## Description
-This week's bug was discovered in the AskApache Password Protect plugin for WordPress.  Once again, we are examining "security software" that is designed to provide various security protection mechanisms for a deployed WordPress blog.  The description for the AskApache security plug-in is as follows:
+This week's bug was discovered in the AskApache Password Protect plugin for WordPress. Once again, we are examining "security software" that is designed to provide various security protection mechanisms for a deployed WordPress blog. The description for the AskApache security plug-in is as follows:
 <blockquote><em>Advanced Security: Password Protection, Anti-Spam, Anti-Exploits, more to come</em></blockquote>
 A very noble effort indeed :)
 
-This vulnerability was in the aa_pp_hashit() function. The aa_pp_hashit() function takes three arguments: $format, $user, and $pass.  The aa_pp_hashit() function then attempts to create a hash containing the creds.  Whenever I see functions utilizing crypto, I'm always reminded of this <a title="Mundane Detail" href="http://spotthevuln.com/wordpress/wp-content/uploads/2010/05/mundanedetail.wav" target="_blank">scene in Office Space</a> .  In this particular patch, vulnerability was in this line:
+This vulnerability was in the aa_pp_hashit() function. The aa_pp_hashit() function takes three arguments: $format, $user, and $pass. The aa_pp_hashit() function then attempts to create a hash containing the creds. Whenever I see functions utilizing crypto, I'm always reminded of this <a title="Mundane Detail" href="http://spotthevuln.com/wordpress/wp-content/uploads/2010/05/mundanedetail.wav" target="_blank">scene in Office Space</a> . In this particular patch, vulnerability was in this line:
 <blockquote>aa_pp_mess('Created '.$format.' Hash for '.$user.' <span style="color: #ff0000;">with Password '.$pass</span>);</blockquote>
-The aa_pp_mess() function actually logged the clear text username and password before putting it through a hashing function.  There is rarely a need to log a clear text password... in fact, I'm going to go out on a limb here and say there is NEVER a good time when you should log a clear text password.  Even password hashes or other weird representations of passwords shouldn't be logged.  Logging sensitive data is always tricky.  If you're logging sensitive data please consider the permissions required to access that sensitive data, ensure the file is properly ACL'd and conduct regular audits of log file access.  Most importantly, ask yourself:  Why do I need to log this data?
+The aa_pp_mess() function actually logged the clear text username and password before putting it through a hashing function. There is rarely a need to log a clear text password... in fact, I'm going to go out on a limb here and say there is NEVER a good time when you should log a clear text password. Even password hashes or other weird representations of passwords shouldn't be logged. Logging sensitive data is always tricky. If you're logging sensitive data please consider the permissions required to access that sensitive data, ensure the file is properly ACL'd and conduct regular audits of log file access. Most importantly, ask yourself:  Why do I need to log this data?
 
-The vulnerability was fixed by removing references to user password (and even references to the user that called the function).  Now I just have to figure out why the AskApache devs are passing a default value for $pass :)
+The vulnerability was fixed by removing references to user password (and even references to the user that called the function). Now I just have to figure out why the AskApache devs are passing a default value for $pass :)
 ## Developers Solution
 [cce lang="diff"]
 
@@ -108,7 +108,7 @@ function aa_pp_hashit($format,$user='',$pass=''){
 //-------------------------------------------------------------------------------------------
 function aa_pp_show_encryptions($label,$type=0){
     global $aa_PP;
-  
+
     if($type==0)
         {
         ?&gt;
@@ -155,6 +155,6 @@ function aa_pp_mess($message=''){
 +  else if(AA_PP_DEBUG)error_log($message)
     if(AA_PP_DEBUG){ ?&gt; &lt;div id="message" style="margin:1em auto;"&gt;&lt;p&gt;&lt;?php echo $message;?&gt;&lt;/p&gt;&lt;/div&gt; &lt;?php }
 }//=========================================================================================================================
- 
 
-[/cce] 
+
+[/cce]

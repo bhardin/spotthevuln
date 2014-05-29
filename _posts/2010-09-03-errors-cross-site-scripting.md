@@ -33,9 +33,9 @@ __Issue Type:__ Cross Site Scripting (XSS)
 
 Original Code: <a title="Errors" href="http://spotthevuln.com/2010/08/errors/" target="_blank">Found    Here</a>
 ## Description
-This weeks' example was a XSS bug that affected PunBB.  The vulnerable code took attacker controlled variables directly from POST parameters and used those values for various operations.  Specifically, the $_POST['prune_sticky'] value was used in several places without any form of sanitization.  Looking through the patch submitted by the PunBB developers we see that the unsantized value was passed to a function named prune() and also echoed in HTML markup.  PHP echo of a $_POST variable is a classic symptom of XSS.  The PunBB developers addressed this issue by sanitizing the $_POST['prune_sticky'] value before echoing its value in HTML markup.  The developer forces the $_POST['prune_sticky'] value to either 1 or 0, which eliminates the possibility or arbitrary script being injected via the $prune_sticky variable.  The $_POST['prune_sticky'] value is sanitized here:
+This weeks' example was a XSS bug that affected PunBB. The vulnerable code took attacker controlled variables directly from POST parameters and used those values for various operations. Specifically, the $_POST['prune_sticky'] value was used in several places without any form of sanitization. Looking through the patch submitted by the PunBB developers we see that the unsantized value was passed to a function named prune() and also echoed in HTML markup. PHP echo of a $_POST variable is a classic symptom of XSS. The PunBB developers addressed this issue by sanitizing the $_POST['prune_sticky'] value before echoing its value in HTML markup. The developer forces the $_POST['prune_sticky'] value to either 1 or 0, which eliminates the possibility or arbitrary script being injected via the $prune_sticky variable. The $_POST['prune_sticky'] value is sanitized here:
 <blockquote>$prune_sticky = isset($_POST['prune_sticky']) ? '1' : '0';</blockquote>
-In addition to the changes made to PHP echo there were other changes checked in the by the PunBB developers, most notably the sanitizing of values passed to the prune() function.  Using the code snippet provided here, it's difficult to understand exactly what is accomplished by the prune() function.  Further variable tracing will be needed in order to determine the danger associated with passing a tainted value to prune().  The developers however felt it was necessary to sanitize the $prune_sticky value before passing it to prune().
+In addition to the changes made to PHP echo there were other changes checked in the by the PunBB developers, most notably the sanitizing of values passed to the prune() function. Using the code snippet provided here, it's difficult to understand exactly what is accomplished by the prune() function. Further variable tracing will be needed in order to determine the danger associated with passing a tainted value to prune(). The developers however felt it was necessary to sanitize the $prune_sticky value before passing it to prune().
 ## Developers Solution
 [cce lang="diff"]
 if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comply']))
@@ -108,4 +108,4 @@ redirect('admin_prune.php', 'Posts pruned. Redirecting &amp;hellip;');
 &lt;/fieldset&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;input type="submit" name="prune_comply" value="Prune" /&gt;&lt;a href="javascript:history.go(-1)"&gt;Go back&lt;/a&gt;&lt;/p&gt;
-[/cce] 
+[/cce]

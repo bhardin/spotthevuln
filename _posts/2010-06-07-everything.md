@@ -25,7 +25,7 @@ meta:
 [ccnLe_php]
 
                 &lt;script type="text/javascript"&gt;
-                        // workaround for bug in Safari 3.  See #7189
+                        // workaround for bug in Safari 3. See #7189
                         if (/3[\.0-9]+ Safari/.test(navigator.appVersion))
                         {
                                 window.console = {
@@ -45,12 +45,12 @@ meta:
                                };
                         }
                 &lt;/script&gt;
- 
+
                 &lt;script type="text/javascript"&gt;
                         window.dojoUrl = "../../dojo/dojo.js";
                         window.testUrl = "";
                         window.testModule = "";
- 
+
                         // parse out our test URL and our Dojo URL from the query string
                         var qstr = window.location.search.substr(1);
                         if(qstr.length){
@@ -75,7 +75,7 @@ meta:
                                         }
                                 }
                         }
- 
+
                         document.write("&lt;scr"+"ipt type='text/javascript' djConfig='isDebug: true' src='"+dojoUrl+"'&gt;&lt;/scr"+"ipt&gt;");
                 &lt;/script&gt;
                 &lt;script type="text/javascript"&gt;
@@ -100,16 +100,16 @@ meta:
                                 *font-size: small;
                                 *font: x-small;
                         }
- 
+
                         th, td {
                                 font-size: 13px;
                                 color: #292929;
                                 font-family: Myriad, Lucida Grande, Bitstream Vera Sans, Arial, Helvetica, sans-serif;
                                 font-weight: normal;
                         }
- 
+
                         * body {
                                 line-height: 1.25em;
                         }
 
-[/ccnLe_php] 
+[/ccnLe_php]

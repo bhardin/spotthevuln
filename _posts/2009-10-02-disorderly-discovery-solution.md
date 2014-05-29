@@ -16,7 +16,7 @@ This is a classic Cross-Site Scripting vulnerability which affected JSPWiki.
 
 The `setId()` method assigns a non-sanitized value to the `m_tabID` variable. The `m_tabID` variable is then later used in the `doWikiStartTag()` method as part of a string buffer which is used to build dynamic HTML. The m_tabID variable is never encoded or sanitized before being sent back to the user.
 
-In addition, to the `setId()` method, the `setTitle()`, `setAccessKey()`, and `setUrl()` methods also expose a potential for Cross-Site Scripting.  The JSPWiki team used `TextUtil.replaceEntities()` in each of the vulnerable methods to sanitize the values being assigned to the respective variables.
+In addition, to the `setId()` method, the `setTitle()`, `setAccessKey()`, and `setUrl()` methods also expose a potential for Cross-Site Scripting. The JSPWiki team used `TextUtil.replaceEntities()` in each of the vulnerable methods to sanitize the values being assigned to the respective variables.
 
 __If you had to write the `TextUtil.replaceEntities()` method, what would it look like?__
 

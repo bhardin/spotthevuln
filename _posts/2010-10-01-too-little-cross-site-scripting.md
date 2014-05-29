@@ -39,9 +39,9 @@ __Issue Type:__ XSS
 
 Original Code: <a title="Too Little" href="http://spotthevuln.com/2010/09/too-little/" target="_blank">Found    Here</a>
 ## Description
-The code sample presented this week have a few XSS vulnerabilities.  The first XSS bug is caused when $_GET['messId'] doesn't match any of the switch cases.  The default behavior is to throw a friendly error message indicating the messId is unknown along with the value passed via the querystring.  Unfortunately, the error message can also contain attacker controlled HTML/SCRIPT resulting in XSS.  The two other XSS bugs fixed by the developers in this patch are classic XSS.  Both issues take user/attacker controlled variables and display the variables in markup without sanitization/encoding.
+The code sample presented this week have a few XSS vulnerabilities. The first XSS bug is caused when $_GET['messId'] doesn't match any of the switch cases. The default behavior is to throw a friendly error message indicating the messId is unknown along with the value passed via the querystring. Unfortunately, the error message can also contain attacker controlled HTML/SCRIPT resulting in XSS. The two other XSS bugs fixed by the developers in this patch are classic XSS. Both issues take user/attacker controlled variables and display the variables in markup without sanitization/encoding.
 
-Although the XSS bugs are fairly straight forward, what I find interesting in this example is why this page is here in the first place.  The code don't seem to provide any useful functionality (other than to provide a place for attackers to abuse XSS).  If you were a security engineer assigned to audit this page, it might be a good idea to ask WHY this page exists in the first place.  It turns out that this page is indeed a test/debugging page that is included with dojox, offering no functionality intended for production users.  Think long and hard before exposing test and debug functionality in your production environment.  Check production systems for example/testing/debugging functionality and disable/remove this functionality if possible.  Code developed for testing and debugging rarely undergoes the scrutiny of production code and will like contain security issues.
+Although the XSS bugs are fairly straight forward, what I find interesting in this example is why this page is here in the first place. The code don't seem to provide any useful functionality (other than to provide a place for attackers to abuse XSS). If you were a security engineer assigned to audit this page, it might be a good idea to ask WHY this page exists in the first place. It turns out that this page is indeed a test/debugging page that is included with dojox, offering no functionality intended for production users. Think long and hard before exposing test and debug functionality in your production environment. Check production systems for example/testing/debugging functionality and disable/remove this functionality if possible. Code developed for testing and debugging rarely undergoes the scrutiny of production code and will like contain security issues.
 ## Developers Solution
 [cce lang="diff"]
 &lt;?php
@@ -105,4 +105,4 @@ usleep($delay);
 
 ?&gt;
 
-[/cce] 
+[/cce]

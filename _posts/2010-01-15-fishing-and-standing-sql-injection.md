@@ -25,11 +25,11 @@ __Issue Type:__ SQL Injection
 
 Original Code: <a title="Fishing and Standing" href="http://spotthevuln.com/2010/01/fishing-and-standing/" target="_blank">Found Here</a>
 ## Description
-Straight up SQL injection in Joomla.  The $order_by and the $direction values are taken directly from POST parameters.  They are then passed to a SQL statement as part of ORDER BY clause without sanitization.  The attacker is free to use traditional SQL injection methods to pass malicious SQL statements to the backend database.
+Straight up SQL injection in Joomla. The $order_by and the $direction values are taken directly from POST parameters. They are then passed to a SQL statement as part of ORDER BY clause without sanitization. The attacker is free to use traditional SQL injection methods to pass malicious SQL statements to the backend database.
 
-This bug was fixed by sanitizing the values passed to $order_by and $direction.  I like the fact that the Joomla developers used a whitelist to restrict the values passed to $order_by and $direction. The whitelist is established in the following line of code:
+This bug was fixed by sanitizing the values passed to $order_by and $direction. I like the fact that the Joomla developers used a whitelist to restrict the values passed to $order_by and $direction. The whitelist is established in the following line of code:
 <blockquote>if (!in_array($order_by, array('username', 'email', 'num_posts', 'num_posts', 'registered')) || !in_array($direction, array('ASC', 'DESC')))</blockquote>
-The code above makes it so the $order_by variable can only contain the following values: 'username', 'email', 'num_posts', 'num_posts', 'registered'.  The line also ensure the $direction variable only contains either 'ASC' or 'DESC'.
+The code above makes it so the $order_by variable can only contain the following values: 'username', 'email', 'num_posts', 'num_posts', 'registered'. The line also ensure the $direction variable only contains either 'ASC' or 'DESC'.
 
 In addition to the whitelist, the Joomla developers also escaped the variables before including them in the SQL statement.
 <blockquote>
@@ -77,4 +77,4 @@ array(
 );
 
 
-[/cce] 
+[/cce]

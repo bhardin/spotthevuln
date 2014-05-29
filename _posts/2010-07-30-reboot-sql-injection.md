@@ -43,18 +43,18 @@ __Issue Type:__ SQL Injection
 
 Original Code: <a title="reboot" href="http://spotthevuln.com/2010/07/reboot/" target="_blank">Found    Here</a>
 ## Description
-This week's vulnerability was a SQL injection vulnerability affecting the Hacker's Diet Wordpress plugin.  In the vulnerable version, the plugin assigns several variables using values obtained directly from the querystring.  The variable assignments are shown below:
+This week's vulnerability was a SQL injection vulnerability affecting the Hacker's Diet Wordpress plugin. In the vulnerable version, the plugin assigns several variables using values obtained directly from the querystring. The variable assignments are shown below:
 <blockquote>$weeks = $_GET["weeks"];
 $start_date = $_GET["start_date"];
 $end_date = $_GET["end_date"];
 $goal = $_GET["goal"];
 $user_id = $_GET["user"];
 $maint_mode = $_GET["maint_mode"];</blockquote>
-No sanitization or validation is done before assigning the values.  Once the assignments are made, the attacker controlled values are then passed to a dynamic SQL string here resulting in SQL Injection:
+No sanitization or validation is done before assigning the values. Once the assignments are made, the attacker controlled values are then passed to a dynamic SQL string here resulting in SQL Injection:
 <blockquote>$query = "select date, weight, trend from ".$table_prefix."hackdiet_weightlog where wp_id = $user_id and date &gt; \"".date("Y-m-d", strtotime("$weeks weeks ago"))."\" order by date asc";
 
 $query = "select date, weight, trend from ".$table_prefix."hackdiet_weightlog where wp_id = $user_id and date &gt;= \"$start_date\" and date &lt;= \"$end_date\" order by date asc";</blockquote>
-The plugin authors patched this vulnerability by validating that the $_GET["user"] and $_GET["weeks"] parameters contains only numeric characters.  An interesting exercise would be to trace through the code and find where the following variables are being used:
+The plugin authors patched this vulnerability by validating that the $_GET["user"] and $_GET["weeks"] parameters contains only numeric characters. An interesting exercise would be to trace through the code and find where the following variables are being used:
 <blockquote>
 $start_date = $_GET["start_date"];
 $end_date = $_GET["end_date"];
@@ -167,4 +167,4 @@ break;
 $count++;
 }
 }
-[/cce] 
+[/cce]

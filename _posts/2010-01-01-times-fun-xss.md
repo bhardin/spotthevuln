@@ -29,19 +29,19 @@ __Issue Type:__ Cross Site Scripting (XSS)
 Original Code: <a title="Time's Fun" href="http://spotthevuln.com/2009/12/times-fun/" target="_blank">Found Here</a>
 ## Description
 <div id="_mcePaste">
-<p id="_mcePaste">This is a very subtle bug in Joomla's XSS filtering.  Joomla establishes a blacklist of HTML tags and attributes that are not allowed.  Blacklists always seem to be the easiest way to go... but rarely do they standup in the long run.  We'll touch on blacklists in a bit, but for now on to the bug!  In this case, the attacker can provide a HTML tag and a HTML tag attribute (the attribute is optional).  Knowing the dangers of giving users the option to provide arbitrary HTML tags and attributes, the Joomla team devised a blacklist of "bad" HTML tags and attributes.  If the HTML tags and attributes provided by the user happens to match one of the tags or attributes listed in the blacklist, then we enter a failure condition.  Knowing some of the trickery used by  web hackers, the Joomla team first converts the user controlled attribute to lower before checking to see if the provided attribute is in the attribute blacklist.</p>
+<p id="_mcePaste">This is a very subtle bug in Joomla's XSS filtering. Joomla establishes a blacklist of HTML tags and attributes that are not allowed. Blacklists always seem to be the easiest way to go... but rarely do they standup in the long run. We'll touch on blacklists in a bit, but for now on to the bug!  In this case, the attacker can provide a HTML tag and a HTML tag attribute (the attribute is optional). Knowing the dangers of giving users the option to provide arbitrary HTML tags and attributes, the Joomla team devised a blacklist of "bad" HTML tags and attributes. If the HTML tags and attributes provided by the user happens to match one of the tags or attributes listed in the blacklist, then we enter a failure condition. Knowing some of the trickery used by  web hackers, the Joomla team first converts the user controlled attribute to lower before checking to see if the provided attribute is in the attribute blacklist.</p>
 
 <blockquote>
 <div id="_mcePaste">(in_array(<strong><span style="color: #ff0000;">strtolower</span></strong>($attrSubSet[0]), $this-&gt;attrBlacklist)</div></blockquote>
-<p id="_mcePaste">As a "catch all" it seems that the Joomla team wanted to disallow any HTML attributes that began with the letters "on".  This should prevent an attacker from injecting an attribute such as "onload=javascript:payload()" or "onblur=javascript:payload()".  This was done by taking a substr() of the provided attribute value and checking to see if the substr() contained the "on" characters.</p>
+<p id="_mcePaste">As a "catch all" it seems that the Joomla team wanted to disallow any HTML attributes that began with the letters "on". This should prevent an attacker from injecting an attribute such as "onload=javascript:payload()" or "onblur=javascript:payload()". This was done by taking a substr() of the provided attribute value and checking to see if the substr() contained the "on" characters.</p>
 
 <blockquote>
 <div>(substr($attrSubSet[0], 0, 2) == 'on')</div></blockquote>
-<p id="_mcePaste">Unfortunately for the Joomla team HTML (for the most part) supports case insensitivity for HTML attributes.  So while the check would stop an attacker from injecting an onload=javascript:payload() XSS payload, it would allow OnLoAd=javascript:payload().  The Joomla developers fixed this issue by forcing the $attrSubSet[] to lower before doing the comparison.</p>
+<p id="_mcePaste">Unfortunately for the Joomla team HTML (for the most part) supports case insensitivity for HTML attributes. So while the check would stop an attacker from injecting an onload=javascript:payload() XSS payload, it would allow OnLoAd=javascript:payload(). The Joomla developers fixed this issue by forcing the $attrSubSet[] to lower before doing the comparison.</p>
 
 <blockquote>
 <div>(substr(<span style="color: #ff0000;"><strong>strtolower</strong></span>($attrSubSet[0]), 0, 2) == 'on'))))</div></blockquote>
-<p id="_mcePaste">Now, onto the blacklist... To put it simply, blacklists are tough.  Even if you somehow manage to get the blacklist correct today, that doesn't mean someone will change the rules and render your blacklist ineffective tomorrow.  Looking at the blacklist Joomla HTML tag blacklist in this particular code sample, it seems the blacklist is geared towards HTML4.  HTML5 has added new HTML tags which don't appear to be covered by the blacklist in this example... I wonder if the Joomla devs have updated their blacklist.  Even if the blacklist was updated, it will have to be updated again when new HTML tags are added for the next version of HTML... let's hope no one forgets :)</p>
+<p id="_mcePaste">Now, onto the blacklist... To put it simply, blacklists are tough. Even if you somehow manage to get the blacklist correct today, that doesn't mean someone will change the rules and render your blacklist ineffective tomorrow. Looking at the blacklist Joomla HTML tag blacklist in this particular code sample, it seems the blacklist is geared towards HTML4. HTML5 has added new HTML tags which don't appear to be covered by the blacklist in this example... I wonder if the Joomla devs have updated their blacklist. Even if the blacklist was updated, it will have to be updated again when new HTML tags are added for the next version of HTML... let's hope no one forgets :)</p>
 
 </div>
 ## Developers Solution
@@ -157,4 +157,4 @@ $newSet[] = $attrSubSet[0].'="'.$attrSubSet[0].'"';
 return $newSet;
 }
 
-[/cce] 
+[/cce]

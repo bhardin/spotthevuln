@@ -40,7 +40,7 @@ __Issue Type:__ Cross Site Scripting (XSS)
 
 Original Code: <a title="Covet" href="http://spotthevuln.com/2010/11/covet/" target="_blank">Found    Here</a>
 ## Description
-A familiar symptom here with the same ole result.  In the vulnerable code we see a call to $_SERVER['REQUEST_URI'].  For some reason, many developers assume REQUEST_URI cannot be tainted and used for XSS.  REQUEST_URI will not only include the path to current php file, it will also include any querystring parameters in the URI as well.  Here's a few examples of what REQUEST_URI will return:
+A familiar symptom here with the same ole result. In the vulnerable code we see a call to $_SERVER['REQUEST_URI']. For some reason, many developers assume REQUEST_URI cannot be tainted and used for XSS. REQUEST_URI will not only include the path to current php file, it will also include any querystring parameters in the URI as well. Here's a few examples of what REQUEST_URI will return:
 <blockquote>http://spotthevuln.com/blah/
 results in --&gt; /
 
@@ -52,7 +52,7 @@ results in --&gt; /blah/index.php?qs=value
 
 http://spotthevuln.com/blah/index.php/qs1/qs2
 results in --&gt; /blah/index.php/qs1/qs2</blockquote>
-As you can see an attacker can easily taint the REQUEST_URI value, using it in XSS attacks.  The developers addressed this vulnerability by encoding calls to REQUEST_URI.
+As you can see an attacker can easily taint the REQUEST_URI value, using it in XSS attacks. The developers addressed this vulnerability by encoding calls to REQUEST_URI.
 ## Developers Solution
 [sourcecode language="diff"]
 &lt;?php
@@ -67,7 +67,7 @@ Feel free to customize them to your needs
 ------------------------- */
 
 /* -------------------------
-This is the code that is inserted into your comment form.  You may modify it, if you wish.
+This is the code that is inserted into your comment form. You may modify it, if you wish.
 ------------------------- */
 function show_subscription_checkbox ($id='0') {
 	global $sg_subscribe;
@@ -116,7 +116,7 @@ return $id;
 }
 
 /* -------------------------------------------------------------------- */
-/* This function outputs a &quot;subscribe without commenting&quot; form.         */
+/* This function outputs a &quot;subscribe without commenting&quot; form.      */
 /* Place this somewhere within &quot;the loop&quot;, but NOT within another form  */
 /* This is NOT inserted automaticallly... you must place it yourself    */
 /* -------------------------------------------------------------------- */
@@ -149,4 +149,4 @@ if ( !$sg_subscribe-&gt;current_viewer_subscription_status() ) :
 	&lt;/form&gt;
 
 &lt;?php /* ------------------------------------------------------------------- */ ?&gt;
-[/sourcecode] 
+[/sourcecode]

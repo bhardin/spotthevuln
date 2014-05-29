@@ -36,11 +36,11 @@ __Issue Type:__ Cross Site Scripting (XSS)
 Original Code: <a title="Australia" href="http://spotthevuln.com/2010/11/australia/" target="_blank">Found    Here</a>
 ## Description
 One of the more weird XSS vulnerabilities I've seen :)
-Here we see FreePBX using a potion of a log file in their HTML markup.  Specifically, the PHP code uses the system() API to execute a command on the PBX system.  The results of the system() command are printed to the HTML markup.  In this case, FreePBX runs a tail on a log file displaying some of the entries contained within that log file.  Looking at the vulnerable code sample, it is impossible to understand exactly what is contained in these log files, however it appears that HTML can exist in the log entries due to the sed command being run on the log file output:
+Here we see FreePBX using a potion of a log file in their HTML markup. Specifically, the PHP code uses the system() API to execute a command on the PBX system. The results of the system() command are printed to the HTML markup. In this case, FreePBX runs a tail on a log file displaying some of the entries contained within that log file. Looking at the vulnerable code sample, it is impossible to understand exactly what is contained in these log files, however it appears that HTML can exist in the log entries due to the sed command being run on the log file output:
 
 <blockquote>| sed -e "s/$/&lt;br&gt;/"</blockquote>
 
-The developers realized that the log files could contain other dangerous HTML elements and modified their sed command to try and filter those elements out.  Maybe a better approach would be to use a proper encoding API?  Luckily, it doesn't seem like the attacker can control anything passed to system(), otherwise this would have been a code execution bug as opposed to just an XSS!
+The developers realized that the log files could contain other dangerous HTML elements and modified their sed command to try and filter those elements out. Maybe a better approach would be to use a proper encoding API?  Luckily, it doesn't seem like the attacker can control anything passed to system(), otherwise this would have been a code execution bug as opposed to just an XSS!
 
 ## Developers Solution
 [sourcecode language="diff"]
@@ -64,8 +64,8 @@ switch($action) {
 		&lt;a href=&quot;config.php?&lt;?php echo &quot;display=$display&amp;type=$type&amp;action=showlog&quot;?&gt;&quot;&gt;&lt;?php echo _(&quot;Redisplay Asterisk Full debug log (last 2000 lines)&quot;) ?&gt;&lt;/a&gt;&lt;br&gt;
 		&lt;hr&gt;&lt;br&gt;
 		&lt;?php
--		echo system ('tail --line=2000 '.$amp_conf['ASTLOGDIR'].'/full | sed -e &quot;s/$/&lt;br&gt;/&quot;'); 
-+		system ('tail --line=2000 '.$amp_conf['ASTLOGDIR'].'/full | sed -e &quot;s,&lt;,\&amp;lt;,g;s,&gt;,\&amp;gt;,g;s/$/&lt;br&gt;/&quot;'); 
+-		echo system ('tail --line=2000 '.$amp_conf['ASTLOGDIR'].'/full | sed -e &quot;s/$/&lt;br&gt;/&quot;');
++		system ('tail --line=2000 '.$amp_conf['ASTLOGDIR'].'/full | sed -e &quot;s,&lt;,\&amp;lt;,g;s,&gt;,\&amp;gt;,g;s/$/&lt;br&gt;/&quot;');
 		break;
 
 	default:
@@ -78,4 +78,4 @@ switch($action) {
 }
 ?&gt;
 &lt;/div&gt;
-[/sourcecode] 
+[/sourcecode]

@@ -33,9 +33,9 @@ __Issue Type:__ LDAP Injection
 
 Original Code: <a title="Meaningless" href="http://spotthevuln.com/2010/04/meaningless/" target="_blank">Found Here</a>
 ## Description
-This patch fixes a LDAP injection vulnerability in the Apache Shiro Project.  A quick glance of the vulnerable code shows several references to LDAP and LDAP queries scattered throughout the sample code.  In this example, we see that the Shiro developers originally used the username to dynamically build a LDAP query.  The symptoms are very similar to a typical SQL injection.  The username is used in a string building technique to build the LDAP query which eventually gets passed to an LDAP server.  If an attacker crafts the proper username, they could have the ability to modify the original LDAP query and execute an arbitrary LDAP query of their choosing.
+This patch fixes a LDAP injection vulnerability in the Apache Shiro Project. A quick glance of the vulnerable code shows several references to LDAP and LDAP queries scattered throughout the sample code. In this example, we see that the Shiro developers originally used the username to dynamically build a LDAP query. The symptoms are very similar to a typical SQL injection. The username is used in a string building technique to build the LDAP query which eventually gets passed to an LDAP server. If an attacker crafts the proper username, they could have the ability to modify the original LDAP query and execute an arbitrary LDAP query of their choosing.
 
-Just as the symptoms are very similar to SQL injection, the fix also looks very similar to code that would be used to fix a SQL injection vulnerability.  The developers helped the application make a distinction between code and data by removing the string built LDAP query
+Just as the symptoms are very similar to SQL injection, the fix also looks very similar to code that would be used to fix a SQL injection vulnerability. The developers helped the application make a distinction between code and data by removing the string built LDAP query
 ## Developers Solution
 [cce lang="diff"]
 <div id="_mcePaste">
@@ -126,7 +126,7 @@ return roleNames;
 
 * This method is called by the default implementation to translate Active Directory group names
 
-* to role names.  This implementation uses the {@link #groupRolesMap} to map group names to role names.
+* to role names. This implementation uses the {@link #groupRolesMap} to map group names to role names.
 
 *
 
@@ -173,4 +173,4 @@ return roleNames;
 }
 
 </div>
-[/cce] 
+[/cce]

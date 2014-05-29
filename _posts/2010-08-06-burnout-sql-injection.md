@@ -40,7 +40,7 @@ __Issue Type:__ SQL Injection
 
 Original Code: <a title="Burnout" href="http://spotthevuln.com/2010/08/burnout/" target="_blank">Found    Here</a>
 ## Description
-Straight up SQL Injection vulnerability.  The following attacker controlled values are taken via the following lines:
+Straight up SQL Injection vulnerability. The following attacker controlled values are taken via the following lines:
 <blockquote>$request_time = $_SERVER['REQUEST_TIME'];
 
 $http_accept = $_SERVER['HTTP_ACCEPT'];
@@ -54,7 +54,7 @@ Then, a few lines down the attacker controlled values are used as part of a dyna
 VALUES ( '$http_remote_addr', '$user', '$error', '$http_accept', '$http_user_agent', NOW() )";
 
 $result = $wpdb-&gt;query( $sql );</blockquote>
-Understanding that taking attacker controlled data and using it as part of a dynamic SQL statement is a bad idea, the plug-in developers checked in a patch to sanitize the data before using in the SQL statement.  The path is shown below:
+Understanding that taking attacker controlled data and using it as part of a dynamic SQL statement is a bad idea, the plug-in developers checked in a patch to sanitize the data before using in the SQL statement. The path is shown below:
 <blockquote>$http_accept = htmlentities($http_accept);
 
 $http_user_agent = htmlentities($http_user_agent);
@@ -62,13 +62,13 @@ $http_user_agent = htmlentities($http_user_agent);
 $http_remote_addr = htmlentities($http_remote_addr);
 
 $http_request_uri = htmlentities($html_request_uri);</blockquote>
-There are a couple curious things about this patch.  First, instead of transitioning away from dynamic SQL building (which can be difficult to get just right), the authors decided to sanitize the input before passing it to the dynamic SQL.  Second (and more interesting), is the authors used htmlentities() to escape the data.  Htmlentities() is typically used to escape data to prevent XSS attacks, not SQL Injection.  Htmlentities() takes a few parameters, one of which is the optional $quote_style parameter.  The $quote_style parameter defines how strings with double and single quotes will be escaped.  According to the PHP documentation the three options are:
+There are a couple curious things about this patch. First, instead of transitioning away from dynamic SQL building (which can be difficult to get just right), the authors decided to sanitize the input before passing it to the dynamic SQL. Second (and more interesting), is the authors used htmlentities() to escape the data. Htmlentities() is typically used to escape data to prevent XSS attacks, not SQL Injection. Htmlentities() takes a few parameters, one of which is the optional $quote_style parameter. The $quote_style parameter defines how strings with double and single quotes will be escaped. According to the PHP documentation the three options are:
 <blockquote>ENT_COMPAT  - Will convert double-quotes and leave single-quotes alone.
 
 ENT_QUOTES  - Will convert both double and single quotes.
 
 ENT_NOQUOTES - Will leave both double and single quotes unconverted</blockquote>
-If the $quote_style is not specified, PHP will default to ENT_COMPAT.  Do you think this patch will hold up to the test of time?
+If the $quote_style is not specified, PHP will default to ENT_COMPAT. Do you think this patch will hold up to the test of time?
 ## Developers Solution
 [cce lang="diff"]
 
@@ -134,4 +134,4 @@ $sql = "INSERT INTO " . $ip_table_name . " ( ip ) VALUES ( '$ip' )";
 $result = $wpdb-&gt;query( $sql );
 }
 
-[/cce] 
+[/cce]

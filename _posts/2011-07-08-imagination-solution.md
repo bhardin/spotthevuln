@@ -25,30 +25,30 @@ __Issue Type:__ XSS and XSRF
 
 Original Code: <a href="http://spotthevuln.com/2011/07/imagination/">Found Here</a>
 ## Details
-This week's bugs affected Zeus C&C 1.1.0.0.  The file we're looking at is mod.bcmds.php.  The first thing that popped out at me was the named constant "QUERY_STRING" that's being used in various places in code.  Although we don't get to see exactly where QUERY_STRING is being defined in the code snippet as a general rule of thumb, values from the query string cannot be trusted.  In this case, QUERY_STRING is defined in a different file (in.php) in the following line: 
+This week's bugs affected Zeus C&C 1.1.0.0. The file we're looking at is mod.bcmds.php. The first thing that popped out at me was the named constant "QUERY_STRING" that's being used in various places in code. Although we don't get to see exactly where QUERY_STRING is being defined in the code snippet as a general rule of thumb, values from the query string cannot be trusted. In this case, QUERY_STRING is defined in a different file (in.php) in the following line:
 <code lang="PHP">
-define('QUERY_STRING', QUERY_STRING_BLANK.$module); 
+define('QUERY_STRING', QUERY_STRING_BLANK.$module);
 </code>
 QUERY_STRING_BLANK is defined in the following way (also in in.php):
 <code lang="PHP">
 define('QUERY_STRING_BLANK', $_SERVER['PHP_SELF'].'?m=');
 </code>
-Veteran Spot the Vuln readers will immediately realize that $_SERVER['PHP_SELF'] cannot be trusted and can contain attacker supplied data.  An old, but good write-up on PHP_SELF XSS can be found <a href="http://seancoates.com/blogs/xss-woes" target="_blank">here</a>.
+Veteran Spot the Vuln readers will immediately realize that $_SERVER['PHP_SELF'] cannot be trusted and can contain attacker supplied data. An old, but good write-up on PHP_SELF XSS can be found <a href="http://seancoates.com/blogs/xss-woes" target="_blank">here</a>.
 <br>
-Knowing this, we're free to XSS the Zeus C&C and hijack the bots... as long as we can get the Zeus botmaster to visit a page we own (a reasonable request) AND we can figure out the domain name the botmaster is using for their C&C (fairly difficult).  Botmasters can take advantage of browser same origin policy defenses and use a host file to create a unique domain for their C&Cs... minimizing the impact of reflected XSS exploits against their C&Cs.  I'm wondering if this is the first public security advice for the botmaster community...
+Knowing this, we're free to XSS the Zeus C&C and hijack the bots... as long as we can get the Zeus botmaster to visit a page we own (a reasonable request) AND we can figure out the domain name the botmaster is using for their C&C (fairly difficult). Botmasters can take advantage of browser same origin policy defenses and use a host file to create a unique domain for their C&Cs... minimizing the impact of reflected XSS exploits against their C&Cs. I'm wondering if this is the first public security advice for the botmaster community...
 <br>
-I've highlighted the lines that insecurely use the QUERYSTRING constant to build HTML markup, resulting in XSS.  I couldn't find a mod.bcmds.php file after Zeus 1.1.0.0, so I'm considering this specific XSS issue fixed.
+I've highlighted the lines that insecurely use the QUERYSTRING constant to build HTML markup, resulting in XSS. I couldn't find a mod.bcmds.php file after Zeus 1.1.0.0, so I'm considering this specific XSS issue fixed.
 <br>
-There is a second, more subtle issue in this code... one that still affects the latest Zeus C&C builds.  The C&C developer seemingly went through great lengths to defend against SQL injection.  A quick perusal through the code shows a smattering of addslashes() and is_numeric() in attempts to validate input before passing it to backend databases.  What's missing however... are nonce/token checks (XSRF defenses).  The following code snippet is a perfect example:
+There is a second, more subtle issue in this code... one that still affects the latest Zeus C&C builds. The C&C developer seemingly went through great lengths to defend against SQL injection. A quick perusal through the code shows a smattering of addslashes() and is_numeric() in attempts to validate input before passing it to backend databases. What's missing however... are nonce/token checks (XSRF defenses). The following code snippet is a perfect example:
 <code lang="PHP">
 else if(isset($_GET['del'])&&is_numeric($_GET['del'])&&$pedt)
 {
   mysql_query('DELETE FROM  '.TABLE_BCMDS.' WHERE id='.$_GET['del'].' LIMIT 1');
   header('Location: '.QUERY_STRING);
-  die();  
+  die();
 }
 </code>
-In the snippet above, we see that the C&C code grabs a value directly from the querystring, validates that it is_numeric(), and then passes the value to a DELETE statement.  No where does the code attempt to validate that the request wasn't generated via XSRF.  If an attacker can discover the location of the C&C and lure the botmaster to an attacker controlled page, they can setup an XSRF attack to delete the entire TABLE_BCMDS.  Looking through the latest, most current Zeus C&C code, XSRF defenses still have not been put into place... come on guys, even WordPress has XSRF defenses!  <a href="http://codex.wordpress.org/Function_Reference/wp_verify_nonce" target="_blank">http://codex.wordpress.org/Function_Reference/wp_verify_nonce</a>
+In the snippet above, we see that the C&C code grabs a value directly from the querystring, validates that it is_numeric(), and then passes the value to a DELETE statement. No where does the code attempt to validate that the request wasn't generated via XSRF. If an attacker can discover the location of the C&C and lure the botmaster to an attacker controlled page, they can setup an XSRF attack to delete the entire TABLE_BCMDS. Looking through the latest, most current Zeus C&C code, XSRF defenses still have not been put into place... come on guys, even WordPress has XSRF defenses!  <a href="http://codex.wordpress.org/Function_Reference/wp_verify_nonce" target="_blank">http://codex.wordpress.org/Function_Reference/wp_verify_nonce</a>
 
 ## Vulnerable Code
 <code lang="PHP" highlight="50,55,87,101">
@@ -76,7 +76,7 @@ if((isset($_GET['new'])&&$pedt)||(isset($_GET['edit'])&&is_numeric($_GET['edit']
   else
   {
     if(!$pedt&&isset($_GET['new']))unset($_GET['new']);
-    HTMLBegin(isset($_GET['new'])?LNG_MBCMDS_NEWCMD:($pedt?LNG_MBCMDS_EDITCMD:LNG_MBCMDS_VIEWCMD));  
+    HTMLBegin(isset($_GET['new'])?LNG_MBCMDS_NEWCMD:($pedt?LNG_MBCMDS_EDITCMD:LNG_MBCMDS_VIEWCMD));
     if(isset($_GET['new']))print CmdForm('new',LNG_MBCMDS_NEWCMD,LNG_MBCMDS_ADD,$name,$stat,$limit,$cnts,$cids,$bns,$cmds);
     else
     {
@@ -92,7 +92,7 @@ else if(isset($_GET['del'])&&is_numeric($_GET['del'])&&$pedt)
 {
   mysql_query('DELETE FROM  '.TABLE_BCMDS.' WHERE id='.$_GET['del'].' LIMIT 1');
   header('Location: '.QUERY_STRING);
-  die();  
+  die();
 }
 else if(isset($_GET['res'])&&is_numeric($_GET['res'])&&$pedt)
 {
@@ -103,7 +103,7 @@ else if(isset($_GET['res'])&&is_numeric($_GET['res'])&&$pedt)
 
 HTMLBegin(LNG_MBCMDS,$pedt?'function DelCmd(uid,q){if(confirm(q))window.location=\''.QUERY_STRING.'&del=\'+uid;};function ResCmd(uid,q){if(confirm(q))window.location=\''.QUERY_STRING.'&res=\'+uid;}':'');
 
-$r=mysql_query('SELECT * FROM '.TABLE_BCMDS);      
+$r=mysql_query('SELECT * FROM '.TABLE_BCMDS);
 $total=mysql_affected_rows();
 print '<table class="tbl1"><tr><td class="td1" colspan="'.($pedt?9:10).'">'.LNG_MBCMDS_R_CMDS.'&nbsp;('.$total.')</td>';
 if($pedt)print '<td class="td1" align="center"><input type="submit" value="'.LNG_MBCMDS_NEWCMD.'" class="ism" style="width:100%" onClick="window.location=\''.QUERY_STRING.'&new\';"></td>';
@@ -137,7 +137,7 @@ function CmdForm($cmd,$title,$action,$name,$stat,$limit,$cnts,$cids,$bns,$cmds)
   $en=$action==''?0:1;
   $stat=$stat?1:0;
   $ro=$en?'':'readonly ';
-  
+
   $str=$en?'<form method="POST" action="'.QUERY_STRING.'&'.$cmd.'">':'';
   $str.='<table class="tbl1" width="350"><tr><td class="td1" colspan="2">'.$title.'</td></tr>'.
         '<tr><td>'.LNG_MBCMDS_NAME.'</td><td width="100%"><input '.$ro.'type="text" name="name" value="'.htmlentities($name).'" style="width:100%"></td></tr>'.

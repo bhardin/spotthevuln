@@ -77,7 +77,7 @@ protected AuthorizationInfo buildAuthorizationInfo(Set&lt;String&gt; roleNames) 
 
     /**
      * This method is called by the default implementation to translate Active Directory group names
-     * to role names.  This implementation uses the <a href="mailto:{@link">{@link</a> #groupRolesMap} to map group names to role names.
+     * to role names. This implementation uses the <a href="mailto:{@link">{@link</a> #groupRolesMap} to map group names to role names.
      *
      * @param groupNames the group names that apply to the current user.
      * @return a collection of roles that are implied by the given role names.
@@ -106,4 +106,4 @@ protected AuthorizationInfo buildAuthorizationInfo(Set&lt;String&gt; roleNames) 
 
 }
 
-[/ccnLe_java] 
+[/ccnLe_java]

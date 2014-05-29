@@ -34,11 +34,11 @@ meta:
 
 <strong>Original Code: </strong><a title="Madman" href="http://spotthevuln.com/2009/12/madman/" target="_blank">Found Here</a>
 ## Description
-This particular vulnerability affected Joomla.  The vulnerable code had symptoms which could allow for a file inclusion vulnerability (under certain circumstances).  PHP based applications are especially vulnerable to remote file due to extensive use of file includes and common PHP server configurations.
+This particular vulnerability affected Joomla. The vulnerable code had symptoms which could allow for a file inclusion vulnerability (under certain circumstances). PHP based applications are especially vulnerable to remote file due to extensive use of file includes and common PHP server configurations.
 
-File include vulnerabilities give the attacker the ability to execute arbitrary commands on the web server, resulting in the complete compromise of the Joomla installation.  The PHP include(), require(), include_once() and require_once() functions are great candidates for remote file include attacks and in this case we see that the Joomla code base makes use of require_once() function.
+File include vulnerabilities give the attacker the ability to execute arbitrary commands on the web server, resulting in the complete compromise of the Joomla installation. The PHP include(), require(), include_once() and require_once() functions are great candidates for remote file include attacks and in this case we see that the Joomla code base makes use of require_once() function.
 
-Although the Joomla developers checked in a code change which changed the require_once() function to a require(), the real fix will be a configuration change for the PHP server (turning register_globals off).  What's a bit surprising is the Joomla checked in a code change which was designed to prevent a file include vulnerability but changed the require_once() function to a require() function.  Typically, file inclusion vulnerabilities are fixed by changing a require() function call to an require_once() function call and explicitly loading the required library before the attacker has a chance to influence the file inclusion.  Once again, the authors of this blog are not responsible for the code fixes checked into the software branch :)
+Although the Joomla developers checked in a code change which changed the require_once() function to a require(), the real fix will be a configuration change for the PHP server (turning register_globals off). What's a bit surprising is the Joomla checked in a code change which was designed to prevent a file include vulnerability but changed the require_once() function to a require() function. Typically, file inclusion vulnerabilities are fixed by changing a require() function call to an require_once() function call and explicitly loading the required library before the attacker has a chance to influence the file inclusion. Once again, the authors of this blog are not responsible for the code fixes checked into the software branch :)
 
 It is also interesting that we see a call to the include() function, which remained unchanged:
 <blockquote>include ($mosConfig_absolute_path .'/offline.php');</blockquote>
@@ -75,4 +75,4 @@ exit();
 
 $option = strtolower( strval( mosGetParam( $_REQUEST, 'option', NULL ) ) );
 
-[/cce] 
+[/cce]

@@ -26,9 +26,9 @@ __Issue Type:__ Cross Site Scripting
 Original Code: <a href="http://spotthevuln.com/2011/04/bases/">Found Here</a>
 
 ## Description
-Pretty straightforward XSS here.  On line 150we see that the author calls print_r on $_SERVER.  $_SERVER is full of tainted variables and print_r will print all of tainted values resulting in XSS.  The developers addressed this vulnerability by simply removing the print_r code entirely.  
+Pretty straightforward XSS here. On line 150we see that the author calls print_r on $_SERVER. $_SERVER is full of tainted variables and print_r will print all of tainted values resulting in XSS. The developers addressed this vulnerability by simply removing the print_r code entirely.
 
-Spot the Vuln reader Abraham Kang spotted a different vulnerbility.  It's possible to use print_r to DOS the server.  Since the attacker controls several of the $_SERVER array, an attacker could create a bunch of nested arrays would have to get unwound consuming lots of server memory (in some cases cause a server crash).  This details of this attack are described here: http://ilia.ws/archives/66-Security-Implications-of-var_exportprint_r.html
+Spot the Vuln reader Abraham Kang spotted a different vulnerbility. It's possible to use print_r to DOS the server. Since the attacker controls several of the $_SERVER array, an attacker could create a bunch of nested arrays would have to get unwound consuming lots of server memory (in some cases cause a server crash). This details of this attack are described here: http://ilia.ws/archives/66-Security-Implications-of-var_exportprint_r.html
 
 Nice catch Abraham!
 
@@ -189,4 +189,4 @@ if ( $err_code=='400'||$err_code=='403'||$err_code=='405'||$err_code[0]=='5'){
   &lt;/body&gt;
 &lt;/html&gt;';
 ?&gt;
-[/sourcecode] 
+[/sourcecode]

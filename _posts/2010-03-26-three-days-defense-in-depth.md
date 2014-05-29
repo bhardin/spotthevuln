@@ -31,9 +31,9 @@ __Issue Type:__ Defense in Depth
 
 Original Code: <a title="Three Days" href="http://spotthevuln.com/2010/03/three-days/" target="_blank">Found Here</a>
 ## Description
-This change was a defense in depth fix for WordPress.  The code for this page comes from the user registration page.  Throughout the code we see handling for various pieces of information associated with the newly created user.  Looking through the code, we see some very fragile security code however this particular patch addressed the handling of passwords in the database.  In the vulnerable version of the code, the WordPress passes the newly created user password directly into the database.  If the WordPress install is ever compromised, the attacker will now have access to the clear text passwords for every user!
+This change was a defense in depth fix for WordPress. The code for this page comes from the user registration page. Throughout the code we see handling for various pieces of information associated with the newly created user. Looking through the code, we see some very fragile security code however this particular patch addressed the handling of passwords in the database. In the vulnerable version of the code, the WordPress passes the newly created user password directly into the database. If the WordPress install is ever compromised, the attacker will now have access to the clear text passwords for every user!
 
-The WordPress developers strengthened the security mechanisms around password handling by hashing the password before storing it in the database. 
+The WordPress developers strengthened the security mechanisms around password handling by hashing the password before storing it in the database.
 
 Although not fixed in this particular patch... if you look closely, there are other vulnerabilities in the user registration code :)
 ## Developers Solution
@@ -139,4 +139,4 @@ $message .= "Login: $user_login\r\n\r\nE-mail: $user_email";
 
 @mail($admin_email, "[$blogname] New User Registration", $message);
 
-[/cce] 
+[/cce]

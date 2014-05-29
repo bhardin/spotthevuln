@@ -26,7 +26,7 @@ __Issue Type:__ Cross Site Scripting
 
 Original Code: <a href="http://spotthevuln.com/2011/05/notes/">Found Here</a>
 ## Details
-There are a couple of different issues here, but let's focus on what the developers patched.  On line 27, the developer uses the $_GET['getid3'] value to build a dynamic SQL statement.  This is classic SQL injection.   The patch seems straight forward, escape the $_GET['getid3'] value before using it in the SQL statement.   Normally, SQL injection involves breaking out of a predefined SQL statement by closing off a quoted string and injecting your own SQL statement.  Most escaping functions escape quotes and other special characters so that an attacker cannot escape out of a quoted string.  There is a problem in this patch though.  The tainted value is NOT enclosed within quotes, so the attacker does not need to escape out of a quoted string.  The attacker is free to build a SQL injection payload as long as the payload doesn't contain any special characters.  So, despite escaping the $_GET['getid3'] value, SQL injection is still possible.
+There are a couple of different issues here, but let's focus on what the developers patched. On line 27, the developer uses the $_GET['getid3'] value to build a dynamic SQL statement. This is classic SQL injection. The patch seems straight forward, escape the $_GET['getid3'] value before using it in the SQL statement. Normally, SQL injection involves breaking out of a predefined SQL statement by closing off a quoted string and injecting your own SQL statement. Most escaping functions escape quotes and other special characters so that an attacker cannot escape out of a quoted string. There is a problem in this patch though. The tainted value is NOT enclosed within quotes, so the attacker does not need to escape out of a quoted string. The attacker is free to build a SQL injection payload as long as the payload doesn't contain any special characters. So, despite escaping the $_GET['getid3'] value, SQL injection is still possible.
 <br><br>
 Anyone spot the unpatched XSS?
 
@@ -60,7 +60,7 @@ Anyone spot the unpatched XSS?
 	if (isset($_GET['getid3'])) {
 		require_once('getid3/getid3.php');
 -		$file_data = $wpdb-&gt;get_row(&quot;SELECT name, type FROM {$wpdb-&gt;prefix}sb_stuff WHERE id = &quot;.$_GET['getid3']);
-+		$file_data = $wpdb-&gt;get_row(&quot;SELECT name, type FROM {$wpdb-&gt;prefix}sb_stuff WHERE id = &quot;.$wpdb-&gt;escape($_GET['getid3'])); 
++		$file_data = $wpdb-&gt;get_row(&quot;SELECT name, type FROM {$wpdb-&gt;prefix}sb_stuff WHERE id = &quot;.$wpdb-&gt;escape($_GET['getid3']));
 		if ($file_data !== NULL) {
 			$getID3 = new getID3;
 			if ($file_data-&gt;type == 'url') {
@@ -93,4 +93,4 @@ Anyone spot the unpatched XSS?
 			}
 ...snip...
 ?&gt;
-[/sourcecode] 
+[/sourcecode]

@@ -34,13 +34,13 @@ __Issue Type:__ Cross Site Scripting (XSS)
 
 Original Code: <a title="Expect" href="http://spotthevuln.com/2010/10/expect/" target="_blank">Found    Here</a>
 ## Description
-This week's bug was an easy one with a straightforward fix.  The vulnerable code sample is basically a single switch statement.  Most of the cases don't do anything interesting (from a security standpoint) however, the default case at the end of the switch statement leads to a vulnerable condition.  If all of the case statements fail, the application throws a useful error message echoing back a value directly from the query string.  The DojoX developers addressed the vulnerability by html encoding the value before echoing it back to the user.  Simple bug, simple fix.  I hope all the readers have a good weekend and a Happy Halloween!
+This week's bug was an easy one with a straightforward fix. The vulnerable code sample is basically a single switch statement. Most of the cases don't do anything interesting (from a security standpoint) however, the default case at the end of the switch statement leads to a vulnerable condition. If all of the case statements fail, the application throws a useful error message echoing back a value directly from the query string. The DojoX developers addressed the vulnerability by html encoding the value before echoing it back to the user. Simple bug, simple fix. I hope all the readers have a good weekend and a Happy Halloween!
 ## Developers Solution
 [sourcecode language="diff"]
 &lt;?php
 	// this file is just a bouncer for ContentPane.html test
 	error_reporting(E_ALL ^ E_NOTICE);
-	
+
 	if(isset($_GET['mode'])){
 		switch($_GET['mode']){
 			case 'htmlPaths':
@@ -57,7 +57,7 @@ This week's bug was an easy one with a straightforward fix.  The vulnerable code
 					&lt;link media='print' type='text/css' rel='stylesheet' href='getResponse.php?mode=linkMediaPrint'&gt;
 					&quot;;
 				break;
-	
+
 			case 'importCss':
 				header('Content-type: text/css; charset=utf-8');
 				echo &quot;#importMediaTest {
@@ -73,7 +73,7 @@ This week's bug was an easy one with a straightforward fix.  The vulnerable code
 						height: 100px;
 					}&quot;;
 				break;
-	
+
 			case 'linkCss':
 				header('Content-type: text/css; charset=utf-8');
 				echo &quot;#linkMediaTest {
@@ -109,29 +109,29 @@ This week's bug was an easy one with a straightforward fix.  The vulnerable code
 					height: 100px;
 				}&quot;;
 				break;
-	
+
 			case 'remoteJsTrue':
 				header('Content-type: text/javascript; charset=utf-8');
 				echo &quot;unTypedVarInDocScope = true;&quot;;
 				break;
-	
+
 			case 'remoteJsFalse':
 				header('Content-type: text/javascript; charset=utf-8');
 				echo &quot;unTypedVarInDocScope = false;&quot;;
 				break;
 			case 'entityChars':
 				header('Content-type: text/css; charset=utf-8');
-				if($_GET['entityEscaped'] == null){                                                                                    
+				if($_GET['entityEscaped'] == null){
 					print(&quot;var div = document.createElement(\&quot;div\&quot;); document.body.appendChild(div); div.innerHTML = \&quot;&lt;div id=\\\&quot;should_not_be_here2\\\&quot;&gt;&lt;/div&gt;\&quot;; window.__remotePaneLoaded2 = true;&quot; );
 				}else{
 					print(&quot;window.__remotePaneLoaded2 = true;&quot;);
 				}
 				break;
 			default:
--				echo &quot;unkown mode {$_GET['mode']}&quot;; 
+-				echo &quot;unkown mode {$_GET['mode']}&quot;;
 +				echo &quot;unkown mode {htmlentities($_GET['mode'])}&quot;;
 		}
 	}
 ?&gt;
 
-[/sourcecode] 
+[/sourcecode]

@@ -27,11 +27,11 @@ __Issue Type:__ Cross Site Scripting
 
 Original Code: <a href="http://spotthevuln.com/2011/04/Fall/">Found Here</a>
 ## Details
-This week's patch is a good one.  The code sample was basically a library that only contained functions.  While there isn't a blatant vulnerability in the library, there is a startling function called "PrepDataForScript".   Looking at PrepDataForScript, it's obvious this function is meant to provide some sanitization.  Unfortunately, the routine isn't very robust.  When you see things like the code snippet below, you know the developer is headed in the wrong direction:
+This week's patch is a good one. The code sample was basically a library that only contained functions. While there isn't a blatant vulnerability in the library, there is a startling function called "PrepDataForScript". Looking at PrepDataForScript, it's obvious this function is meant to provide some sanitization. Unfortunately, the routine isn't very robust. When you see things like the code snippet below, you know the developer is headed in the wrong direction:
 
 $strData = str_replace("</script>", "&lt/script&gt", $strData);
 
-Fortunately, the Cubed developers were smart enough to realize that this function is dangerous and will probably lead to a false sense of security.  Instead of trying to fix it up, they just removed the function entirely.  
+Fortunately, the Cubed developers were smart enough to realize that this function is dangerous and will probably lead to a false sense of security. Instead of trying to fix it up, they just removed the function entirely.
 
 ## Developers Solution
 [sourcecode language="diff" highlight="94,95,96,97,98,99,100,101,102,103"]
@@ -101,13 +101,13 @@ Fortunately, the Cubed developers were smart enough to realize that this functio
 		$__exc_objBacktrace = debug_backtrace();
 		for ($__exc_intIndex = 0; $__exc_intIndex &lt; count($__exc_objBacktrace); $__exc_intIndex++) {
 			$__exc_objItem = $__exc_objBacktrace[$__exc_intIndex];
-			
+
 			$__exc_strKeyFile = (array_key_exists(&quot;file&quot;, $__exc_objItem)) ? $__exc_objItem[&quot;file&quot;] : &quot;&quot;;
 			$__exc_strKeyLine = (array_key_exists(&quot;line&quot;, $__exc_objItem)) ? $__exc_objItem[&quot;line&quot;] : &quot;&quot;;
 			$__exc_strKeyClass = (array_key_exists(&quot;class&quot;, $__exc_objItem)) ? $__exc_objItem[&quot;class&quot;] : &quot;&quot;;
 			$__exc_strKeyType = (array_key_exists(&quot;type&quot;, $__exc_objItem)) ? $__exc_objItem[&quot;type&quot;] : &quot;&quot;;
 			$__exc_strKeyFunction = (array_key_exists(&quot;function&quot;, $__exc_objItem)) ? $__exc_objItem[&quot;function&quot;] : &quot;&quot;;
-			
+
 			$__exc_strStackTrace .= sprintf(&quot;#%s %s(%s): %s%s%s()\n&quot;,
 				$__exc_intIndex,
 				$__exc_strKeyFile,
@@ -139,4 +139,4 @@ Fortunately, the Cubed developers were smart enough to realize that this functio
 -		return $strData;
 -	}
 ?&gt;
-[/sourcecode] 
+[/sourcecode]

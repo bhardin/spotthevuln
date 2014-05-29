@@ -24,7 +24,7 @@ __Issue Type:__ SQL Injection
 Original Code: <a href="http://spotthevuln.com/2011/07/floods/">Found Here</a>
 
 ## Description
-This week's bug is in Corpse C&C.  SpotTheVuln reader Christina hits it right on the head,  line 32 contains a ridiculous amount of SQL injection.  Most of the parameters passed to the INSERT statement results in SQL injection.  $id, $info, and $user are all set directly from $_GET or $_POST and are used in the SQL statement without any sanitization.  Despite its name, $real_ip is also completely attacker controlled and can be used for SQL injection.  Getenv("HTTP_X_FORWARDED_FOR") doesn't sanitize the user controlled value in any way.  For some reason, many developers assume the X-Forwarded-For header will only specify an IP address or domain name.  X-Forwarded-For can contain any characters (including angle brackets, single quotes, and double quotes). 
+This week's bug is in Corpse C&C. SpotTheVuln reader Christina hits it right on the head,  line 32 contains a ridiculous amount of SQL injection. Most of the parameters passed to the INSERT statement results in SQL injection. $id, $info, and $user are all set directly from $_GET or $_POST and are used in the SQL statement without any sanitization. Despite its name, $real_ip is also completely attacker controlled and can be used for SQL injection. Getenv("HTTP_X_FORWARDED_FOR") doesn't sanitize the user controlled value in any way. For some reason, many developers assume the X-Forwarded-For header will only specify an IP address or domain name. X-Forwarded-For can contain any characters (including angle brackets, single quotes, and double quotes).
 
 ## Vulnerable Code
 Line 32
@@ -43,7 +43,7 @@ $ip = getenv("REMOTE_ADDR");
 $real_ip = getenv("HTTP_X_FORWARDED_FOR");
 
 if (isset($_GET['id'])) {
-	$id = $_GET['id']; 
+	$id = $_GET['id'];
 } else {
 	$id = $_POST['id'];
 }
@@ -67,12 +67,12 @@ if ($use_mysql == 1) {
 else {
 	$date = date("Y-m-d");
 	$time=date("H:i:s");
-	
+
 	list($year, $month, $day) = explode('-', $date);
 	$filename = "pass.$day.$month.txt";
 	$log = "$info@@@@@$user@@@@@$id@@@@@$real_ip@@@@@$ip@@@@@$date@@@@@$time\n";
 	$fh = fopen("logs/$filename", "a+");
-	fputs($fh, $log);		
+	fputs($fh, $log);
 	fclose($fh);
 }
 

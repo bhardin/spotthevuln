@@ -37,9 +37,9 @@ __Issue Type:__ XSS
 
 Original Code: <a title="Weird Clothes" href="http://spotthevuln.com/2010/07/weird-clothes/" target="_blank">Found  Here</a>
 ## Description
-XSS bug in Openfire by Ignite Realtime.  Openfire is an Open Source, real time collaboration server.  The bug is very straightforward and a simple string like the one presented below takes advantage of the vulnerability.
+XSS bug in Openfire by Ignite Realtime. Openfire is an Open Source, real time collaboration server. The bug is very straightforward and a simple string like the one presented below takes advantage of the vulnerability.
 <blockquote>http://www.example.com/group-summary.jsp?search=%22%3E%3C[xss]</blockquote>
-This bug was actually part of a number of security bugs reported by Core Security Technologies.  You can read their advisory <a title="Core" href="http://www.coresecurity.com/content/openfire-multiple-vulnerabilities" target="_blank">here</a>.
+This bug was actually part of a number of security bugs reported by Core Security Technologies. You can read their advisory <a title="Core" href="http://www.coresecurity.com/content/openfire-multiple-vulnerabilities" target="_blank">here</a>.
 
 The patch simply HTML encodes the tainted search parameter...
 ## Developers Solution
@@ -146,4 +146,4 @@ class="&lt;%= ((isCurrent) ? "jive-current" : "") %&gt;"
 ]
 &lt;/p&gt;
 
-[/cce] 
+[/cce]

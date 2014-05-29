@@ -52,13 +52,13 @@ __Issue Type:__ XSS
 
 Original Code: <a title="Drop Top" href="http://spotthevuln.com/2010/07/drop-top/" target="_blank">Found   Here</a>
 ## Description
-This is a straightforward XSS bug that affecting the Admin Console of OpenFire by Ignite Realtime/Jive software.  The code fix is simple, encode a tainted URL variable before using it in markup.  The URL variable is assigned an attacker controlled value here:
+This is a straightforward XSS bug that affecting the Admin Console of OpenFire by Ignite Realtime/Jive software. The code fix is simple, encode a tainted URL variable before using it in markup. The URL variable is assigned an attacker controlled value here:
 <blockquote>String url = ParamUtils.getParameter(request, "url");</blockquote>
 And is later used in the HTML markup here:
 <blockquote>&lt;input value="&lt;%= url %&gt;"&gt;</blockquote>
 The one line fix is to encode the URL parameter, which was done here:
 <blockquote>url = org.jivesoftware.util.StringUtils.escapeHTMLTags(url);</blockquote>
-Looking through the code, we see that OpenFire had previously fixed an XSS vulnerability just a few lines above in the USERNAME variable.  There is even comment indicating so!  It surprising that the Ignite Realtime/Jive developers missed this one as it is literally two lines below the previous fix.
+Looking through the code, we see that OpenFire had previously fixed an XSS vulnerability just a few lines above in the USERNAME variable. There is even comment indicating so!  It surprising that the Ignite Realtime/Jive developers missed this one as it is literally two lines below the previous fix.
 <blockquote>String username = ParamUtils.getParameter(request, "username");
 
 if (username != null) {
@@ -364,4 +364,4 @@ document.loginForm.password.focus();
 
 &lt;/html&gt;
 
-[/cce] 
+[/cce]

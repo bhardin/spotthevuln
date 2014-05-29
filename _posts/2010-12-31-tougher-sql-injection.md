@@ -35,21 +35,21 @@ __Issue Type:__ SQL Injection (SQLi)
 
 Original Code: <a title="Tougher" href="http://spotthevuln.com/2010/12/tougher/" target="_blank">Found    Here</a>
 <h3>Description</h3>
-This week's bug was an old SQL injection bug that affected PunBB versions &lt; 1.3.  In short, a value is taken from an attacker/user controlled POST request and is used to build a SQL statement.  This bug actually requires a small amount of tracing, so here we go!  First, we see that PunBB takes the attacker/user supplied content here (line 11)
+This week's bug was an old SQL injection bug that affected PunBB versions &lt; 1.3. In short, a value is taken from an attacker/user controlled POST request and is used to build a SQL statement. This bug actually requires a small amount of tracing, so here we go!  First, we see that PunBB takes the attacker/user supplied content here (line 11)
 <br><br>
 [sourcecode language="diff" highlight="11,19,26,27" firstline="11"]$form = array_map('trim', $_POST['form']);[/sourcecode]
 <br><br>
-The line above uses the value passed via $_POST['form'] to populate the $form variable.  The value goes through a trim() function, but is (for the most part) un-sanitized.  It's interesting that PHP allows for the submission of arrays through POST parameters.  This behavior is mentioned in the comments on this <a title="Arrays" href="http://php.net/manual/en/reserved.variables.post.php" target="_blank">page</a>
+The line above uses the value passed via $_POST['form'] to populate the $form variable. The value goes through a trim() function, but is (for the most part) un-sanitized. It's interesting that PHP allows for the submission of arrays through POST parameters. This behavior is mentioned in the comments on this <a title="Arrays" href="http://php.net/manual/en/reserved.variables.post.php" target="_blank">page</a>
 
-Next, the $form variable (which contains our attacker supplied values from $_POST['form']) is used in a foreach statement and each index of the $form variable value is used in some application logic.   You can see this in the following line (line 19)
+Next, the $form variable (which contains our attacker supplied values from $_POST['form']) is used in a foreach statement and each index of the $form variable value is used in some application logic. You can see this in the following line (line 19)
 <br><br>
 [sourcecode language="diff" highlight="11,19,26,27" firstline="19"]foreach ($form as $key =&gt; $input)[/sourcecode]
 <br><br>
-The foreach extracts the various values from the $form variable, does a quick comparison to a configuration value of some sort.  If the comparison returns the correct value, the application uses the tainted value to populate a $query array variable.  The tainted value is used here (line 26)
+The foreach extracts the various values from the $form variable, does a quick comparison to a configuration value of some sort. If the comparison returns the correct value, the application uses the tainted value to populate a $query array variable. The tainted value is used here (line 26)
 <br><br>
 [sourcecode language="diff" highlight="11,19,26,27" firstline="26"]'SET'		=&gt; 'conf_value='.$input,[/sourcecode]
 <br><br>
-The name of the variable ($query), along with the names of the indexes in the array (UPDATE, SET, WHERE), and finally the names of variables/functions close-by ($forum_db, query_build) are dead giveaways that the untainted value will eventually be used in a SQL query.  Use of a tainted value in this manner leads to SQL injection.
+The name of the variable ($query), along with the names of the indexes in the array (UPDATE, SET, WHERE), and finally the names of variables/functions close-by ($forum_db, query_build) are dead giveaways that the untainted value will eventually be used in a SQL query. Use of a tainted value in this manner leads to SQL injection.
 The developers addressed this issue by casting the tainted $input value to an int before using it to build a SQL statement.
 
 <h3>Developers Solution</h3>
@@ -154,4 +154,4 @@ if (!$section || $section == 'setup')
 				&lt;/div&gt;
 
 ...&lt;snip&gt;...
-[/sourcecode] 
+[/sourcecode]

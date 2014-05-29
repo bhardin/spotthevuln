@@ -34,11 +34,11 @@ __Issue Type:__ SQL Injection
 
 Original Code: <a title="Fish" href="http://spotthevuln.com/2010/09/fish/" target="_blank">Found    Here</a>
 ## Description
-This week's vuln was an easy one :)  The vulnerability affected the "members-only" plug-in for Wordpress and was patched in version 0.6.7.  There are a couple changes in the diff, but the most important change (from a security standpoint) is the transition from a string-built, dynamic SQL statement to a prepared statement.  The following lines show the SQL injection bug:
+This week's vuln was an easy one :)  The vulnerability affected the "members-only" plug-in for Wordpress and was patched in version 0.6.7. There are a couple changes in the diff, but the most important change (from a security standpoint) is the transition from a string-built, dynamic SQL statement to a prepared statement. The following lines show the SQL injection bug:
 <blockquote>$feedkey = $_GET['feedkey'];
 ... &lt;snip&gt;...
 $find_feedkey = $wpdb-&gt;get_results("SELECT umeta_id FROM $wpdb-&gt;usermeta WHERE meta_value = '$feedkey'");</blockquote>
-The members-only developers assigned a value for the $feedkey variable directly from the querystring.  They then used the attacker controlled value to build a SQL statement, using the $feedkey value to complete the SQL WHERE clause.  The symptoms presented above are classic SQL injection.  I'm happy to see that the members-only developers chose to use prepared statements to fix the SQL injection.
+The members-only developers assigned a value for the $feedkey variable directly from the querystring. They then used the attacker controlled value to build a SQL statement, using the $feedkey value to complete the SQL WHERE clause. The symptoms presented above are classic SQL injection. I'm happy to see that the members-only developers chose to use prepared statements to fix the SQL injection.
 
 There are a few other fixes here, but the SQL injection was the most important security fix.
 ## Developers Solution
@@ -84,4 +84,4 @@ $feed = members_only_create_feed('No Feed Key Found', $errormsg['feedkey_missing
 echo $feed;
 exit;
 }
-[/cce] 
+[/cce]

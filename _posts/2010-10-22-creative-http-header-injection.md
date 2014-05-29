@@ -34,7 +34,7 @@ __Issue Type:__ HTTP Header Injection
 
 Original Code: <a title="Creative" href="http://spotthevuln.com/2010/10/creative/" target="_blank">Found    Here</a>
 ## Description
-This week's bug was a Set-Cookie/HTTP Header injection bug in WordPress Core.  Looking at the code, we see that the WordPress Developers assign several variables directly from the $_POST body.  These assignments are listed below:
+This week's bug was a Set-Cookie/HTTP Header injection bug in WordPress Core. Looking at the code, we see that the WordPress Developers assign several variables directly from the $_POST body. These assignments are listed below:
 <blockquote>$comment_author       = trim($_POST['author']);
 
 $comment_author_email = trim($_POST['email']);
@@ -42,13 +42,13 @@ $comment_author_email = trim($_POST['email']);
 $comment_author_url   = trim($_POST['url']);
 
 $comment_content      = trim($_POST['comment']);</blockquote>
-Each of these variables should now be considered tainted and should be sanitized/encoded before using their values in any operations.  It seems that the WordPress developers were aware that the values assigned to the variables listed above could not be trusted and proceeded to escape the values before using them in database related operations.  Some examples of the sanitization can are provided below:
+Each of these variables should now be considered tainted and should be sanitized/encoded before using their values in any operations. It seems that the WordPress developers were aware that the values assigned to the variables listed above could not be trusted and proceeded to escape the values before using them in database related operations. Some examples of the sanitization can are provided below:
 <blockquote>$comment_author       = $wpdb-&gt;escape($user_identity);
 
 $comment_author_email = $wpdb-&gt;escape($user_email);
 
 $comment_author_url   = $wpdb-&gt;escape($user_url);</blockquote>
-Unfortunately, the developers utilized the incorrect sanitizing routines for the tainted values in the setcookie API.  The developers used stripslashes() to sanitize the user controlled value before passing it to the setcookie() API.  Although stripslashes can help prevent other types of vulnerabilities, it was not intended to defend against HTTP HEADER injection or cookie poisoning.  By injecting a series of CRLF (%0d%0a) characters, an attacker could use this bug to inject arbitrary headers into the HTTP response and in some cases use this header injection bug for XSS.  The WordPress developers addressed this issue by passing the attacker controlled value to the clean_url() function before allowing it in the setcookie.  The full source for clean_url() can be found <a title="clean_url" href="http://core.trac.wordpress.org/browser/tags/2.9/wp-includes/formatting.php" target="_blank">here</a>, however the more interesting sanitizing routines are provided below:
+Unfortunately, the developers utilized the incorrect sanitizing routines for the tainted values in the setcookie API. The developers used stripslashes() to sanitize the user controlled value before passing it to the setcookie() API. Although stripslashes can help prevent other types of vulnerabilities, it was not intended to defend against HTTP HEADER injection or cookie poisoning. By injecting a series of CRLF (%0d%0a) characters, an attacker could use this bug to inject arbitrary headers into the HTTP response and in some cases use this header injection bug for XSS. The WordPress developers addressed this issue by passing the attacker controlled value to the clean_url() function before allowing it in the setcookie. The full source for clean_url() can be found <a title="clean_url" href="http://core.trac.wordpress.org/browser/tags/2.9/wp-includes/formatting.php" target="_blank">here</a>, however the more interesting sanitizing routines are provided below:
 <blockquote>$url = preg_replace('|[^a-z0-9-~+_.?#=!&amp;;,/:%@$\|*\'()\\x80-\\xff]|i', '', $url);
 
 $strip = array('%0d', '%0a', '%0D', '%0A');
@@ -117,7 +117,7 @@ if ( !$user_ID ) :
 +	setcookie('comment_author_url_' . COOKIEHASH, stripslashes(clean_url($comment_author_url)), time() + 30000000, COOKIEPATH, COOKIE_DOMAIN);
 endif;
 
-$location = ( empty( $_POST['redirect_to'] ) ) ? get_permalink( $comment_post_ID ) : $_POST['redirect_to']; 
+$location = ( empty( $_POST['redirect_to'] ) ) ? get_permalink( $comment_post_ID ) : $_POST['redirect_to'];
 
 wp_redirect( $location );
 

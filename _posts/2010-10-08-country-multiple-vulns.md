@@ -26,11 +26,11 @@ __Issue Type:__ CSRF, XSS, SQLi
 
 Original Code: <a title="Country" href="http://spotthevuln.com/2010/10/country/" target="_blank">Found    Here</a>
 ## Description
-There were a ton of issues addressed in this patch.  Let's start from the top and work our way down.  The first change we see is the addition of a nonce check (check_admin_referer()).  The counterpart  to check_admin_referer() is a function named wp_nonce_field(), which can be found on lines 56-59 and 80-83.  Lines 56-59 and 80-83 set the nonce/token in the HTML markup and check_admin_referer() later validates that the token is legitimate.  This is done to prevent Cross Site Request Forgery (CSRF).  Although no one symptom is a dead giveaway for CSRF, finding a FORM without a token/nonce as one of the INPUT fields is an indication that the request should be investigated.  If the request introduces a state changing operations (changing of a user setting, modification of data, installation/removal of a new feature...etc) it will need to be protected by a CSRF nonce.  This patch adds CSRF protections in a few different places.
+There were a ton of issues addressed in this patch. Let's start from the top and work our way down. The first change we see is the addition of a nonce check (check_admin_referer()). The counterpart  to check_admin_referer() is a function named wp_nonce_field(), which can be found on lines 56-59 and 80-83. Lines 56-59 and 80-83 set the nonce/token in the HTML markup and check_admin_referer() later validates that the token is legitimate. This is done to prevent Cross Site Request Forgery (CSRF). Although no one symptom is a dead giveaway for CSRF, finding a FORM without a token/nonce as one of the INPUT fields is an indication that the request should be investigated. If the request introduces a state changing operations (changing of a user setting, modification of data, installation/removal of a new feature...etc) it will need to be protected by a CSRF nonce. This patch adds CSRF protections in a few different places.
 
-The next issue is a classic SQL injection vulnerability.  In line 38 we see that the developer has set $_POST['releaseme'] to a variable named $released.  A few lines later, $released is used to build a dynamic SQL statement.  What's interesting is $released is used at the end of a SQL statement and appears to be an integer, there could be other issues here if the escaping isn't done properly :)
+The next issue is a classic SQL injection vulnerability. In line 38 we see that the developer has set $_POST['releaseme'] to a variable named $released. A few lines later, $released is used to build a dynamic SQL statement. What's interesting is $released is used at the end of a SQL statement and appears to be an integer, there could be other issues here if the escaping isn't done properly :)
 
-Next up is a slew of XSS bugs.  Lines 10-29 use various $_POST parameters to set a number of variables.  These variables are then used to build HTML markup in lines 54-78.  The developer addressed these XSS bugs by using the esc_attr() API before allowing PHP to echo the variable value.  The developer also echoed the $_SERVER["REQUEST_URI"] value directly into HTML markup as well.  This variable represents the URI given in order to access the page and is considered tainted/attacker controlled.
+Next up is a slew of XSS bugs. Lines 10-29 use various $_POST parameters to set a number of variables. These variables are then used to build HTML markup in lines 54-78. The developer addressed these XSS bugs by using the esc_attr() API before allowing PHP to echo the variable value. The developer also echoed the $_SERVER["REQUEST_URI"] value directly into HTML markup as well. This variable represents the URI given in order to access the page and is considered tainted/attacker controlled.
 ## Developers Solution
 [sourcecode language="diff"]
 
@@ -119,4 +119,4 @@ function print_loginlockdownAdminPage() {
 +?&gt;
 &lt;h3&gt;&lt;?php _e('Currently Locked Out', 'loginlockdown') ?&gt;&lt;/h3&gt;
 
-[/sourcecode] 
+[/sourcecode]

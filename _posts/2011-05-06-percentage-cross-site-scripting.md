@@ -27,15 +27,15 @@ __Issue Type:__ Cross Site Scripting
 
 Original Code: <a href="http://spotthevuln.com/2011/05/percentage/">Found Here</a>
 ## Details
-There is a lot going on here in this code snippet.   First, let's talk about the patch.  The patch adds a check to ensure the user requesting has the rights to edit a post.  The added functionality only displays a link (A HREF) if the user has the correct permissions.  Let's hope there are additional checks in place to prevent the execution of this functionality, as opposed to just trying to obscure the link.
+There is a lot going on here in this code snippet. First, let's talk about the patch. The patch adds a check to ensure the user requesting has the rights to edit a post. The added functionality only displays a link (A HREF) if the user has the correct permissions. Let's hope there are additional checks in place to prevent the execution of this functionality, as opposed to just trying to obscure the link.
 <br><br>
-Second, there are a few SQL queries.  The SQL queries actually seem to be well handled; most values are cast to int, which should work.  Of course, Neal Poole and Jacob astutely point out that casts to int cannot always be trusted (<a href="http://spotthevuln.com/2011/03/invincible-cross-site-scripting/">http://spotthevuln.com/2011/03/invincible-cross-site-scripting/</a> &lt;-- see comments section).  Abraham Kang also points out that some escaping functions can be defeated by using alternate charsets.  The better solution is to use parameterized queries.
+Second, there are a few SQL queries. The SQL queries actually seem to be well handled; most values are cast to int, which should work. Of course, Neal Poole and Jacob astutely point out that casts to int cannot always be trusted (<a href="http://spotthevuln.com/2011/03/invincible-cross-site-scripting/">http://spotthevuln.com/2011/03/invincible-cross-site-scripting/</a> &lt;-- see comments section). Abraham Kang also points out that some escaping functions can be defeated by using alternate charsets. The better solution is to use parameterized queries.
 <br><br>
-What about XSS?  There is XSS everywhere on this page.  In fact, there is so much XSS I'm not even going to try to list all of the exposures.  Instead, I'll focus on two different patterns.  Let's start with a classic XSS bug seen in many different PHP products.  On line XX, the developer echoes back $_SERVER['PHP_SELF'].  This results in XSS.  Many developers think that PHP_SELF will only echo back the current URL path with no user controlled input, but sadly this is not the case.  PHP_SELF can almost always be tainted by a user/attacker.  This comment on the reserved variables page for PHP sums it up nicely: <a href="http://www.php.net/manual/en/reserved.variables.php#55068">http://www.php.net/manual/en/reserved.variables.php#55068</a>.
+What about XSS?  There is XSS everywhere on this page. In fact, there is so much XSS I'm not even going to try to list all of the exposures. Instead, I'll focus on two different patterns. Let's start with a classic XSS bug seen in many different PHP products. On line XX, the developer echoes back $_SERVER['PHP_SELF']. This results in XSS. Many developers think that PHP_SELF will only echo back the current URL path with no user controlled input, but sadly this is not the case. PHP_SELF can almost always be tainted by a user/attacker. This comment on the reserved variables page for PHP sums it up nicely: <a href="http://www.php.net/manual/en/reserved.variables.php#55068">http://www.php.net/manual/en/reserved.variables.php#55068</a>.
 <br><br>
-Now, looking at lines 30-35, we see the developer uses stripslashes before echoing back a user controlled value.  I'm guessing this is because the developer was worried about echoing back data that was stored with a database escaping function.   Unfortunately, stripslashes does not prevent XSS.  Pretty much all of the echo statements on this page are vulnerable to XSS (unless the data is being stored  in an HTML encoded state).  The echo statements on line 68 and line 70 are 100% XSS.
+Now, looking at lines 30-35, we see the developer uses stripslashes before echoing back a user controlled value. I'm guessing this is because the developer was worried about echoing back data that was stored with a database escaping function. Unfortunately, stripslashes does not prevent XSS. Pretty much all of the echo statements on this page are vulnerable to XSS (unless the data is being stored  in an HTML encoded state). The echo statements on line 68 and line 70 are 100% XSS.
 <br><br>
-From the looks of this code, it's likely the developer doesn't know what XSS is.  Any security training should probably first focus on this deficiency.  Other code written by this developer should also be audited for XSS.
+From the looks of this code, it's likely the developer doesn't know what XSS is. Any security training should probably first focus on this deficiency. Other code written by this developer should also be audited for XSS.
 
 
 ## Developers Solution
@@ -77,10 +77,10 @@ From the looks of this code, it's likely the developer doesn't know what XSS is.
 			&lt;td&gt;&lt;?php echo sb_sermon_stats($sermon-&gt;id) ?&gt;&lt;/td&gt;
 			&lt;td style=&quot;text-align:center&quot;&gt;
 -				&lt;a href=&quot;&lt;?php echo $_SERVER['PHP_SELF']?&gt;?page=sermon-browser/new_sermon.php&amp;mid=&lt;?php echo $sermon-&gt;id ?&gt;&quot;&gt;&lt;?php _e('Edit', $sermon_domain) ?&gt;&lt;/a&gt; | &lt;a onclick=&quot;return confirm('Are you sure?')&quot; href=&quot;&lt;?php echo $_SERVER['PHP_SELF']?&gt;?page=sermon-browser/sermon.php&amp;mid=&lt;?php echo $sermon-&gt;id ?&gt;&quot;&gt;&lt;?php _e('Delete', $sermon_domain) ?&gt;&lt;/a&gt;
-+				&lt;?php //Security check 
-+							if (current_user_can('edit_posts')) { ?&gt; 
-+							&lt;a href=&quot;&lt;?php echo $_SERVER['PHP_SELF']?&gt;?page=sermon-browser/new_sermon.php&amp;mid=&lt;?php echo $sermon-&gt;id ?&gt;&quot;&gt;&lt;?php _e('Edit', $sermon_domain) ?&gt;&lt;/a&gt; | &lt;a onclick=&quot;return confirm('Are you sure?')&quot; href=&quot;&lt;?php echo $_SERVER['PHP_SELF']?&gt;?page=sermon-browser/sermon.php&amp;mid=&lt;?php echo $sermon-&gt;id ?&gt;&quot;&gt;&lt;?php _e('Delete', $sermon_domain); ?&gt;&lt;/a&gt; | 
-+				&lt;?php } ?&gt; 
++				&lt;?php //Security check
++							if (current_user_can('edit_posts')) { ?&gt;
++							&lt;a href=&quot;&lt;?php echo $_SERVER['PHP_SELF']?&gt;?page=sermon-browser/new_sermon.php&amp;mid=&lt;?php echo $sermon-&gt;id ?&gt;&quot;&gt;&lt;?php _e('Edit', $sermon_domain) ?&gt;&lt;/a&gt; | &lt;a onclick=&quot;return confirm('Are you sure?')&quot; href=&quot;&lt;?php echo $_SERVER['PHP_SELF']?&gt;?page=sermon-browser/sermon.php&amp;mid=&lt;?php echo $sermon-&gt;id ?&gt;&quot;&gt;&lt;?php _e('Delete', $sermon_domain); ?&gt;&lt;/a&gt; |
++				&lt;?php } ?&gt;
 +				&lt;a href=&quot;&lt;?php echo sb_display_url().sb_query_char(true).'sermon_id='.$sermon-&gt;id;?&gt;&quot;&gt;View&lt;/a&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
@@ -139,4 +139,4 @@ From the looks of this code, it's likely the developer doesn't know what XSS is.
 die();
 
 ?&gt;
-[/sourcecode] 
+[/sourcecode]
