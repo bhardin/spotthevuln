@@ -19,6 +19,9 @@ meta:
 ---
 <blockquote>It's not true that life is one damn thing after another; it is one damn thing over and over.
 - Edna St. Vincent Millay (1892 - 1950)</blockquote>
+
+## Vulnerable Code
+
 [ccnLe_php]
 
 if ( '' != $qv['tb'] )
@@ -56,4 +59,4 @@ $this-&gt;is_page = true;
 $this-&gt;is_home = false;
 $qv['page_id'] = get_option('page_on_front');
 }
-[/ccnLe_php] 
+[/ccnLe_php]

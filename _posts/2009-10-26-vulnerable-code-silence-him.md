@@ -20,6 +20,9 @@ meta:
 ---
 <blockquote>You have not converted a man because you have silenced him.
 - John Viscount Morley</blockquote>
+
+## Vulnerable Code
+
 [ccnLe_php]
 
 function convert_all() {
@@ -61,4 +64,4 @@ break;
 case 3 :
 $this-&gt;convert_all_confirm();
 
-[/ccnLe_php] 
+[/ccnLe_php]

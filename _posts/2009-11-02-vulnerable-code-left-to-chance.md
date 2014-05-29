@@ -19,6 +19,9 @@ meta:
 ---
 <blockquote>The generation of random numbers is too important to be left to chance.
 - Robert R. Coveyou, Oak Ridge National Laboratory</blockquote>
+
+## Vulnerable Code
+
 [ccnLe_php]
 
 &lt;h2&gt;&lt;?php _e('Importing...') ?&gt;&lt;/h2&gt;
@@ -56,4 +59,4 @@ $titles[$i] = '';
 if ('http' == substr($titles[$i], 0, 4))
 $titles[$i] = '';
 
-[/ccnLe_php] 
+[/ccnLe_php]

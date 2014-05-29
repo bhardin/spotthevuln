@@ -20,7 +20,11 @@ meta:
 ---
 <blockquote>I choose my friends for their good looks, my acquaintances for their good characters, and my enemies for their good intellects. A man cannot be too careful in the choice of his enemies.
 - Oscar Wilde (1854 - 1900), The Picture of Dorian Gray, 1891</blockquote>
+
+## Vulnerable Code
+
 [ccnLe_php]
+
 
 /**
 * Removes characters from the username
@@ -46,4 +50,4 @@ function sanitize_user( $username, $strict = false ) {
 
    return apply_filters('sanitize_user', $username, $raw_username, $strict);
 }
-[/ccnLe_php] 
+[/ccnLe_php]

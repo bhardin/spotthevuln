@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: vulnerability
 tags: Code Snippet, PHP
 ---
 
@@ -9,7 +9,7 @@ tags: Code Snippet, PHP
 >
 > - Frank Deford
 
-## Vulnerable Code Snippet
+## Vulnerable Code
 
 ```php
 <?php

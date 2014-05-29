@@ -1,28 +1,13 @@
 ---
-layout: post
-title:
+layout: solution
 tags:
 - Carriage Return/Line Feed (CRLF) Injection
 - Cross-Site Scripting (XSS)
 - HTTP header injection
-- Solution
 - URL Redirection
-- Wordpress
-status: publish
-type: post
-published: true
-meta:
-  aktt_tweeted: '1'
-  aktt_notify_twitter: 'yes'
-  _aktt_hash_meta: ''
-  _edit_last: '1'
-  _headspace_page_title: Carriage Return Line-Feed (CRLF) Vulnerable Code Example
-  _headspace_description: Carriage Return Line Feed Vulnerability Code Example
-  _sexybookmarks_permaHash: 7369dd991e98a22b00a63eb0be973734
-  _sexybookmarks_shortUrl: http://bit.ly/caO0rg
 ---
 
-# These Pipes are Clean - Solution
+# Solution: These Pipes are Clean
 
 ## Details
 
@@ -33,13 +18,13 @@ meta:
 ## Description
 When appended together the `%0d` (Carriage Return) and `%0a` (Line Feed) characters represent a Carriage Return Line Feed (CRLF).
 
-The vulnerable WordPress code snippet actually contained logic to detect carriage returns and line feed characters, attempting to strip CRLF from data being assigned to the `$url` variable.
+The vulnerable WordPress code snippet actually contained logic to detect carriage return and line feed characters. The logic was attempting to strip CRLFs from data being assigned to the `$url` variable.
 
-The CRLF detection logic used by the vulnerable WordPress version was not very robust.  The CRLF detection logic simply checked for the presence of `%0d` and `%0a` in the `$url` variable and failed to consider Uppercase versions: `%0D` or `%0A`.  The `$url` variable is assigned the CRLF tainted string and eventually passed to a HTTP Location header, giving the attacker an opportunity for URL Redirection, CRLF injection, HTTP header injection, and even Cross Site Scripting (XSS).
+However, The CRLF detection logic wasn't robust enough. The CRLF detection logic simply checked for the presence of `%0d` and `%0a` in `$url` and failed to consider uppercase versions of these control characters: `%0D` or `%0A`.  The `$url` variable is assigned the CRLF tainted string and eventually passed to a HTTP `Location` header, giving the attacker an opportunity for URL Redirection, CRLF injection, HTTP header injection, and even Cross-Site Scripting.
 
 In addition to adding uppercase variants of `%0D` and `%0A` to the detection logic, a function to recursively detect the presence of CRLF was also added.
 
-Before this function was added, it was possible to defeat the detection logic by simply passing a string such as `%0%0d%0ad%0%0d%0aa` which would have `%0d%0a` character sequences stripped out, resulting in `%0d%0a` being passed to the `$url` variable. The WordPress developers addressed this issue by adding a recursive verifier function `_deep_replace()`, whose source is included in the Developers Solution.
+Before this function was added, it was possible to defeat the detection logic by simply passing a string such as `%0%0d%0ad%0%0d%0aa` which would have the `%0d%0a` character sequences stripped out, resulting in `%0d%0a` being passed to the `$url` variable. The WordPress developers addressed this issue by adding a recursive verifier function `_deep_replace()`, whose source is included in the Developers Solution.
 
 ## Developers Solution
 ```diff

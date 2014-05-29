@@ -5,12 +5,12 @@ layout: post
 # Spot The Vuln
 
 ## Purpose
-spotthevuln.com was created by [two security professionals](/about) who wanted to give something back to the community. The intent of this blog is to provide examples of real world vulnerabilities affecting real world software. The examples provided are from open source software packages with the focus being on web applications.
+Spotthevuln.com was created by [two security professionals](/about) who wanted to give something back to the community. The intent of the blog is to provide examples of real world vulnerabilities affecting real world software. The examples provided are from open source software packages with a focus being on web applications.
 
 We hope security professionals find the blog interesting, but we also hope to reach non-security professionals across multiple disciplines including development, quality assurance, and management. Individuals who are looking for a quick security challenge or an introduction to reviewing code from a security perspective.
 
 ## Logistics
-The samples will cover various coding languages and a variety of issues. We will post a vulnerable code snippet every __Monday at 8am (PST)__. The solution to the vulnerable code will be posted on the following __Friday at 8am (PST)__.
+The samples cover various coding languages and a variety of issues. We post a vulnerable code snippet every __Monday at 8am (PST)__. The solution to the vulnerable code will be posted on the following __Friday at 8am (PST)__.
 
 If you plan on using samples from this blog as a part of a formal course of instruction or a teaching aid, you can count on one (1) vulnerability along with its solution to be presented every week.
 
