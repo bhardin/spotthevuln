@@ -22,10 +22,10 @@ meta:
 
 ## Vulnerable Code
 
-[ccnLe_php]
-
-&lt;h2&gt;&lt;?php _e('Importing...') ?&gt;&lt;/h2&gt;
-&lt;?php
+```html+php
+<?
+<h2><?php _e('Importing...') ?></h2>
+<?php
 $cat_id = $_POST['cat_id'];
 if (($cat_id == '') || ($cat_id == 0)) {
 $cat_id  = 1;
@@ -37,7 +37,7 @@ $blogrolling = true;
 }
 else // try to get the upload file.
 {
-$overrides = array('test_form' =&gt; false, 'test_type' =&gt; false);
+$overrides = array('test_form' => false, 'test_type' => false);
 $file = wp_handle_upload($_FILES['userfile'], $overrides);
 
 if ( isset($file['error']) )
@@ -53,10 +53,10 @@ $opml = wp_remote_fopen($opml_url);
 include_once('link-parse-opml.php');
 
 $link_count = count($names);
-for ($i = 0; $i &lt; $link_count; $i++) {
+for ($i = 0; $i < $link_count; $i++) {
 if ('Last' == substr($titles[$i], 0, 4))
 $titles[$i] = '';
 if ('http' == substr($titles[$i], 0, 4))
 $titles[$i] = '';
 
-[/ccnLe_php]
+```

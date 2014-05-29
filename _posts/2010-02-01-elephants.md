@@ -23,8 +23,8 @@ meta:
 ---
 <blockquote><strong>Yesterday I shot an elephant in my pajamas. How he got in my pajamas I don't know</strong><strong>.
 - Groucho Marx</strong></blockquote>
-[ccnLe_php]
-
+```php
+<?
 /**
 * Evaluate the strength of a user's password.
 *
@@ -89,4 +89,4 @@ indicatorText = translate.strong;
 msg = translate.hasWeaknesses + '&lt;ul&gt;&lt;li&gt;' + msg.join('&lt;/li&gt;&lt;li&gt;') + '&lt;/li&gt;&lt;/ul&gt;';
 return { strength: strength, message: msg, indicatorText: indicatorText }
 
-[/ccnLe_php] 
+```

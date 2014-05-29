@@ -23,8 +23,8 @@ meta:
 
 ## Vulnerable Code
 
-[ccnLe_php]
-
+```php
+<?
 function convert_all() {
 global $wpdb;
 
@@ -64,4 +64,4 @@ break;
 case 3 :
 $this-&gt;convert_all_confirm();
 
-[/ccnLe_php]
+```

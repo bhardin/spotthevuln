@@ -19,7 +19,8 @@ meta:
 ---
 <blockquote>There are two ways to pass a hurdle: leaping over or plowing through... There needs to be a monster truck option.
 - Jeph Jacques, Questionable Content #1356, 03-10-09</blockquote>
-[ccnLe_php]
+```php
+<?
 function update_option($option_name, $newvalue) {
 global $wpdb;
 
@@ -90,4 +91,4 @@ wp_cache_set('notoptions', $notoptions, 'options');
 return false;
 }
 }
-[/ccnLe_php] 
+```

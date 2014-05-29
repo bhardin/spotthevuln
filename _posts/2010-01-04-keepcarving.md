@@ -24,9 +24,8 @@ meta:
 <blockquote>I saw the angel in the marble and carved until I set him free.
 
 - Michelangelo</blockquote>
-[ccnLe_php]
-
-&lt;?php
+```php
+<?php
 
 function display( &amp;$rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword ) {
 global $mosConfig_hideCreateDate;
@@ -72,4 +71,4 @@ $link             = $mosConfig_live_site ."/index.php?option=$option&amp;Itemid=
 &lt;?php
 }
 
-[/ccnLe_php] 
+```

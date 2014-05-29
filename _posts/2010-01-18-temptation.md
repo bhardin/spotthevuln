@@ -22,8 +22,8 @@ meta:
   _sexybookmarks_permaHash: e06b864943e5c79266c4fb7aff4005d9
 ---
 <blockquote>Don't worry about temptation--as you grow older, it starts avoiding you. -- Old Farmer's Almanac</blockquote>
-[ccnLe_php]
-
+```php
+<?
 function sql_freeresult($query_id = false)
 {
 if (!$query_id)
@@ -89,4 +89,4 @@ return $result;
 
 ?&gt;
 
-[/ccnLe_php] 
+```

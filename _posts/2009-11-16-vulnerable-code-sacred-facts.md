@@ -19,8 +19,8 @@ meta:
 ---
 <blockquote>Comments are free but facts are sacred.
 - Charles Prestwich Scott</blockquote>
-[ccnLe_php]
-
+```php
+<?
 function _wp_dashboard_recent_comments_row( &amp;$comment, $show_date = true ) {
 $GLOBALS['comment'] =&amp; $comment;
 
@@ -49,4 +49,4 @@ $actions['delete'] = "&lt;a href='$delete_url' class='delete:the-comment-list:co
 $actions = apply_filters( 'comment_row_actions', $actions, $comment );
 
 $i = 0;
-[/ccnLe_php] 
+```

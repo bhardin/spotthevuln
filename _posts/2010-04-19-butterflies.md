@@ -22,9 +22,8 @@ meta:
 ---
 <blockquote><strong>It's so bizarre, I'm not scared of snakes or spiders. But I'm scared of butterflies. There is something eerie about them. Something weird!</strong>
 - Nicole Kidman</blockquote>
-[ccnLe_php]
-
-&lt;?php
+```php
+<?php
 
 function print_loginlockdownAdminPage() {
 
@@ -124,4 +123,4 @@ $dalist = listLockedDown();
 
 &lt;input type="text" name="ll_lockout_length" size="8" value="&lt;?php echo $loginlockdownAdminOptions['lockout_length']; ?&gt;"&gt;
 
-[/ccnLe_php] 
+```

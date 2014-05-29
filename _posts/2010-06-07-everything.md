@@ -22,8 +22,8 @@ meta:
 ---
 <blockquote><strong>Anybody who knows everything should be told a thing or two.
 - Franklin P. Jones</strong></blockquote>
-[ccnLe_php]
-
+```php
+<?php
                 &lt;script type="text/javascript"&gt;
                         // workaround for bug in Safari 3. See #7189
                         if (/3[\.0-9]+ Safari/.test(navigator.appVersion))
@@ -112,4 +112,4 @@ meta:
                                 line-height: 1.25em;
                         }
 
-[/ccnLe_php]
+```

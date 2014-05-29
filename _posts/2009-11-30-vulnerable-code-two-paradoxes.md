@@ -20,8 +20,8 @@ meta:
 ---
 <blockquote>Two paradoxes are better than one; they may even suggest a solution.
 - Edward Teller (1908 - 2003)</blockquote>
-[ccnLe_php]
-
+```php
+<?
 function wp_suggestCategories($args) {
 global $wpdb;
 
@@ -53,4 +53,4 @@ WHERE cat_name LIKE '{$category}%'
 
 return($category_suggestions);
 }
-[/ccnLe_php] 
+```

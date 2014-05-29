@@ -25,9 +25,8 @@ meta:
 <blockquote>Some mornings, it's just not worth chewing through the leather straps
 
 - Emo Phillips</blockquote>
-[ccnLe_php]
-
-&lt;%php
+```php
+<%php
 
 ...
 
@@ -67,4 +66,4 @@ $selection = preg_replace('/(\r?\n|\r)/', '&lt;/p&gt;&lt;p&gt;', $selection);
 
 &lt;/div&gt;
 
-[/ccnLe_php] 
+```

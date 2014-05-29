@@ -22,9 +22,8 @@ meta:
 ---
 <blockquote><strong>Entrepreneurs are simply those who understand that there is little difference between obstacle and opportunity and are able to turn both to their advantage</strong>
 - Niccolo Machiavelli</blockquote>
-[ccnLe_php]
-
-&lt;?php
+```php
+<?php
 
 switch($db['type'])
 {
@@ -36,19 +35,19 @@ switch($db['type'])
     break;
 }
 unset($db);
- 
+
 // Set Header and cache expiration
 $offset = 60 * 60 * 24 * 2; // 2 days to expiry date.
 @ob_start("ob_gzhandler");
-header("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");                                                                 
+header("Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");
 header('Cache-Control: ');
 header('Pragma: ');
- 
+
 foreach ($_GET as $key=&gt;$value)
 {
     $_GET[$key] = urldecode($value);
 }
- 
+
 $raw_content = '(No content available)';
 if (!empty($_GET['content']))
 {
@@ -56,10 +55,10 @@ if (!empty($_GET['content']))
     if (is_resource($fp))
     {
         $raw_content = '';
-        while(!feof($fp)) $raw_content .= fread($fp,4096); 
+        while(!feof($fp)) $raw_content .= fread($fp,4096);
     }
 }
- 
+
 // just a namespace
 class iBeginShare
 {
@@ -82,4 +81,4 @@ class iBeginShare
             return htmlspecialchars((string) trim($value), ENT_QUOTES, 'UTF-8');
         }
     }
-[/ccnLe_php] 
+```

@@ -66,4 +66,4 @@ if ( $strict )<br />
 $username = preg_replace('|[^a-z0-9 _.\-@]|i', '', $username);</p>
 <p>return apply_filters('sanitize_user', $username, $raw_username, $strict);<br />
 }</p>
-<p>[/ccnLe_php]</p>
+<p>```</p>

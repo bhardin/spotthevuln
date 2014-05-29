@@ -4,26 +4,14 @@ title: One Damn Thing
 tags:
 - Code Snippet
 - PHP
-status: publish
-type: post
-published: true
-meta:
-  aktt_notify_twitter: 'no'
-  _aktt_hash_meta: ''
-  _edit_last: '1'
-  _headspace_page_title: Vulnerable Source Code
-  _headspace_description: Can you identify the security vulnerability in this code
-    snippet?
-  _sexybookmarks_permaHash: e469acbc5180aa9edca925afa1a06618
-  _sexybookmarks_shortUrl: http://bit.ly/4BlLsS
 ---
 <blockquote>It's not true that life is one damn thing after another; it is one damn thing over and over.
 - Edna St. Vincent Millay (1892 - 1950)</blockquote>
 
 ## Vulnerable Code
 
-[ccnLe_php]
-
+```php
+<?
 if ( '' != $qv['tb'] )
 $this-&gt;is_trackback = true;
 
@@ -59,4 +47,4 @@ $this-&gt;is_page = true;
 $this-&gt;is_home = false;
 $qv['page_id'] = get_option('page_on_front');
 }
-[/ccnLe_php]
+```

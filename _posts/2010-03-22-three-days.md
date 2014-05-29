@@ -24,8 +24,8 @@ meta:
 <blockquote><strong>For three days after death, hair and fingernails continue to grow but phone calls taper off</strong><strong>.</strong><strong>
 - Johnny Carson
 </strong></blockquote>
-[ccnLe_php]
-
+```php
+<?
 $user_login = $HTTP_POST_VARS['user_login'];
 $pass1 = $HTTP_POST_VARS['pass1'];
 $pass2 = $HTTP_POST_VARS['pass2'];
@@ -88,4 +88,4 @@ $message .= "Login: $user_login\r\n\r\nE-mail: $user_email";
 
 @mail($admin_email, "[$blogname] New User Registration", $message);
 
-[/ccnLe_php] 
+```

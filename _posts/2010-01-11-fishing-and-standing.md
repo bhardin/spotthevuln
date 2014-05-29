@@ -24,7 +24,8 @@ meta:
 <blockquote>There is a fine line between fishing and just standing on the shore like an idiot.
 
 - Steven Wright</blockquote>
-[ccnLe_php]
+```php
+<?
 $form['username'] = $_POST['username'];
 ($hook = get_hook('aus_find_user_selected')) ? eval($hook) : null;
 
@@ -54,4 +55,4 @@ array(
 'ORDER BY'  =&gt; $order_by.' '.$direction <ins></ins>
 );
 
-[/ccnLe_php] 
+```

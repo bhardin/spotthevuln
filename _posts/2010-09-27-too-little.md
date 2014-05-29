@@ -17,8 +17,9 @@ meta:
 ---
 <blockquote><strong>Any supervisor worth his salt would rather deal with people who attempt too much than with those who try too little</strong><strong>.
 </strong> <strong> -Lee Iacocca</strong></blockquote>
-[ccnLe_php]
-&lt;?php
+
+```php
+<?php
 // this just bounces a message as a response, and optionally emulates network latency.
 
 // default delay is 0 sec, to change:
@@ -75,4 +76,4 @@ echo $_GET['message'];
 usleep($delay);
 
 ?&gt;
-[/ccnLe_php] 
+```

@@ -25,8 +25,8 @@ meta:
 ---
 <blockquote><strong>To be great is to be misunderstood.
 - Ralph Waldo Emerson</strong></blockquote>
-[ccnLe_php]
-
+```php
+<?
 // show the products of a specified manufacturer
 if (isset($HTTP_GET_VARS['manufacturers_id'])) {
 if (isset($HTTP_GET_VARS['filter_id']) &amp;&amp; tep_not_null($HTTP_GET_VARS['filter_id'])) {
@@ -71,4 +71,4 @@ $listing_sql .= " order by p.products_quantity " . ($sort_order == 'd' ? 'desc' 
 break;
 case 'PRODUCT_LIST_IMAGE':
 
-[/ccnLe_php] 
+```

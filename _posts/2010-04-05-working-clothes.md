@@ -23,9 +23,8 @@ meta:
 <blockquote><strong>Common sense is genius dressed in its working clothes.</strong>
 
 <strong>- Ralph Waldo Emerson</strong></blockquote>
-[ccnLe_php]
-
-&lt;?php
+```php
+<?php
 
 function wp_dashboard_recent_drafts( $drafts = false ) {
         if ( !$drafts ) {
@@ -39,7 +38,7 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
                 ) );
                 $drafts =&amp; $drafts_query-&gt;posts;
         }
- 
+
         if ( $drafts &amp;&amp; is_array( $drafts ) ) {
                 $list = array();
                 foreach ( $drafts as $draft ) {
@@ -60,7 +59,7 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
                 _e('There are no drafts at the moment');
         }
 }
- 
+
 /**
  * Display recent comments dashboard widget content.
  *
@@ -68,28 +67,28 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
  */
 function wp_dashboard_recent_comments() {
         global $wpdb;
- 
+
         if ( current_user_can('edit_posts') )
                 $allowed_states = array('0', '1');
         else
                 $allowed_states = array('1');
- 
+
         // Select all comment types and filter out spam later for better query performance.
         $comments = array();
         $start = 0;
- 
+
         while ( count( $comments ) &lt; 5 &amp;&amp; $possible = $wpdb-&gt;get_results( "SELECT * FROM $wpdb-&gt;comments c LEFT JOIN $wpdb-&gt;posts p ON c.comment_post_ID = p.ID WHERE p.post_status != 'trash' ORDER BY c.comment_date_gmt DESC LIMIT $start, 50" ) ) {
- 
+
                 foreach ( $possible as $comment ) {
                         if ( count( $comments ) &gt;= 5 )
                                 break;
                         if ( in_array( $comment-&gt;comment_approved, $allowed_states ) )
                                 $comments[] = $comment;
                 }
- 
+
                 $start = $start + 50;
         }
- 
+
         if ( $comments ) :
 ?&gt;
-[/ccnLe_php] 
+```

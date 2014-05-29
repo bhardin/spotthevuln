@@ -24,8 +24,8 @@ meta:
 <blockquote><strong>Hippies, hippies... they want to save the world but all they do is smoke pot and play frisbee!</strong><strong>.
 - Eric Cartman
 </strong></blockquote>
-[ccnLe_php]
-
+```php
+<?
 function theme_admin_block($variables) {
 $block = $variables['block'];
 
@@ -130,4 +130,4 @@ $container[$block['position']] .= $block_output;
 $output = '&lt;div&gt;';
 $output .= theme('system_compact_link');
 
-[/ccnLe_php] 
+```
