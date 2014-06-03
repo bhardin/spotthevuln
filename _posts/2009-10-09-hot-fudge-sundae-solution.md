@@ -19,7 +19,7 @@ However, objects are not explicitly escaped in the vulnerable code. If an attack
 
 The WordPress developers simply placed conditional logic to determine whether the data being passed was from an array or an object and escaped the data as needed, protecting the user from Cross-Site Scripting.
 
-## Developers Solution
+## Developer's Solution
 
 ```diff
 <?php

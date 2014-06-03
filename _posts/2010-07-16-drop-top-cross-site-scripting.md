@@ -77,7 +77,7 @@ String password = ParamUtils.getParameter(request, "password");
 
 String url = ParamUtils.getParameter(request, "url");</blockquote>
 The assignment of the PASSWORD variable is interesting :)
-## Developers Solution
+## Developer's Solution
 ```diff
 
 &lt;%!

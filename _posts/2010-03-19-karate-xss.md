@@ -36,7 +36,7 @@ Original Code: <a title="Karate" href="http://spotthevuln.com/2010/03/karate/" t
 Auditing template languages can be tricky. Many times the tools and automation fall apart when dealing with template languages. Also, many template languages separate markup and logic, forcing the code auditor to trace every alteration of markup.
 
 In this specific example, we see that the developer has removed two lines that echoed the user's firstname and lastname to the HTML markup. The removed lines were replaced with what appears to be encoded firstname and lastname values. What's interesting is the birthdate and userid appear to be displayed without any encoding. It would be interesting to see if the user/attacker could control these in a manner that could result in XSS.
-## Developers Solution
+## Developer's Solution
 ```diff
 
 &lt;title&gt;${rc.getMessage("userList.title")}&lt;/title&gt;

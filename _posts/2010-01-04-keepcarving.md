@@ -1,30 +1,17 @@
 ---
 layout: post
-title: Keep Carving
 tags:
 - Code Snippet
 - PHP
-status: publish
-type: post
-published: true
-meta:
-  aktt_notify_twitter: 'yes'
-  _aktt_hash_meta: ! '#code #development'
-  _edit_last: '1'
-  aktt_tweeted: '1'
-  _sexybookmarks_permaHash: 89e74920856154c57352e58868d6e8fc
-  _sexybookmarks_shortUrl: http://bit.ly/5gYGTw
-  bfa_ata_body_title: Keep Carving
-  bfa_ata_display_body_title: ''
-  bfa_ata_body_title_multi: Keep Carving
-  bfa_ata_meta_title: ''
-  bfa_ata_meta_keywords: ''
-  bfa_ata_meta_description: ''
 ---
-<blockquote>I saw the angel in the marble and carved until I set him free.
 
-- Michelangelo</blockquote>
-```php
+# Keep Carving
+
+> I saw the angel in the marble and carved until I set him free.
+
+> - Michelangelo
+
+```html+php
 <?php
 
 function display( &amp;$rows, $params, $pageNav, $limitstart, $limit, $total, $totalRows, $searchword ) {
@@ -37,19 +24,19 @@ $searchword = urldecode( $searchword );
 $searchword    = htmlspecialchars($searchword, ENT_QUOTES);
 
 // number of matches found
-echo '&lt;br/&gt;';
+echo '<br/>';
 eval ('echo "'._CONCLUSION.'";');
 
-?&gt;
-&lt;a href="http://www.google.com/search?q=&lt;?php echo $searchword; ?&gt;" target="_blank"&gt;
-&lt;?php echo $image; ?&gt;&lt;/a&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
+?>
+<a href="http://www.google.com/search?q=<?php echo $searchword; ?>" target="_blank">
+<?php echo $image; ?></a>
+</td>
+</tr>
+</table>
 
 ...
 
-&lt;?php
+<?php
 function conclusion( $searchword, $pageNav ) {
 global $mosConfig_live_site, $option, $Itemid;
 
@@ -59,16 +46,16 @@ $searchphrase     = strtolower( strval( mosGetParam( $_REQUEST, 'searchphrase', 
 $searchphrase    = htmlspecialchars($searchphrase);
 
 $link             = $mosConfig_live_site ."/index.php?option=$option&amp;Itemid=$Itemid&amp;searchword=$searchword&amp;searchphrase=$searchphrase&amp;ordering=$ordering";
-?&gt;
-&lt;tr&gt;
-&lt;td colspan="3"&gt;
-&lt;div align="center"&gt;
-&lt;?php echo $pageNav-&gt;writePagesLinks( $link ); ?&gt;
-&lt;/div&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;?php
+?>
+<tr>
+<td colspan="3">
+<div align="center">
+<?php echo $pageNav->writePagesLinks( $link ); ?>
+</div>
+</td>
+</tr>
+</table>
+<?php
 }
 
 ```

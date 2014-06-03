@@ -24,9 +24,10 @@ However, The CRLF detection logic wasn't robust enough. The CRLF detection logic
 
 In addition to adding uppercase variants of `%0D` and `%0A` to the detection logic, a function to recursively detect the presence of CRLF was also added.
 
-Before this function was added, it was possible to defeat the detection logic by simply passing a string such as `%0%0d%0ad%0%0d%0aa` which would have the `%0d%0a` character sequences stripped out, resulting in `%0d%0a` being passed to the `$url` variable. The WordPress developers addressed this issue by adding a recursive verifier function `_deep_replace()`, whose source is included in the Developers Solution.
+Before this function was added, it was possible to defeat the detection logic by simply passing a string such as `%0%0d%0ad%0%0d%0aa` which would have the `%0d%0a` character sequences stripped out, resulting in `%0d%0a` being passed to the `$url` variable. The WordPress developers addressed this issue by adding a recursive verifier function `_deep_replace()`, whose source is included in the Developer's Solution.
 
-## Developers Solution
+## Developer's Solution
+
 ```diff
 
 <?php

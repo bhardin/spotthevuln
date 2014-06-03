@@ -49,7 +49,7 @@ As you can see, there are no special characters (double quotes, single quotes, o
 $query = "SELECT * FROM `$table_name` WHERE ck_comment_id = <span style="color: #ff0000;">99999 union select uname, passwd from users</span>";
 
 The developers addressed this vulnerability by validating that $k_id is indeed numeric before using the value to build a dynamic SQL statement.
-## Developers Solution
+## Developer's Solution
 [sourcecode language="diff" highlight="14,15"]
 &lt;?php
 

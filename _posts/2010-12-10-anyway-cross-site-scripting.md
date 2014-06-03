@@ -39,7 +39,7 @@ First, some logistics... the code we're looking at belongs to the "Weight_save.p
 Although the developers prevented an XSS vulnerability, they completely overlooked several other issues. IndigoMann (via blog comments) noticed XSS and SQL Injection in this code... The one issue that jumps out at me is this line:
 <blockquote>$user_id = $_POST["user"];</blockquote>
 I always become very suspicious when an application passes user_id's back and forth. Ideally, this data should be stored via session state, otherwise an attacker could pass an arbitrary value and access (and possibly update) another user's data. Looking at the code, it appears this may be the case with the Hacker Diet plugin.
-<h3>Developers Solution</h3>
+<h3>Developer's Solution</h3>
 [sourcecode language="diff" highlight="14,15"]
 &lt;?
 // get our db settings without loading all of wordpress every save

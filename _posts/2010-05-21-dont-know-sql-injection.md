@@ -32,7 +32,7 @@ Original Code: <a title="Dont Know" href="http://spotthevuln.com/2010/05/dont-kn
 This example covers a SQL injection in the YAK for Wordpress plugin. YAK is a shopping cart plugin for WordPress which associates products with weblog entries. Shopping carts are the favorite of many web hackers as they typically contain security flaws due to the nature and exposed functionality of shopping carts. The <a title="Web Application Hackers Handbook" href="http://www.amazon.com/dp/0470170778" target="_blank">Web Application Hackers Handbook</a> (by Dafydd Stuttard aka <a title="Portswigger" href="http://portswigger.net/" target="_blank">Portswigger</a>) has some excellent examples of typically flaws that can be associated with online shopping carts as well as some techniques to exploit those flaws... highly recommended if you don't have it already!
 
 Looking at the code in this example, we see a classic SQL Injection through SQL statement string building. There are several places where the YAK plugin developer takes user controlled values and uses those values as part of a dynamic SQL query. The bright spot in this code fix is once the vulnerabilities were discovered, the developer made use of prepared statements (they utilized the wordpress prepared statement functions) to address the vulnerabilities. An advantage to using prepared statements (as opposed to input validation before using a value in a dynamic SQL statement) is the developer doesn't have to worry about missing some malicious character sequence or being too restrictive with legitimate data.
-## Developers Solution
+## Developer's Solution
 ```diff
 
 &lt;?php

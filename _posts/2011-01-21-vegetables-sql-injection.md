@@ -40,7 +40,7 @@ Although the checked-in fixes were straightforward, I was surprised to see that 
 Is this the first Spot-The-Vuln.com 0day?
 
 
-<h3>Developers Solution</h3>
+<h3>Developer's Solution</h3>
 [sourcecode language="diff" highlight="27-30,41-46,56"]
 &lt;?php
 ...snip...

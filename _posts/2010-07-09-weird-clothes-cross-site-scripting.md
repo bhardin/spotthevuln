@@ -42,7 +42,7 @@ XSS bug in Openfire by Ignite Realtime. Openfire is an Open Source, real time co
 This bug was actually part of a number of security bugs reported by Core Security Technologies. You can read their advisory <a title="Core" href="http://www.coresecurity.com/content/openfire-multiple-vulnerabilities" target="_blank">here</a>.
 
 The patch simply HTML encodes the tainted search parameter...
-## Developers Solution
+## Developer's Solution
 ```diff
 
 &lt;%  // Get parameters

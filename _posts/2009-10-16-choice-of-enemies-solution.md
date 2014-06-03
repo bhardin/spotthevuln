@@ -15,6 +15,7 @@ tags:
 * __Issue Type:__ SQL Injection through MySQL Column Truncation
 
 ## Description
+
 This was a tricky SQL Injection through truncation issue which affected WordPress installations using MySQL back ends - the majority of WordPress installations.
 
 When a user is registered inside WordPress, the `username` value undergoes some sanitizing/validating before being inserted into the WordPress database. One of the routines that validates usernames is `sanitize_user()`. Inside of the `sanitize_user()` function, WordPress attempts to sanitize the username by stripping certain characters (entities and octets).
@@ -27,9 +28,11 @@ The truncated admin username allows for the creation of two accounts named "admi
 
 Interestingly, WordPress had a conditional which would reduce the username to only ASCII characters in place before this issue was discovered and exploited in the wild. This conditional would have likely eliminated this vulnerability; however this conditional is disabled by default. Also, the code fix implemented by the WordPress team did not validate length (only stripped whitespace), keeping the possibility of truncation issues open (ie. truncation issues against users with usernames of 16 characters).
 
-## Developers Solution
+## Developer's Solution
 
 ```diff
+<?php
+
 /**
 * Removes characters from the username
 *
@@ -42,19 +45,20 @@ Interestingly, WordPress had a conditional which would reduce the username to on
 * @return string The sanitized username, after passing through filters.
 */
 function sanitize_user( $username, $strict = false ) {
-$raw_username = $username;
-$username = strip_tags($username);
-// Kill octets
-$username = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '', $username);
-$username = preg_replace('/&amp;.+?;/', '', $username); // Kill entities
+   $raw_username = $username;
+   $username = strip_tags($username);
+   // Kill octets
+   $username = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '', $username);
+   $username = preg_replace('/&amp;.+?;/', '', $username); // Kill entities
 
-// If strict, reduce to ASCII for max portability.
-if ( $strict )
-$username = preg_replace('|[^a-z0-9 _.\-@]|i', '', $username);
+   // If strict, reduce to ASCII for max portability.
+   if ( $strict )
+   $username = preg_replace('|[^a-z0-9 _.\-@]|i', '', $username);
 
-+       // Consolidate contiguous whitespace
-+       $username = preg_replace('|\s+|', ' ', $username);
++  // Consolidate contiguous whitespace
++  $username = preg_replace('|\s+|', ' ', $username);
 
-return apply_filters('sanitize_user', $username, $raw_username, $strict);
+   return apply_filters('sanitize_user', $username, $raw_username, $strict);
 }
 ```
+

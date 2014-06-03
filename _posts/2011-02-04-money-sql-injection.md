@@ -37,7 +37,7 @@ There were a couple of SQL injection bugs here. Beginning at line 35, we see tha
 
 The developers addressed the issue by and/or validating all of the POST parameters before using those values in SQL statements.
 
-<h3>Developers Solution</h3>
+<h3>Developer's Solution</h3>
 [sourcecode language="diff" highlight="35-48,52,59,69,"]
 &lt;?php
 ...snip...

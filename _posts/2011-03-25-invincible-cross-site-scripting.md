@@ -33,7 +33,7 @@ This bug is a straightforward XSS bug. Once again, we see the familiar $_SERVER[
 
 On a side note, many developers reduce the testing/defenses implemented in web pages designed for mobile clients. For some reason, it's tempting to assume web pages designed for mobile applications have less exposure. Less exposure is obviously not the case; web pages designed for mobile clients have just as much exposure as web pages designed for normal web browsers. Please ensure your security diligence and security test cases cover your mobile attack surface. Just because the devices are smaller, that doesn't make your attack surface is smaller too!
 
-## Developers Solution
+## Developer's Solution
 [sourcecode language="diff" highlight="49,50"]
 &lt;?php
 

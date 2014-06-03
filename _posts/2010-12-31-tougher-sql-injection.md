@@ -52,7 +52,7 @@ The foreach extracts the various values from the $form variable, does a quick co
 The name of the variable ($query), along with the names of the indexes in the array (UPDATE, SET, WHERE), and finally the names of variables/functions close-by ($forum_db, query_build) are dead giveaways that the untainted value will eventually be used in a SQL query. Use of a tainted value in this manner leads to SQL injection.
 The developers addressed this issue by casting the tainted $input value to an int before using it to build a SQL statement.
 
-<h3>Developers Solution</h3>
+<h3>Developer's Solution</h3>
 [sourcecode language="diff" highlight="11,19,26,27"]
 ...&lt;snip&gt;...
 

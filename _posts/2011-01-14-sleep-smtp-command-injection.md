@@ -40,7 +40,7 @@ Interesting bug here. In 2008, Stefan Esser reported a bug to the PunBB team whi
 The Web Application Hackers Handbook (by Dafydd Stuttard) describes various forms of SMTP injection in a pretty comprehensive manner. If the PunBB developers used the test cases described by Dafydd in his book would have likely identified this vulnerability before shipping. Here's a <a href="http://my.safaribooksonline.com/book/networking/security/9780470170779/a-web-application-hacker-s-methodology/stuttard0779c20-sec1-0010">sample</a> from the Web Application Hackers Handbook that talks about SMTP injection (see section 8.2)
 
 
-<h3>Developers Solution</h3>
+<h3>Developer's Solution</h3>
 [sourcecode language="diff" highlight="9,10,11"]
 &lt;?php
 ...snip...

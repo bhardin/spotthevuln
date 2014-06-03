@@ -22,7 +22,7 @@ meta:
 ---
 <blockquote><strong>Facts are meaningless. You could use facts to prove anything that's even remotely true.
 - Homer Simpson</strong></blockquote>
-[ccnLe_java]
+```java
 
 protected AuthorizationInfo buildAuthorizationInfo(Set&lt;String&gt; roleNames) {
         return new SimpleAuthorizationInfo(roleNames);
@@ -106,4 +106,4 @@ protected AuthorizationInfo buildAuthorizationInfo(Set&lt;String&gt; roleNames) 
 
 }
 
-[/ccnLe_java]
+```

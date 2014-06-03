@@ -24,7 +24,7 @@ meta:
 <blockquote><strong>Nothing separates the generations more than music. By  the time a child is eight or nine, he has developed a passion for his  own music that is even stronger than his passions for procrastination  and weird clothes.</strong>
 <strong> -Bill Cosby
 </strong></blockquote>
-[ccnLe_java]
+```java
 
 &lt;%  // Get parameters
 int start = ParamUtils.getIntParameter(request,"start",0);
@@ -124,4 +124,4 @@ class="&lt;%= ((isCurrent) ? "jive-current" : "") %&gt;"
 ]
 &lt;/p&gt;
 
-[/ccnLe_java] 
+```

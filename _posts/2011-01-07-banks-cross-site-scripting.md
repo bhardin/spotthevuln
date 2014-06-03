@@ -35,7 +35,7 @@ Original Code: <a title="Banks" href="http://spotthevuln.com/2011/01/banks/" tar
 <h3>Description</h3>
 Passwords, passwords, passwords. For some reason, developers sometimes assume passwords values are safe and do not need encoding. In this example, the developers chose to encode username values (line 87) however, they assumed password values would be safe. The incorrect assumption lead to an XSS vulnerability. In line 94 we see that the developers chose to echo a user supplied password value in the HTML markup without encoding. HTML rendered by the browser doesn't distinguish between parameters that are supposed to be passwords or other random values, resulting in XSS. The developers wisely chose to HTML encode the password value before using the value in HTML markup. When writing password values to the database, passwords should be hashed before inserted into a database. Hashing passwords before writing them into a database prevents most injection attacks (if the hashing algorithm consists of only alphanumeric characters) and also helps prevent disclosure if the database is compromised. Password values should also not be displayed in cleartext in HTML...
 
-<h3>Developers Solution</h3>
+<h3>Developer's Solution</h3>
 [sourcecode language="diff" highlight="94,95"]
 ...snip...
 &lt;?php

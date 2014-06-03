@@ -43,7 +43,7 @@ $q['cat'] = addslashes_gpc($q['cat']);</blockquote>
 Once the value is sanitized, it is used to build various SQL statements. Now this particular patch was developed by the WordPress team because they discovered that when a user/attacker passes a "." (period character) to $q['cat'], it would cause a SQL error which would be displayed to the user. While a single period character doesn't give the attacker the ability to execute arbitrary SQL, it does give the attacker an information disclosure bug. In an academic sense however, the attacker has convinced the database that their provided value should be interpreted as code as opposed to data (ala SQL Injection). The reason the period character slips through is because it is not defined as a special character in the addslashes() php function... this could be useful in other situations.
 
 The WordPress prevented the information leak by checking to see if $q['cat'] is an integer value. The patch here is a single line fix.
-## Developers Solution
+## Developer's Solution
 ```diff
 
 // Category stuff

@@ -34,7 +34,7 @@ __Issue Type:__ Cross-Site Scripting
 Original Code: <a title="Caddyshack" href="http://spotthevuln.com/2010/08/caddyshack/" target="_blank">Found    Here</a>
 ## Description
 This week's vulnerability affected a webchat module created by Jive Software. The bug is straightforward,  the JSP code takes an attacker controlled value and uses it to build dynamic HTML. Although the bug is straightforward, this week's example was a great/simple exercise in identifying a vulnerable pattern and tracing to find other vulnerable patterns in the code. This week's sample has three separate vulnerabilities that were all addressed via single patch. All these have similar symptoms/patterns (although the specifics are a bit different). Identifying vulnerable patterns and searching for these patterns in other places in code is an essential skill for security code auditors. Did you find all three bugs that were patched?
-## Developers Solution
+## Developer's Solution
 ```diff public class FormUtils {
 
 private FormUtils() {

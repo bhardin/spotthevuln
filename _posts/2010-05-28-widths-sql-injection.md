@@ -59,7 +59,7 @@ This patch contained several bug fixes. The first bug fix we see in the patch is
 The bugs that should have been spotted by the spotthevuln reader are the SQL injection and the XSS vulnerabilities in the code. The SQL Injection is pretty straight forward. The "releaseme" POST parameter is taken and is eventually passed directly to a dynamically built SQL statement without any sanitization. The developers fixed the vulnerability by utilizing the WordPress escape logic.
 
 Finally, the last line of the code snippet actually contained an XSS vulnerability, echoing a $_SERVER variable without any sanitization.
-## Developers Solution
+## Developer's Solution
 ```diff
 
 function print_loginlockdownAdminPage() {

@@ -33,7 +33,7 @@ $strData = str_replace("</script>", "&lt/script&gt", $strData);
 
 Fortunately, the Cubed developers were smart enough to realize that this function is dangerous and will probably lead to a false sense of security. Instead of trying to fix it up, they just removed the function entirely.
 
-## Developers Solution
+## Developer's Solution
 [sourcecode language="diff" highlight="94,95,96,97,98,99,100,101,102,103"]
 &lt;?php
 ...snip...

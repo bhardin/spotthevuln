@@ -29,7 +29,7 @@ Lots of potential issues here, but we'll focus on what was patched. Here we have
 The developers addressed this issue by moving the dynamic SQL statement to a prepared SQL statement. Prepared statements are the preferred method for dealing with SQL requests that could potentially contain tainted values.
 
 
-## Developers Solution
+## Developer's Solution
 <code lang="PHP">
 <?php
 ...snip...

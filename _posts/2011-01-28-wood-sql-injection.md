@@ -37,7 +37,7 @@ On line 66 we see that $max_results is assigned the value from $args[4]. $max_re
 The developers addressed this issue by casting args[4] to int during assignment to $max_results. If args[4] contains any characters that do not qualify as an integer, the value will not be passed to the LIMIT statement.
 
 
-<h3>Developers Solution</h3>
+<h3>Developer's Solution</h3>
 [sourcecode language="diff" highlight="60,66,67,84"]
 &lt;?php
 ...snip...

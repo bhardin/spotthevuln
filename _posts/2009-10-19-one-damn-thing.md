@@ -14,39 +14,34 @@ tags:
 
 ```php
 <?
-if ( '' != $qv['tb'] )
-$this-&gt;is_trackback = true;
 
-if ( '' != $qv['paged'] )
-$this-&gt;is_paged = true;
-
-if ( '' != $qv['comments_popup'] )
-$this-&gt;is_comments_popup = true;
+if ('' != $qv['tb']) $this->is_trackback = true;
+if ('' != $qv['paged']) $this->is_paged = true;
+if ('' != $qv['comments_popup']) $this->is_comments_popup = true;
 
 // if we're previewing inside the write screen
-if ('' != $qv['preview'])
-$this-&gt;is_preview = true;
 
-if ( strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false )
-$this-&gt;is_admin = true;
+if ('' != $qv['preview']) $this->is_preview = true;
+if (strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false)
+  $this->is_admin = true;
 
-if ( false !== strpos($qv['feed'], 'comments-') ) {
-$qv['feed'] = str_replace('comments-', '', $qv['feed']);
-$qv['withcomments'] = 1;
+if (false !== strpos($qv['feed'], 'comments-')) {
+  $qv['feed'] = str_replace('comments-', '', $qv['feed']);
+  $qv['withcomments'] = 1;
 }
 
-$this-&gt;is_singular = $this-&gt;is_single || $this-&gt;is_page || $this-&gt;is_attachment;
+$this->is_singular = $this->is_single || $this->is_page || $this->is_attachment;
 
-if ( $this-&gt;is_feed &amp;&amp; ( !empty($qv['withcomments']) || ( empty($qv['withoutcomments']) &amp;&amp; $this-&gt;is_singular ) ) )
-$this-&gt;is_comment_feed = true;
+if ($this->is_feed && (!empty($qv['withcomments']) || (empty($qv['withoutcomments']) && $this->is_singular))) $this->is_comment_feed = true;
 
-if ( !( $this-&gt;is_singular || $this-&gt;is_archive || $this-&gt;is_search || $this-&gt;is_feed || $this-&gt;is_trackback || $this-&gt;is_404 || $this-&gt;is_admin || $this-&gt;is_comments_popup ) )
-$this-&gt;is_home = true;
+if (!($this->is_singular || $this->is_archive || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_comments_popup)) $this->is_home = true;
 
 // Correct is_* for page_on_front and page_for_posts
-if ( $this-&gt;is_home &amp;&amp; ( empty($this-&gt;query) || $qv['preview'] == 'true' ) &amp;&amp; 'page' == get_option('show_on_front') &amp;&amp; get_option('page_on_front') ) {
-$this-&gt;is_page = true;
-$this-&gt;is_home = false;
-$qv['page_id'] = get_option('page_on_front');
+
+if ($this->is_home && (empty($this->query) || $qv['preview'] == 'true') && 'page' == get_option('show_on_front') && get_option('page_on_front')) {
+  $this->is_page = true;
+  $this->is_home = false;
+  $qv['page_id'] = get_option('page_on_front');
 }
+
 ```

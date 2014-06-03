@@ -38,7 +38,7 @@ This weeks' bug consisted of vulnerabilities in the FastPath plugin for OpenFire
 The second set of changes we see URL encode user/attacker controlled items placed in a HTTP Redirect. Although the security fix was labeled as "XSS fixes", this particular change was likely to prevent CRLF injection into the location header for the JSP redirect (which could ultimately lead to XSS... ).
 
 The remainder of the code fixes simply encodes HTML output before redisplaying it back to the user, defeating the classic XSS attack.
-## Developers Solution
+## Developer's Solution
 ```diff
 
 -&lt;%@ page import="org.jivesoftware.smack.util.StringUtils"%&gt;

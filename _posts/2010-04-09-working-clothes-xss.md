@@ -34,7 +34,7 @@ __Issue Type:__ Cross-Site Scripting
 Original Code: <a title="Working Clothes" href="http://spotthevuln.com/2010/04/working-clothes/" target="_blank">Found Here</a>
 ## Description
 Another classic XSS vulnerability in WordPress. This particular vulnerability was fixed in WordPress version 2.9. In this fix, the WordPress developers realized that they had not provided any sanitization or encoding for the $title variable. What's interesting is although the WordPress developers missed a HTML encode, they managed to attribute escape same variable literally a few characters away in the same line of code! The WordPress developers simply called an HTML escape function to defend against XSS attacks. Its a simple one line change which is provided below.
-## Developers Solution
+## Developer's Solution
 ```diff
 
 function wp_dashboard_recent_drafts( $drafts = false ) {

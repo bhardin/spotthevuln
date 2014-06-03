@@ -30,7 +30,7 @@ Original Code: <a title="Hippies" href="http://spotthevuln.com/2010/02/play_fris
 Simple XSS on Durpal 5.x and 6.x platforms. What's interesting about this particular vulnerability is it shows the advantages of implementing HTML output encoding near the point of consumption and the value of having descriptive function names. In this sample, it's difficult to determine whether the values contained within the $item[] array are already sanitized. In order to determine whether $item[] is tainted, the code reviewer would have to find where $item[] values are set and trace them through the entire code base until it is presented to this particular usage. Additionally, it seems the various values within the $item array: $item['title'], $item['href'], and $item['localized_options'] (all of which appear to be user/attacker controlled) are passed to a function called "l()". "l()" isn't a very descriptive function name :).
 
 The specific issue fixed here was the use of $item['description'] while building HTML markup. The Durpal fixed this issue by passing $item['description'] to the filter_xss_admin(), near the point of consumption. Filter_xss_admin() is a fairly descriptive function name and gives the reviewer a better understanding of what the code is doing. Also, because filter_xss_admin() is used at the point of consumption, the code reviewer can rest assured that the value is encoded before being used, regardless of the previous input sanitization that may/may not have taken place.
-## Developers Solution
+## Developer's Solution
 ```diff
 <div id="_mcePaste">
 

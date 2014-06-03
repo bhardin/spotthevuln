@@ -32,7 +32,7 @@ Spot the Vuln reader Abraham Kang spotted a different vulnerbility. It's possibl
 
 Nice catch Abraham!
 
-## Developers Solution
+## Developer's Solution
 
 [sourcecode language="diff" highlight="150"]
 &lt;?php

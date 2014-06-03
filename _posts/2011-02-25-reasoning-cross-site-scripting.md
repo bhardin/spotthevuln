@@ -33,7 +33,7 @@ To be honest, I was a little confused by this week's patch. There are several XS
 
 What's confusing is the code sample contains many symptoms that are exactly like the vulnerable code patched by this security patch. $type, $action, $old_custom_dest, and $custom_dest are all set in exactly the same way the patched assignments were. For some reason, the developer chose to ignore these assignments even though they are only a few lines away. Also, instead of encoding at the point of assignment (like they did for $description and $notes), the developer chose to change styles and encode at the point of consumption for one of the tainted variables (see line 96 and 97). What's even more confusing is only 4 lines later, we see the developer missed the same tainted variable used in an echo and failed to encode the tainted $custom_dest variable resulting in XSS. Lines 77 - 79 also contain XSS vulnerabilities that were missed in this patch.
 
-<h3>Developers Solution</h3>
+<h3>Developer's Solution</h3>
 [sourcecode language="diff" highlight="11-14,77,78,79,96,97,136,140"]
 &lt;?php
 $tabindex = 0;

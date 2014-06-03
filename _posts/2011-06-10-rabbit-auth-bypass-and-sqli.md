@@ -44,7 +44,7 @@ There you go, authentication bypass + SQL injection for Blackenergy C&C :)
 
 
 
-## Developers Solution
+## Developer's Solution
 <code lang="PHP" highlight="109,120,132">
 <?
 

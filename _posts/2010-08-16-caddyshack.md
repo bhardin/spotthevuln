@@ -18,7 +18,7 @@ meta:
 <blockquote><strong>I asked Dalai Lama the most important question that I think you could ask - if he had ever seen Caddyshack.</strong>
 <strong> -Jesse Ventura
 </strong></blockquote>
-[ccnLe_java]
+```java
 public class FormUtils {
 
 private FormUtils() {
@@ -54,4 +54,4 @@ builder.append(" ");
 counter++;
 }
 }
-[/ccnLe_java] 
+```

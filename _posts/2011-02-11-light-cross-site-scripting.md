@@ -40,7 +40,7 @@ The second issue requires a little bit of tracing. First, the $ifnum variable is
 The third issue also requires a bit of tracing as well. Once again, we start with the assignment of a tainted variable to $ifnum on line 10. $ifnum is then used to build an error message on line 37 ($error_text). $error_text is then used to build HTML markup on line 72 resulting in XSS.
 
 The developers addressed this issue by using htmlspecialchars() during the inital variable assignments. This takes care of all three of the XSS issues described above.
-<h3>Developers Solution</h3>
+<h3>Developer's Solution</h3>
 [sourcecode language="diff" highlight="8-11,18,37,66,72"]
 &lt;?php
 ... snip ...

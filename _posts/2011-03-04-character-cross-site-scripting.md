@@ -34,7 +34,7 @@ Although not addressed by this patch, there are a couple of areas that deserve d
 
 
 
-<h3>Developers Solution</h3>
+<h3>Developer's Solution</h3>
 [sourcecode language="diff" highlight="76-81,111,134-136"]
 &lt;?php
 ...snip...

@@ -41,7 +41,7 @@ What's surprising is the developer missed the $_GET["where$i"] query string para
 Looking through the rest of the code, we see XSS (lines 7-9 and 17) and SQL injection bugs (lines 57,65, 77) littered throughout the code base. These bugs still exist in the latest version, are not patched, and put users at risk. If you have this plug-in installed, your server and users are at significant risk!
 
 
-## Developers Solution
+## Developer's Solution
 [sourcecode language="diff" highlight="7-9,57,65,77"]
         &lt;/table&gt;
         &lt;br&gt;

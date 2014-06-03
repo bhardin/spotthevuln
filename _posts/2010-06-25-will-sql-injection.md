@@ -51,7 +51,7 @@ The second characteristic that caught my attention was usage of numeric IDs at t
 This syntax creates a condition in which the typical addslashes() used to protect against SQL injection can be bypassed. For example, an attacker could craft a SQL injection string like:
 <blockquote>Sqli.php?categoryId=-1 union select 1,2,3,4,5--</blockquote>
 As you can see, the injection string above contains no special characters that would be escaped by addslashes(). Fortunately, the Category Manager plugin developers chose to utilze $wpdb-&gt;prepare() instead of addslashes().
-## Developers Solution
+## Developer's Solution
 
 ```diff
 <?php

@@ -41,7 +41,7 @@ This was a vulnerability that affected the Short URL Wordpress plugin. The vulne
 Another interesting piece of the code fix is the logic for the following conditional:
 <blockquote>if($action == "delete"){</blockquote>
 looks like the devs may have forgotten something :)
-## Developers Solution
+## Developer's Solution
 ```diff
 
 &lt;?php

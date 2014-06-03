@@ -69,7 +69,7 @@ ENT_QUOTES  - Will convert both double and single quotes.
 
 ENT_NOQUOTES - Will leave both double and single quotes unconverted</blockquote>
 If the $quote_style is not specified, PHP will default to ENT_COMPAT. Do you think this patch will hold up to the test of time?
-## Developers Solution
+## Developer's Solution
 ```diff
 
 // log all requests to register on our blog

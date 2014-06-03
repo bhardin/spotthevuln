@@ -53,7 +53,7 @@ results in --&gt; /blah/index.php?qs=value
 http://spotthevuln.com/blah/index.php/qs1/qs2
 results in --&gt; /blah/index.php/qs1/qs2</blockquote>
 As you can see an attacker can easily taint the REQUEST_URI value, using it in XSS attacks. The developers addressed this vulnerability by encoding calls to REQUEST_URI.
-## Developers Solution
+## Developer's Solution
 [sourcecode language="diff"]
 &lt;?php
 

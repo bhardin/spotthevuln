@@ -41,7 +41,7 @@ $find_feedkey = $wpdb-&gt;get_results("SELECT umeta_id FROM $wpdb-&gt;usermeta W
 The members-only developers assigned a value for the $feedkey variable directly from the querystring. They then used the attacker controlled value to build a SQL statement, using the $feedkey value to complete the SQL WHERE clause. The symptoms presented above are classic SQL injection. I'm happy to see that the members-only developers chose to use prepared statements to fix the SQL injection.
 
 There are a few other fixes here, but the SQL injection was the most important security fix.
-## Developers Solution
+## Developer's Solution
 ```diff
 -if (empty($userdata-&gt;ID) &amp;&amp; $members_only_opt['feed_access'] != 'feednone')  //Check if user is logged in or Feed Keys is required
 +if (empty($userdata-&gt;ID) || $members_only_opt['feed_access'] != 'feednone')  //Check if user is logged in or Feed Keys is required

@@ -12,6 +12,7 @@ tags: Cross-Site Scripting (XSS)
 * __Fixed in Version:__ 2.5.164
 
 ## Description
+
 This is a classic Cross-Site Scripting vulnerability which affected JSPWiki.
 
 The `setId()` method assigns a non-sanitized value to the `m_tabID` variable. The `m_tabID` variable is then later used in the `doWikiStartTag()` method as part of a string buffer which is used to build dynamic HTML. The m_tabID variable is never encoded or sanitized before being sent back to the user.
@@ -20,7 +21,7 @@ In addition, to the `setId()` method, the `setTitle()`, `setAccessKey()`, and `s
 
 __If you had to write the `TextUtil.replaceEntities()` method, what would it look like?__
 
-## Developers Solution
+## Developer's Solution
 
 ```diff
 public class TabTag extends WikiTagBase {

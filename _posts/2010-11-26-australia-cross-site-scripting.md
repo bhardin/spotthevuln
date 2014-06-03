@@ -42,7 +42,7 @@ Here we see FreePBX using a potion of a log file in their HTML markup. Specifica
 
 The developers realized that the log files could contain other dangerous HTML elements and modified their sed command to try and filter those elements out. Maybe a better approach would be to use a proper encoding API?  Luckily, it doesn't seem like the attacker can control anything passed to system(), otherwise this would have been a code execution bug as opposed to just an XSS!
 
-## Developers Solution
+## Developer's Solution
 [sourcecode language="diff"]
 &lt;?php
 

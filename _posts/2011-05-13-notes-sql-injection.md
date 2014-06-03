@@ -31,7 +31,7 @@ There are a couple of different issues here, but let's focus on what the develop
 Anyone spot the unpatched XSS?
 
 
-## Developers Solution
+## Developer's Solution
 [sourcecode language="diff" highlight="27,28"]
 &lt;?php
 ...snip...
